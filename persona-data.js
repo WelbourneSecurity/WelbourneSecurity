@@ -1,0 +1,81 @@
+export const personaNames = {
+  firstNames: [
+    "Alex", "Amir", "Ana", "Aria", "Avery", "Camila", "Casey", "Daniel", "Elena", "Ethan",
+    "Farah", "Grace", "Hana", "Haruto", "Isla", "Ivan", "Jamie", "Jasper", "Jordan", "Kai",
+    "Layla", "Leo", "Lina", "Lucas", "Maya", "Milan", "Morgan", "Naomi", "Nora", "Omar",
+    "Priya", "Riley", "Sofia", "Theo", "Yara", "Zara", "Noah", "Mia", "Aisha", "Mateo"
+  ],
+  lastNames: [
+    "Ahmed", "Bennett", "Brooks", "Carter", "Chen", "Costa", "Cross", "Diaz", "Dunn", "Edwards",
+    "Garcia", "Hale", "Hassan", "Ivanov", "Khan", "Kim", "Lopez", "Mercer", "Mitchell", "Morgan",
+    "Nguyen", "Patel", "Pike", "Quinn", "Rahman", "Reed", "Rivera", "Rowe", "Sato", "Sharma",
+    "Sloane", "Tanaka", "Vale", "Walker", "Ward", "Wright", "Yilmaz", "Zhang", "Singh", "Costa"
+  ],
+  handles: [
+    "marlow.sec", "alder.node", "keystone.ops", "fenwick.intel", "hollis.net", "sable.recon",
+    "carrow.sec", "blythe.ops", "vector.trace", "northscope", "signal.ledger", "meridian.ctrl",
+    "atlas.recon", "rook.signal", "cinder.ops", "quietvector", "greywire", "orbital.node"
+  ],
+  roles: [
+    "Teacher", "Nurse", "Graphic Designer", "Software Developer", "Project Manager", "Accountant",
+    "Marketing Coordinator", "Sales Executive", "Electrician", "Mechanic", "Chef", "Photographer",
+    "Journalist", "Architect", "Research Assistant", "Data Analyst", "Customer Support Specialist",
+    "HR Coordinator", "Operations Manager", "Civil Engineer", "Pharmacist", "Law Student",
+    "Physiotherapist", "UX Designer", "Videographer", "Retail Manager", "Business Analyst",
+    "Logistics Coordinator", "Social Worker", "Translator"
+  ]
+};
+
+export const personaLocations = [
+  "London, UK",
+  "Manchester, UK",
+  "Edinburgh, UK",
+  "Dublin, Ireland",
+  "Paris, France",
+  "Berlin, Germany",
+  "Amsterdam, Netherlands",
+  "Madrid, Spain",
+  "Rome, Italy",
+  "Lisbon, Portugal",
+  "Stockholm, Sweden",
+  "Oslo, Norway",
+  "Copenhagen, Denmark",
+  "Warsaw, Poland",
+  "Prague, Czechia",
+  "Athens, Greece",
+  "Istanbul, Turkiye",
+  "Dubai, UAE",
+  "Doha, Qatar",
+  "Riyadh, Saudi Arabia",
+  "Cairo, Egypt",
+  "Nairobi, Kenya",
+  "Johannesburg, South Africa",
+  "Lagos, Nigeria",
+  "Casablanca, Morocco",
+  "New York, USA",
+  "Chicago, USA",
+  "Austin, USA",
+  "Toronto, Canada",
+  "Vancouver, Canada",
+  "Mexico City, Mexico",
+  "Sao Paulo, Brazil",
+  "Buenos Aires, Argentina",
+  "Santiago, Chile",
+  "Bogota, Colombia",
+  "Lima, Peru",
+  "Singapore",
+  "Tokyo, Japan",
+  "Seoul, South Korea",
+  "Hong Kong",
+  "Taipei, Taiwan",
+  "Bangkok, Thailand",
+  "Kuala Lumpur, Malaysia",
+  "Jakarta, Indonesia",
+  "Manila, Philippines",
+  "Delhi, India",
+  "Mumbai, India",
+  "Bengaluru, India",
+  "Sydney, Australia",
+  "Melbourne, Australia",
+  "Auckland, New Zealand"
+];

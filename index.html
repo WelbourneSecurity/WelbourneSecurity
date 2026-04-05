@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welbourne Security</title>
+    <meta
+      name="description"
+      content="Welbourne Security portfolio for cyber intelligence projects, writeups, profile links, labs, and certifications."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="#top" aria-label="Back to top">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 48 48" focusable="false">
+              <circle cx="24" cy="24" r="18" class="brand-mark-ring"></circle>
+              <circle cx="24" cy="24" r="11" class="brand-mark-ring"></circle>
+              <path d="M24 6 V42" class="brand-mark-grid"></path>
+              <path d="M6 24 H42" class="brand-mark-grid"></path>
+              <circle cx="24" cy="24" r="3.2" class="brand-mark-core"></circle>
+              <path d="M24 6 A18 18 0 0 1 42 24" class="brand-mark-sweep"></path>
+            </svg>
+          </span>
+          <span class="brand-copy">
+            <strong id="brand-name">Welbourne Security</strong>
+            <small id="brand-role">Cyber Intelligence Portfolio</small>
+          </span>
+        </a>
+        <div class="header-actions">
+          <nav class="site-nav" aria-label="Primary navigation">
+          <a href="#writeups">Writeups</a>
+          <a href="#tools">Tools</a>
+          <a href="#presence">Links</a>
+          <a href="#certifications">Certifications</a>
+          <a href="#contact">Contact</a>
+          </nav>
+          <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle light and dark mode">
+            <span class="theme-toggle-label">Light Mode</span>
+          </button>
+        </div>
+      </header>
+
+      <main id="top">
+        <section class="hero">
+          <div class="hero-copy" data-reveal>
+            <p class="eyebrow" id="hero-eyebrow">Welbourne Security</p>
+            <h1 id="hero-title">Private Sector Cyber Intelligence Solutions.</h1>
+            <p class="hero-summary" id="hero-summary"></p>
+            <div class="hero-actions" id="hero-actions"></div>
+            <dl class="hero-metrics" id="hero-metrics"></dl>
+          </div>
+
+          <div class="hero-visual" aria-hidden="true">
+            <div class="signal-grid"></div>
+            <div class="signal-radar">
+              <span class="radar-ring ring-1"></span>
+              <span class="radar-ring ring-2"></span>
+              <span class="radar-ring ring-3"></span>
+              <span class="radar-sweep"></span>
+              <span class="radar-core"></span>
+            </div>
+            <div class="signal-panel signal-panel-top">
+              <p>Active Focus</p>
+              <strong id="signal-focus">Signals intelligence and anonymity</strong>
+              <span id="signal-tagline">Private-sector intelligence, privacy, and research</span>
+            </div>
+            <div class="signal-panel signal-panel-bottom" id="signal-tags"></div>
+          </div>
+        </section>
+
+        <section class="section list-section" id="writeups" data-reveal>
+          <div class="section-intro">
+            <p class="eyebrow">Writeups</p>
+            <h2>Published writeups.</h2>
+          </div>
+          <div class="writeup-browser">
+            <div class="writeup-groups" id="writeup-groups"></div>
+            <article class="writeup-viewer" id="writeup-viewer">
+              <div class="writeup-viewer-empty">
+                <h3>Select a writeup to read it here.</h3>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section tools-section" id="tools" data-reveal>
+          <div class="section-intro">
+            <p class="eyebrow">Browser Tools</p>
+            <h2>Fast utility tools for day-to-day security work.</h2>
+          </div>
+          <div class="tool-grid">
+            <article class="tool-panel">
+              <div class="tool-header">
+                <div>
+                  <h3>Password Generator</h3>
+                  <p>Generate strong passwords in-browser with adjustable length and character sets.</p>
+                </div>
+              </div>
+              <div class="tool-controls">
+                <label class="tool-label" for="password-length">Length</label>
+                <input class="tool-range" id="password-length" type="range" min="8" max="64" value="20" />
+                <div class="tool-checks">
+                  <label><input id="password-uppercase" type="checkbox" checked /> Uppercase</label>
+                  <label><input id="password-lowercase" type="checkbox" checked /> Lowercase</label>
+                  <label><input id="password-numbers" type="checkbox" checked /> Numbers</label>
+                  <label><input id="password-symbols" type="checkbox" checked /> Symbols</label>
+                </div>
+                <div class="tool-actions">
+                  <button class="action primary tool-button" id="generate-password" type="button">Generate</button>
+                  <button class="action secondary tool-button" id="copy-password" type="button">Copy</button>
+                </div>
+                <div class="tool-output" id="password-output" aria-live="polite"></div>
+              </div>
+            </article>
+
+            <article class="tool-panel">
+              <div class="tool-header">
+                <div>
+                  <h3>IPv4 Subnet Calculator</h3>
+                  <p>Calculate mask, network, broadcast, host range, and host count from CIDR input.</p>
+                </div>
+              </div>
+              <div class="tool-controls">
+                <label class="tool-label" for="subnet-input">IPv4 / CIDR</label>
+                <input class="tool-input" id="subnet-input" type="text" placeholder="192.168.1.10/24" />
+                <button class="action primary tool-button" id="calculate-subnet" type="button">Calculate</button>
+                <div class="tool-results" id="subnet-results" aria-live="polite"></div>
+              </div>
+            </article>
+
+            <article class="tool-panel">
+              <div class="tool-header">
+                <div>
+                  <h3>Alias Generator</h3>
+                  <p>Generate a lightweight alias persona with a handle, age, location, role, and email-style identity.</p>
+                </div>
+              </div>
+              <div class="tool-controls">
+                <button class="action primary tool-button" id="generate-alias" type="button">Generate Alias</button>
+                <div class="tool-results" id="alias-results" aria-live="polite"></div>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <section class="section presence-section" id="presence" data-reveal>
+          <div class="section-intro">
+            <p class="eyebrow">Links</p>
+            <h2>My links.</h2>
+          </div>
+          <div class="presence-links" id="platform-list"></div>
+        </section>
+
+        <section class="section certification-section" id="certifications" data-reveal>
+          <div class="section-intro">
+            <p class="eyebrow">Credential Wall</p>
+            <h2>Credential Wall</h2>
+          </div>
+          <div class="certification-grid" id="certification-grid"></div>
+        </section>
+
+        <section class="section contact-section" id="contact" data-reveal>
+          <div class="contact-copy">
+            <p class="eyebrow">Contact</p>
+            <h2 id="contact-heading">Open to cyber intelligence, research, and security-focused opportunities.</h2>
+            <p id="contact-summary"></p>
+          </div>
+          <div class="contact-actions" id="contact-actions"></div>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="./main.js"></script>
+  </body>
+</html>
