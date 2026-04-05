@@ -3,17 +3,62 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Welbourne Security</title>
+    <title>Welbourne Security | Cyber Intelligence Portfolio, Writeups, and Browser Tools</title>
     <meta
       name="description"
-      content="Welbourne Security portfolio for cyber intelligence projects, writeups, profile links, labs, and certifications."
+      content="Welbourne Security is a cyber intelligence portfolio featuring security writeups, public platform work, certifications, and browser-based security utilities."
     />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#071018" />
+    <link rel="canonical" href="https://welbournesecurity.github.io/WelbourneSecurity/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Welbourne Security" />
+    <meta property="og:title" content="Welbourne Security | Cyber Intelligence Portfolio, Writeups, and Browser Tools" />
+    <meta
+      property="og:description"
+      content="Cyber intelligence portfolio with public writeups, certifications, platform links, and browser-based security tools."
+    />
+    <meta property="og:url" content="https://welbournesecurity.github.io/WelbourneSecurity/" />
+    <meta property="og:image" content="https://welbournesecurity.github.io/WelbourneSecurity/src/social-preview.svg" />
+    <meta property="og:image:alt" content="Welbourne Security social preview card" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Welbourne Security | Cyber Intelligence Portfolio, Writeups, and Browser Tools" />
+    <meta
+      name="twitter:description"
+      content="Cyber intelligence portfolio with writeups, certifications, platform links, and browser-based security tools."
+    />
+    <meta name="twitter:image" content="https://welbournesecurity.github.io/WelbourneSecurity/src/social-preview.svg" />
+    <link rel="icon" type="image/svg+xml" href="./src/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap"
       rel="stylesheet"
     />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Welbourne Security",
+        "url": "https://welbournesecurity.github.io/WelbourneSecurity/",
+        "description": "Cyber intelligence portfolio featuring public security writeups, browser tools, certifications, and platform profiles.",
+        "email": "welbournesecurity@gmail.com",
+        "sameAs": [
+          "https://github.com/WelbourneSecurity",
+          "https://www.linkedin.com/in/welbournesecurity/",
+          "https://profile.hackthebox.com/profile/019d5e35-f9f2-73c9-89fd-762d0cd0d177",
+          "https://tryhackme.com/p/WelbourneSecurity"
+        ],
+        "knowsAbout": [
+          "Signals Intelligence",
+          "OSINT",
+          "Privacy Research",
+          "Hack The Box",
+          "TryHackMe",
+          "Cybersecurity Writeups"
+        ]
+      }
+    </script>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
@@ -56,6 +101,31 @@
             <h1 id="hero-title">Private Sector Cyber Intelligence Solutions.</h1>
             <p class="hero-summary" id="hero-summary"></p>
             <div class="hero-actions" id="hero-actions"></div>
+            <div class="mobile-business-card" aria-label="Digital business card">
+              <div class="mobile-business-card-copy">
+                <p class="mobile-business-card-kicker">Digital Business Card</p>
+                <h2 class="mobile-business-card-title">Welbourne Security</h2>
+                <p class="mobile-business-card-degree">BSc (Hons) Cybersecurity</p>
+                <p class="mobile-business-card-summary">Scan to open the site, read the latest writeups, and get straight to the links that matter.</p>
+              </div>
+              <a
+                class="mobile-business-card-qr-shell"
+                data-site-link
+                href="https://welbournesecurity.github.io/WelbourneSecurity/"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Open welbournesecurity.github.io/WelbourneSecurity/"
+              >
+                <img
+                  class="mobile-business-card-qr"
+                  src="./src/site-qr.svg"
+                  alt="QR code linking to welbournesecurity.github.io/WelbourneSecurity/"
+                  loading="eager"
+                  decoding="async"
+                />
+                <span class="mobile-business-card-scan">Scan To Open</span>
+              </a>
+            </div>
             <dl class="hero-metrics" id="hero-metrics"></dl>
           </div>
 
@@ -82,6 +152,25 @@
             <p class="eyebrow">Writeups</p>
             <h2>Published writeups.</h2>
           </div>
+          <div class="writeup-toolbar">
+            <div class="writeup-toolbar-search">
+              <label class="tool-label" for="writeup-search">Search Writeups</label>
+              <input class="tool-input" id="writeup-search" type="text" placeholder="Search by title, summary, tag, or filename" />
+            </div>
+            <div class="writeup-toolbar-row">
+              <div class="writeup-filter-group" id="writeup-folder-filters" role="group" aria-label="Filter writeups by platform">
+                <button class="writeup-filter-button is-active" type="button" data-folder-filter="all" aria-pressed="true">All</button>
+                <button class="writeup-filter-button" type="button" data-folder-filter="htb" aria-pressed="false">Hack The Box</button>
+                <button class="writeup-filter-button" type="button" data-folder-filter="thm" aria-pressed="false">TryHackMe</button>
+                <button class="writeup-filter-button" type="button" data-folder-filter="ctf" aria-pressed="false">CTF</button>
+              </div>
+              <div class="writeup-toolbar-meta">
+                <span class="writeup-filter-count" id="writeup-filter-count">Loading writeups...</span>
+                <button class="action secondary writeup-clear-button" id="writeup-filter-clear" type="button">Reset Filters</button>
+              </div>
+            </div>
+            <div class="writeup-tag-filters" id="writeup-tag-filters" aria-live="polite"></div>
+          </div>
           <div class="writeup-browser">
             <div class="writeup-groups" id="writeup-groups"></div>
             <article class="writeup-viewer" id="writeup-viewer">
@@ -96,17 +185,18 @@
           <div class="section-intro">
             <p class="eyebrow">Browser Tools</p>
             <h2>Fast utility tools for day-to-day security work.</h2>
+            <p class="section-note">All tools run locally in your browser. Inputs stay on the page unless you choose to copy or download them.</p>
           </div>
           <div class="tool-grid">
-            <article class="tool-panel">
+            <article class="tool-panel mobile-tool">
               <div class="tool-header">
                 <div>
                   <h3>Password Generator</h3>
-                  <p>Generate strong passwords in-browser with adjustable length and character sets.</p>
+                  <p>Generate strong passwords locally, then score entropy and overall strength in the same panel.</p>
                 </div>
               </div>
               <div class="tool-controls">
-                <label class="tool-label" for="password-length">Length</label>
+                <label class="tool-label" for="password-length">Length <span class="tool-label-value" id="password-length-value">20</span></label>
                 <input class="tool-range" id="password-length" type="range" min="8" max="64" value="20" />
                 <div class="tool-checks">
                   <label><input id="password-uppercase" type="checkbox" checked /> Uppercase</label>
@@ -118,15 +208,17 @@
                   <button class="action primary tool-button" id="generate-password" type="button">Generate</button>
                   <button class="action secondary tool-button" id="copy-password" type="button">Copy</button>
                 </div>
-                <div class="tool-output" id="password-output" aria-live="polite"></div>
+                <label class="tool-label" for="password-output">Password</label>
+                <textarea class="tool-textarea tool-monospace" id="password-output" rows="3" spellcheck="false" aria-live="polite"></textarea>
+                <div class="tool-results" id="password-strength-results" aria-live="polite"></div>
               </div>
             </article>
 
-            <article class="tool-panel">
+            <article class="tool-panel mobile-tool">
               <div class="tool-header">
                 <div>
-                  <h3>IPv4 Subnet Calculator</h3>
-                  <p>Calculate mask, network, broadcast, host range, and host count from CIDR input.</p>
+                  <h3>CIDR / IP Range Converter</h3>
+                  <p>Convert an IPv4 CIDR into its network details, wildcard mask, and usable host range.</p>
                 </div>
               </div>
               <div class="tool-controls">
@@ -140,13 +232,167 @@
             <article class="tool-panel">
               <div class="tool-header">
                 <div>
-                  <h3>Alias Generator</h3>
-                  <p>Generate a lightweight alias persona with a handle, age, location, role, and email-style identity.</p>
+                  <h3>Alias Permutations</h3>
+                  <p>Generate usernames, handles, and email-style aliases from a name or keyword without leaving the browser.</p>
                 </div>
               </div>
               <div class="tool-controls">
-                <button class="action primary tool-button" id="generate-alias" type="button">Generate Alias</button>
+                <input class="tool-input" id="alias-first-name" type="text" placeholder="First name" />
+                <input class="tool-input" id="alias-last-name" type="text" placeholder="Last name" />
+                <input class="tool-input" id="alias-keyword" type="text" placeholder="Keyword or niche" />
+                <div class="tool-actions">
+                  <button class="action primary tool-button" id="generate-alias" type="button">Generate</button>
+                  <button class="action secondary tool-button" id="generate-random-alias" type="button">Random Seed</button>
+                </div>
                 <div class="tool-results" id="alias-results" aria-live="polite"></div>
+              </div>
+            </article>
+
+            <article class="tool-panel">
+              <div class="tool-header">
+                <div>
+                  <h3>Hash Generator / Verifier</h3>
+                  <p>Hash local text with MD5, SHA-1, SHA-256, and SHA-512, then compare a supplied digest for quick verification.</p>
+                </div>
+              </div>
+              <div class="tool-controls">
+                <label class="tool-label" for="hash-input">Text Input</label>
+                <textarea class="tool-textarea tool-monospace" id="hash-input" rows="5" spellcheck="false" placeholder="Paste text to hash locally"></textarea>
+                <label class="tool-label" for="hash-compare">Compare Hash</label>
+                <input class="tool-input tool-monospace" id="hash-compare" type="text" placeholder="Optional digest to verify" spellcheck="false" />
+                <div class="tool-actions">
+                  <button class="action primary tool-button" id="hash-text" type="button">Hash Text</button>
+                </div>
+                <div class="tool-results" id="hash-results" aria-live="polite"></div>
+              </div>
+            </article>
+
+            <article class="tool-panel is-wide mobile-tool">
+              <div class="tool-header">
+                <div>
+                  <h3>Encoder / Decoder</h3>
+                  <p>Convert between Base64, URL, Hex, and HTML entities with one local workbench.</p>
+                </div>
+              </div>
+              <div class="tool-controls">
+                <p class="tool-label">Mode</p>
+                <div class="tool-mode-bar" id="codec-mode" role="group" aria-label="Encoder and decoder mode">
+                  <button class="tool-mode-option is-active" type="button" data-codec-mode="base64" aria-pressed="true">Base64</button>
+                  <button class="tool-mode-option" type="button" data-codec-mode="url" aria-pressed="false">URL</button>
+                  <button class="tool-mode-option" type="button" data-codec-mode="hex" aria-pressed="false">Hex</button>
+                  <button class="tool-mode-option" type="button" data-codec-mode="html" aria-pressed="false">HTML Entity</button>
+                </div>
+                <label class="tool-label" for="codec-input">Input</label>
+                <textarea class="tool-textarea tool-monospace" id="codec-input" rows="6" spellcheck="false" placeholder="Paste text to encode or decode"></textarea>
+                <div class="tool-actions">
+                  <button class="action primary tool-button" id="codec-encode" type="button">Encode</button>
+                  <button class="action secondary tool-button" id="codec-decode" type="button">Decode</button>
+                  <button class="action secondary tool-button" id="codec-swap" type="button">Swap</button>
+                  <button class="action secondary tool-button" id="codec-copy" type="button">Copy Output</button>
+                </div>
+                <label class="tool-label" for="codec-output">Output</label>
+                <textarea class="tool-textarea tool-monospace" id="codec-output" rows="6" spellcheck="false" readonly></textarea>
+              </div>
+            </article>
+
+            <article class="tool-panel mobile-tool">
+              <div class="tool-header">
+                <div>
+                  <h3>JWT Decoder</h3>
+                  <p>Decode JWT headers and claims locally, with readable time fields and signature status.</p>
+                </div>
+              </div>
+              <div class="tool-controls">
+                <label class="tool-label" for="jwt-input">JWT</label>
+                <textarea class="tool-textarea tool-monospace" id="jwt-input" rows="5" spellcheck="false" placeholder="eyJhbGciOi..."></textarea>
+                <button class="action primary tool-button" id="decode-jwt" type="button">Decode</button>
+                <div class="tool-results" id="jwt-results" aria-live="polite"></div>
+                <div class="tool-stack">
+                  <div>
+                    <p class="tool-label">Header</p>
+                    <pre class="tool-pre" id="jwt-header-output"></pre>
+                  </div>
+                  <div>
+                    <p class="tool-label">Payload</p>
+                    <pre class="tool-pre" id="jwt-payload-output"></pre>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="tool-panel is-wide">
+              <div class="tool-header">
+                <div>
+                  <h3>File Metadata + Hash Inspector</h3>
+                  <p>Inspect a local file for size, type, timestamps, and multiple hashes without uploading it anywhere.</p>
+                </div>
+              </div>
+              <div class="tool-controls">
+                <label class="tool-label" for="file-inspector-input">Local File</label>
+                <input class="tool-file" id="file-inspector-input" type="file" />
+                <button class="action primary tool-button" id="inspect-file" type="button">Inspect File</button>
+                <div class="tool-results" id="file-inspector-results" aria-live="polite"></div>
+              </div>
+            </article>
+
+            <article class="tool-panel mobile-tool">
+              <div class="tool-header">
+                <div>
+                  <h3>TOTP Generator</h3>
+                  <p>Generate time-based one-time passwords in-browser from a Base32 secret. The secret stays local.</p>
+                </div>
+              </div>
+              <div class="tool-controls">
+                <label class="tool-label" for="totp-secret">Base32 Secret</label>
+                <input class="tool-input tool-monospace" id="totp-secret" type="text" placeholder="JBSWY3DPEHPK3PXP" spellcheck="false" />
+                <label class="tool-label" for="totp-period">Period (seconds)</label>
+                <input class="tool-input" id="totp-period" type="number" min="15" max="120" value="30" />
+                <div class="tool-actions">
+                  <button class="action primary tool-button" id="generate-totp" type="button">Generate</button>
+                  <button class="action secondary tool-button" id="copy-totp" type="button">Copy Code</button>
+                </div>
+                <div class="tool-output tool-monospace" id="totp-output" aria-live="polite">------</div>
+                <div class="tool-results" id="totp-results" aria-live="polite"></div>
+              </div>
+            </article>
+
+            <article class="tool-panel mobile-tool">
+              <div class="tool-header">
+                <div>
+                  <h3>Timestamp Converter</h3>
+                  <p>Convert Unix epochs, ISO timestamps, and local date strings into analyst-friendly formats.</p>
+                </div>
+              </div>
+              <div class="tool-controls">
+                <label class="tool-label" for="timestamp-input">Timestamp Input</label>
+                <input class="tool-input tool-monospace" id="timestamp-input" type="text" placeholder="1712332800 or 2026-04-05T20:00:00Z" spellcheck="false" />
+                <button class="action primary tool-button" id="convert-timestamp" type="button">Convert</button>
+                <div class="tool-results" id="timestamp-results" aria-live="polite"></div>
+              </div>
+            </article>
+
+            <article class="tool-panel is-wide">
+              <div class="tool-header">
+                <div>
+                  <h3>Regex Tester</h3>
+                  <p>Test patterns, flags, and capture groups against sample text with local preview and match indexing.</p>
+                </div>
+              </div>
+              <div class="tool-controls">
+                <label class="tool-label" for="regex-pattern">Pattern</label>
+                <input class="tool-input tool-monospace" id="regex-pattern" type="text" placeholder="flag\\{[a-z0-9_]+\\}" spellcheck="false" />
+                <div class="tool-checks tool-flags">
+                  <label><input id="regex-flag-g" type="checkbox" checked /> Global</label>
+                  <label><input id="regex-flag-i" type="checkbox" /> Ignore Case</label>
+                  <label><input id="regex-flag-m" type="checkbox" /> Multiline</label>
+                  <label><input id="regex-flag-s" type="checkbox" /> Dotall</label>
+                  <label><input id="regex-flag-u" type="checkbox" /> Unicode</label>
+                </div>
+                <label class="tool-label" for="regex-input">Test Text</label>
+                <textarea class="tool-textarea tool-monospace" id="regex-input" rows="7" spellcheck="false" placeholder="Paste text to test"></textarea>
+                <button class="action primary tool-button" id="run-regex" type="button">Run</button>
+                <div class="tool-results" id="regex-results" aria-live="polite"></div>
+                <div class="tool-preview" id="regex-preview" aria-live="polite"></div>
               </div>
             </article>
           </div>
