@@ -97,53 +97,84 @@
       <main id="top">
         <section class="hero">
           <div class="hero-copy" data-reveal>
-            <p class="eyebrow" id="hero-eyebrow">Welbourne Security</p>
             <h1 id="hero-title">Private Sector Cyber Intelligence Solutions.</h1>
-            <p class="hero-summary" id="hero-summary"></p>
             <div class="hero-actions" id="hero-actions"></div>
-            <div class="mobile-business-card" aria-label="Digital business card">
-              <div class="mobile-business-card-copy">
-                <p class="mobile-business-card-kicker">Digital Business Card</p>
-                <h2 class="mobile-business-card-title">Welbourne Security</h2>
-                <p class="mobile-business-card-degree">BSc (Hons) Cybersecurity</p>
-                <p class="mobile-business-card-summary">Scan to open the site, read the latest writeups, and get straight to the links that matter.</p>
-              </div>
-              <a
-                class="mobile-business-card-qr-shell"
-                data-site-link
-                href="https://welbournesecurity.github.io/WelbourneSecurity/"
-                target="_blank"
-                rel="noreferrer"
-                aria-label="Open welbournesecurity.github.io/WelbourneSecurity/"
-              >
-                <img
-                  class="mobile-business-card-qr"
-                  src="./src/site-qr.svg"
-                  alt="QR code linking to welbournesecurity.github.io/WelbourneSecurity/"
-                  loading="eager"
-                  decoding="async"
-                />
-                <span class="mobile-business-card-scan">Scan To Open</span>
-              </a>
-            </div>
             <dl class="hero-metrics" id="hero-metrics"></dl>
           </div>
 
-          <div class="hero-visual" aria-hidden="true">
+          <div class="mobile-business-card" aria-label="Digital business card">
+            <div class="mobile-business-card-copy">
+              <p class="mobile-business-card-kicker">Digital Business Card</p>
+              <div class="mobile-business-card-identity">
+                <h2 class="mobile-business-card-title"><span>Welbourne</span><span>Security</span></h2>
+                <p class="mobile-business-card-degree">BSc (Hons) Cybersecurity</p>
+              </div>
+              <p class="mobile-business-card-summary">Scan to open the site, read the latest writeups, and get straight to the links that matter.</p>
+            </div>
+            <a
+              class="mobile-business-card-qr-shell"
+              data-site-link
+              href="https://welbournesecurity.github.io/WelbourneSecurity/"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Open welbournesecurity.github.io/WelbourneSecurity/"
+            >
+              <img
+                class="mobile-business-card-qr"
+                src="./src/site-qr.svg"
+                alt="QR code linking to welbournesecurity.github.io/WelbourneSecurity/"
+                loading="eager"
+                decoding="async"
+              />
+              <span class="mobile-business-card-scan">Scan To Open</span>
+            </a>
+          </div>
+
+          <div class="hero-visual">
             <div class="signal-grid"></div>
+            <div class="mobile-radar-heading" aria-hidden="true">Welbourne Security</div>
+            <div class="mobile-radar-frame" aria-hidden="true">
+              <span class="mobile-radar-title">Digital Business Card</span>
+              <span class="mobile-radar-status">Target: WEL-SEC01</span>
+            </div>
             <div class="signal-radar">
               <span class="radar-ring ring-1"></span>
               <span class="radar-ring ring-2"></span>
               <span class="radar-ring ring-3"></span>
               <span class="radar-sweep"></span>
               <span class="radar-core"></span>
+              <button class="radar-blip" id="radar-blip" type="button" aria-label="Raise business card">
+                <span class="radar-blip-dot" aria-hidden="true"></span>
+                <span class="radar-blip-callout" aria-hidden="true">WEL-SEC01</span>
+              </button>
             </div>
-            <div class="signal-panel signal-panel-top">
-              <p>Active Focus</p>
-              <strong id="signal-focus">Signals intelligence and anonymity</strong>
-              <span id="signal-tagline">Private-sector intelligence, privacy, and research</span>
+            <div class="signal-panel signal-panel-top footprint-panel footprint-panel-lead" aria-live="polite">
+              <p class="footprint-kicker">Live Footprint Snapshot</p>
+              <strong data-footprint-status>Inspecting browser exposure...</strong>
+              <span data-footprint-summary>This panel shows the quick browser details exposed immediately on page load.</span>
             </div>
-            <div class="signal-panel signal-panel-bottom" id="signal-tags"></div>
+            <div class="signal-panel signal-panel-bottom footprint-panel footprint-panel-grid" aria-live="polite">
+              <div class="footprint-item footprint-item-wide">
+                <span>Public IP</span>
+                <strong data-footprint-key="public-ip">Looking up...</strong>
+              </div>
+              <div class="footprint-item">
+                <span>Browser</span>
+                <strong data-footprint-key="browser">Detecting...</strong>
+              </div>
+              <div class="footprint-item">
+                <span>Operating System</span>
+                <strong data-footprint-key="os">Detecting...</strong>
+              </div>
+              <div class="footprint-item footprint-item-wide">
+                <span>Language</span>
+                <strong data-footprint-key="language">Detecting...</strong>
+              </div>
+              <div class="footprint-item footprint-item-wide">
+                <span>Time Zone</span>
+                <strong data-footprint-key="timezone">Detecting...</strong>
+              </div>
+            </div>
           </div>
         </section>
 

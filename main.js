@@ -91,6 +91,133 @@ const formatDate = (value) => {
   });
 };
 
+const setFootprintValue = (key, value) => {
+  document.querySelectorAll(`[data-footprint-key="${key}"]`).forEach((node) => {
+    node.textContent = value;
+  });
+};
+
+const setFootprintStatus = (status, summary) => {
+  document.querySelectorAll("[data-footprint-status]").forEach((node) => {
+    node.textContent = status;
+  });
+
+  document.querySelectorAll("[data-footprint-summary]").forEach((node) => {
+    node.textContent = summary;
+  });
+};
+
+const detectBrowser = () => {
+  const userAgent = navigator.userAgent;
+  const matchers = [
+    { label: "Edge", pattern: /Edg\/([\d.]+)/ },
+    { label: "Opera", pattern: /OPR\/([\d.]+)/ },
+    { label: "Chrome", pattern: /Chrome\/([\d.]+)/ },
+    { label: "Firefox", pattern: /Firefox\/([\d.]+)/ },
+    { label: "Safari", pattern: /Version\/([\d.]+).*Safari/ }
+  ];
+
+  for (const matcher of matchers) {
+    const match = userAgent.match(matcher.pattern);
+    if (match) {
+      return `${matcher.label} ${match[1].split(".")[0]}`;
+    }
+  }
+
+  if (navigator.userAgentData?.brands?.length) {
+    return navigator.userAgentData.brands
+      .map(({ brand, version }) => `${brand} ${String(version).split(".")[0]}`)
+      .join(", ");
+  }
+
+  return "Unavailable";
+};
+
+const detectOperatingSystem = () => {
+  const userAgent = navigator.userAgent;
+
+  if (/iPhone|iPad|iPod/i.test(userAgent)) return "iOS";
+  if (/Android/i.test(userAgent)) return "Android";
+  if (/Windows NT/i.test(userAgent)) return "Windows";
+  if (/Mac OS X|Macintosh/i.test(userAgent)) return "macOS";
+  if (/CrOS/i.test(userAgent)) return "ChromeOS";
+  if (/Linux/i.test(userAgent)) return "Linux";
+
+  return navigator.userAgentData?.platform || navigator.platform || "Unavailable";
+};
+
+const getLanguageInfo = () => {
+  const languages = Array.isArray(navigator.languages) ? navigator.languages.filter(Boolean) : [];
+
+  if (languages.length > 1) {
+    return languages.slice(0, 2).join(", ");
+  }
+
+  return navigator.language || languages[0] || "Unavailable";
+};
+
+const getTimeZoneInfo = () => {
+  try {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone || "Unavailable";
+  } catch {
+    return "Unavailable";
+  }
+};
+
+const updateFootprintSnapshot = () => {
+  setFootprintValue("browser", detectBrowser());
+  setFootprintValue("os", detectOperatingSystem());
+  setFootprintValue("language", getLanguageInfo());
+  setFootprintValue("timezone", getTimeZoneInfo());
+};
+
+const resolvePublicIp = async () => {
+  const controller = new AbortController();
+  const timeoutId = window.setTimeout(() => controller.abort(), 2200);
+
+  try {
+    const response = await fetch("https://api64.ipify.org?format=json", {
+      cache: "no-store",
+      signal: controller.signal
+    });
+
+    if (!response.ok) {
+      throw new Error("Public IP lookup failed.");
+    }
+
+    const payload = await response.json();
+    return typeof payload.ip === "string" && payload.ip.trim() ? payload.ip.trim() : null;
+  } catch {
+    return null;
+  } finally {
+    window.clearTimeout(timeoutId);
+  }
+};
+
+const initialiseFootprintSnapshot = async () => {
+  setFootprintStatus(
+    "Inspecting browser exposure...",
+    "Checking the quick browser details exposed immediately on page load."
+  );
+  updateFootprintSnapshot();
+
+  const publicIp = await resolvePublicIp();
+  if (publicIp) {
+    setFootprintValue("public-ip", publicIp);
+    setFootprintStatus(
+      "Quick browser details are visible on load.",
+      "Browser, OS, language, time zone, and public IP are easy to inspect immediately from the client."
+    );
+    return;
+  }
+
+  setFootprintValue("public-ip", "Lookup unavailable");
+  setFootprintStatus(
+    "Browser details are visible on load.",
+    "Browser, OS, language, and time zone are readable immediately. Public IP depends on a separate client-side lookup."
+  );
+};
+
 const createAction = ({ label, href }, variant) => {
   const link = document.createElement("a");
   link.className = `action ${variant}`;
@@ -853,11 +980,7 @@ const loadRepositoryWriteups = async () => {
 
 setText("brand-name", portfolio.profile.name);
 setText("brand-role", portfolio.profile.role);
-setText("hero-eyebrow", portfolio.profile.eyebrow);
 setText("hero-title", portfolio.profile.headline);
-setText("hero-summary", portfolio.profile.summary);
-setText("signal-focus", portfolio.profile.focus);
-setText("signal-tagline", portfolio.profile.signalTagline);
 setText("contact-heading", portfolio.profile.contactHeading);
 setText("contact-summary", portfolio.profile.contactSummary);
 syncRuntimeMetadata();
@@ -880,14 +1003,9 @@ portfolio.heroMetrics.forEach(({ label, value }) => {
   item.innerHTML = `<dt>${label}</dt><dd>${value}</dd>`;
   heroMetrics?.append(item);
 });
+void initialiseFootprintSnapshot();
 
-const signalTags = document.getElementById("signal-tags");
-portfolio.signalTags.forEach((tag) => {
-  const pill = document.createElement("span");
-  pill.className = "tag-pill";
-  pill.textContent = tag;
-  signalTags?.append(pill);
-});
+window.addEventListener("resize", updateFootprintSnapshot, { passive: true });
 
 const platformList = document.getElementById("platform-list");
 portfolio.platformLinks.forEach((platform) =>
@@ -1937,10 +2055,44 @@ runRegexButton?.addEventListener("click", runRegexTest);
 
 const writeupSearch = document.getElementById("writeup-search");
 const writeupFilterClear = document.getElementById("writeup-filter-clear");
-const compactMobileQuery = window.matchMedia("(max-width: 780px)");
+const compactMobileQuery = window.matchMedia("(max-width: 960px)");
+const siteHeader = document.querySelector(".site-header");
+const mobileBusinessCard = document.querySelector(".mobile-business-card");
+const radarBlip = document.getElementById("radar-blip");
+let radarBlipTimer = 0;
+
+const syncHeaderOffset = () => {
+  if (siteHeader instanceof HTMLElement) {
+    document.documentElement.style.setProperty("--header-offset", `${siteHeader.offsetHeight}px`);
+  }
+};
 
 const syncViewportMode = () => {
   document.body.classList.toggle("mobile-lite", compactMobileQuery.matches);
+  syncHeaderOffset();
+};
+
+const syncRadarBlipState = () => {
+  window.clearTimeout(radarBlipTimer);
+
+  if (!(mobileBusinessCard instanceof HTMLElement) || !(radarBlip instanceof HTMLButtonElement)) {
+    return;
+  }
+
+  radarBlip.classList.remove("is-visible", "is-armed");
+  radarBlip.setAttribute("aria-hidden", "true");
+  radarBlip.setAttribute("aria-pressed", "false");
+
+  if (!compactMobileQuery.matches) {
+    mobileBusinessCard.classList.remove("is-raised");
+    return;
+  }
+
+  radarBlipTimer = window.setTimeout(() => {
+    if (!compactMobileQuery.matches) return;
+    radarBlip.classList.add("is-visible");
+    radarBlip.setAttribute("aria-hidden", "false");
+  }, 650);
 };
 
 const ensureDesktopWriteupsLoaded = () => {
@@ -1995,11 +2147,13 @@ document.addEventListener("click", (event) => {
 });
 
 syncViewportMode();
+syncRadarBlipState();
 ensureDesktopWriteupsLoaded();
 
 const handleViewportChange = () => {
   const wasCompact = document.body.classList.contains("mobile-lite");
   syncViewportMode();
+  syncRadarBlipState();
   if (wasCompact && !compactMobileQuery.matches) {
     ensureDesktopWriteupsLoaded();
   }
@@ -2010,6 +2164,18 @@ if (typeof compactMobileQuery.addEventListener === "function") {
 } else if (typeof compactMobileQuery.addListener === "function") {
   compactMobileQuery.addListener(handleViewportChange);
 }
+
+radarBlip?.addEventListener("click", () => {
+  if (!(mobileBusinessCard instanceof HTMLElement) || !(radarBlip instanceof HTMLButtonElement) || !compactMobileQuery.matches) {
+    return;
+  }
+
+  mobileBusinessCard.classList.add("is-raised");
+  radarBlip.classList.add("is-armed");
+  radarBlip.setAttribute("aria-pressed", "true");
+});
+
+window.addEventListener("resize", syncHeaderOffset, { passive: true });
 
 const themeToggle = document.getElementById("theme-toggle");
 const setTheme = (theme) => {
