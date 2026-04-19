@@ -15,7 +15,7 @@ const state = {
   }
 };
 
-const SITE_URL = "https://welbournesecurity.github.io/WelbourneSecurity/";
+const SITE_URL = "https://welbournesecurity.com/";
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
@@ -980,7 +980,9 @@ const loadRepositoryWriteups = async () => {
 
 setText("brand-name", portfolio.profile.name);
 setText("brand-role", portfolio.profile.role);
+setText("hero-eyebrow", portfolio.profile.eyebrow);
 setText("hero-title", portfolio.profile.headline);
+setText("hero-summary", portfolio.profile.summary);
 setText("contact-heading", portfolio.profile.contactHeading);
 setText("contact-summary", portfolio.profile.contactSummary);
 syncRuntimeMetadata();
@@ -2057,9 +2059,37 @@ const writeupSearch = document.getElementById("writeup-search");
 const writeupFilterClear = document.getElementById("writeup-filter-clear");
 const compactMobileQuery = window.matchMedia("(max-width: 960px)");
 const siteHeader = document.querySelector(".site-header");
-const mobileBusinessCard = document.querySelector(".mobile-business-card");
-const radarBlip = document.getElementById("radar-blip");
-let radarBlipTimer = 0;
+const primaryNavLinks = Array.from(document.querySelectorAll(".site-nav a[href^='#']"));
+const mobileNavTargetIds = ["tools", "presence", "contact"];
+const mobileNavTargets = new Set(mobileNavTargetIds);
+
+const setActiveNavLink = (sectionId = "") => {
+  primaryNavLinks.forEach((link) => {
+    const href = link.getAttribute("href") || "";
+    const isActive = mobileNavTargets.has(sectionId) && href === `#${sectionId}`;
+    link.classList.toggle("is-active", isActive);
+    if (isActive) {
+      link.setAttribute("aria-current", "page");
+    } else {
+      link.removeAttribute("aria-current");
+    }
+  });
+};
+
+const syncActiveMobileNav = () => {
+  if (!compactMobileQuery.matches) return;
+
+  const activationLine = window.innerHeight * 0.42;
+  const activeSection = mobileNavTargetIds.find((sectionId) => {
+    const section = document.getElementById(sectionId);
+    if (!section) return false;
+
+    const rect = section.getBoundingClientRect();
+    return rect.top <= activationLine && rect.bottom > activationLine;
+  });
+
+  setActiveNavLink(activeSection || "");
+};
 
 const syncHeaderOffset = () => {
   if (siteHeader instanceof HTMLElement) {
@@ -2070,29 +2100,11 @@ const syncHeaderOffset = () => {
 const syncViewportMode = () => {
   document.body.classList.toggle("mobile-lite", compactMobileQuery.matches);
   syncHeaderOffset();
-};
-
-const syncRadarBlipState = () => {
-  window.clearTimeout(radarBlipTimer);
-
-  if (!(mobileBusinessCard instanceof HTMLElement) || !(radarBlip instanceof HTMLButtonElement)) {
-    return;
-  }
-
-  radarBlip.classList.remove("is-visible", "is-armed");
-  radarBlip.setAttribute("aria-hidden", "true");
-  radarBlip.setAttribute("aria-pressed", "false");
-
   if (!compactMobileQuery.matches) {
-    mobileBusinessCard.classList.remove("is-raised");
-    return;
+    setActiveNavLink("");
+  } else {
+    syncActiveMobileNav();
   }
-
-  radarBlipTimer = window.setTimeout(() => {
-    if (!compactMobileQuery.matches) return;
-    radarBlip.classList.add("is-visible");
-    radarBlip.setAttribute("aria-hidden", "false");
-  }, 650);
 };
 
 const ensureDesktopWriteupsLoaded = () => {
@@ -2147,13 +2159,11 @@ document.addEventListener("click", (event) => {
 });
 
 syncViewportMode();
-syncRadarBlipState();
 ensureDesktopWriteupsLoaded();
 
 const handleViewportChange = () => {
   const wasCompact = document.body.classList.contains("mobile-lite");
   syncViewportMode();
-  syncRadarBlipState();
   if (wasCompact && !compactMobileQuery.matches) {
     ensureDesktopWriteupsLoaded();
   }
@@ -2165,17 +2175,42 @@ if (typeof compactMobileQuery.addEventListener === "function") {
   compactMobileQuery.addListener(handleViewportChange);
 }
 
-radarBlip?.addEventListener("click", () => {
-  if (!(mobileBusinessCard instanceof HTMLElement) || !(radarBlip instanceof HTMLButtonElement) || !compactMobileQuery.matches) {
-    return;
-  }
+window.addEventListener("resize", syncHeaderOffset, { passive: true });
 
-  mobileBusinessCard.classList.add("is-raised");
-  radarBlip.classList.add("is-armed");
-  radarBlip.setAttribute("aria-pressed", "true");
+primaryNavLinks.forEach((link) => {
+  link.addEventListener("click", () => {
+    const sectionId = (link.getAttribute("href") || "").replace("#", "");
+    if (compactMobileQuery.matches) {
+      setActiveNavLink(sectionId);
+      window.setTimeout(syncActiveMobileNav, 720);
+    }
+  });
 });
 
-window.addEventListener("resize", syncHeaderOffset, { passive: true });
+let mobileNavRaf = 0;
+window.addEventListener(
+  "scroll",
+  () => {
+    if (!compactMobileQuery.matches || mobileNavRaf) return;
+    mobileNavRaf = window.requestAnimationFrame(() => {
+      mobileNavRaf = 0;
+      syncActiveMobileNav();
+    });
+  },
+  { passive: true }
+);
+
+if ("IntersectionObserver" in window) {
+  const mobileNavObserver = new IntersectionObserver(
+    () => syncActiveMobileNav(),
+    { rootMargin: "-38% 0px -52% 0px", threshold: [0.12, 0.28, 0.5] }
+  );
+
+  mobileNavTargetIds.forEach((sectionId) => {
+    const section = document.getElementById(sectionId);
+    if (section) mobileNavObserver.observe(section);
+  });
+}
 
 const themeToggle = document.getElementById("theme-toggle");
 const setTheme = (theme) => {

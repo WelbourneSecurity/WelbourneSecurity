@@ -11,22 +11,22 @@ export const portfolio = {
     eyebrow: "Welbourne Security",
     headline: "Private Sector Cyber Intelligence Solutions.",
     summary:
-      "Welbourne Security presents cybersecurity writeups, certifications, and public platform work in a format built for clear review and practical credibility.",
+      "Cybersecurity writeups, browser tools, certifications, and public profiles built for quick review.",
     focus: "Signals intelligence and anonymity",
     signalTagline: "Private-sector intelligence, privacy, and research",
-    contactHeading: "Open to cyber intelligence, research, and security-focused opportunities.",
+    contactHeading: "Open to cyber intelligence, research, and security work.",
     contactSummary:
       "For collaboration, hiring enquiries, or research opportunities, contact me directly or use the linked public profiles below.",
     primaryAction: {
       label: "Email Me",
-      href: "mailto:welbournesecurity@gmail.com"
+      href: "mailto:info@welbournesecurity.com"
     },
     secondaryAction: {
       label: "View LinkedIn",
       href: "https://www.linkedin.com/in/welbournesecurity/"
     },
     contactActions: [
-      { label: "Email", href: "mailto:welbournesecurity@gmail.com" },
+      { label: "Email", href: "mailto:info@welbournesecurity.com" },
       { label: "LinkedIn", href: "https://www.linkedin.com/in/welbournesecurity/" },
       { label: "GitHub", href: "https://github.com/WelbourneSecurity" }
     ]
