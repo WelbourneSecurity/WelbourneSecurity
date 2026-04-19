@@ -252,11 +252,14 @@ const createEmbed = ({ embedUrl, embedTitle, title, description }) => {
 };
 
 const createCertificationImage = ({ title, imagePath, verificationUrl }) => {
-  const link = document.createElement("a");
-  link.className = "certification-link";
-  link.href = verificationUrl;
-  link.target = "_blank";
-  link.rel = "noreferrer";
+  const frame = verificationUrl ? document.createElement("a") : document.createElement("div");
+  frame.className = "certification-link";
+
+  if (verificationUrl && frame instanceof HTMLAnchorElement) {
+    frame.href = verificationUrl;
+    frame.target = "_blank";
+    frame.rel = "noreferrer";
+  }
 
   const image = document.createElement("img");
   image.className = "certification-image";
@@ -264,8 +267,8 @@ const createCertificationImage = ({ title, imagePath, verificationUrl }) => {
   image.alt = title;
   image.loading = "lazy";
 
-  link.append(image);
-  return link;
+  frame.append(image);
+  return frame;
 };
 
 const createPlatform = ({ title, profileUrl }) => {
@@ -282,6 +285,14 @@ const createCertification = ({ title, description, issuer, verificationUrl, imag
   const item = document.createElement("article");
   item.className = "certification-item";
   item.append(imagePath ? createCertificationImage({ title, imagePath, verificationUrl }) : createEmbed({ title, description }));
+
+  if (imagePath) {
+    const caption = document.createElement("p");
+    caption.className = "certification-caption";
+    caption.textContent = title;
+    item.append(caption);
+  }
+
   return item;
 };
 

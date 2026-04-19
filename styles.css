@@ -1837,6 +1837,17 @@ body.light-mode .markdown-body pre code {
   border-color: var(--accent);
 }
 
+.certification-caption {
+  margin: 0.7rem 0 0;
+  color: var(--text);
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.96rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
 .embed-placeholder strong {
   display: block;
   margin-bottom: 0.45rem;

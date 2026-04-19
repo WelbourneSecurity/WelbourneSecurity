@@ -33,7 +33,7 @@ export const portfolio = {
   },
   heroMetrics: [
     { label: "Writeups Ready", value: "01" },
-    { label: "Certifications", value: "03" },
+    { label: "Certifications", value: "05" },
     { label: "Core Focus", value: "SIGINT + Privacy" }
   ],
   signalTags: [
@@ -99,12 +99,24 @@ export const portfolio = {
       imagePath: "./src/cybersecurity-fundamentals.png"
     },
     {
-      title: "CC - Certified in Cybersecurity",
+      title: "CC",
       description:
         "Use the verification link or replace this copy with the exact cert summary you want recruiters to see.",
       issuer: "Credly",
       verificationUrl: "https://www.credly.com/badges/9f81cd7c-cf0b-48e9-9c71-bc37f6fe5fba/public_url",
       imagePath: "./src/certified-in-cybersecurity-cc.png"
+    },
+    {
+      title: "ICS-300",
+      description: "CISA cybersecurity and infrastructure security training badge.",
+      issuer: "CISA",
+      imagePath: "./src/cisa.png"
+    },
+    {
+      title: "ICS-401",
+      description: "CISA cybersecurity and infrastructure security training badge.",
+      issuer: "CISA",
+      imagePath: "./src/cisa.png"
     }
   ]
 };
