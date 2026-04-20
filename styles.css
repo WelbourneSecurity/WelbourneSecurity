@@ -506,6 +506,7 @@ body.light-mode .signal-grid {
 }
 
 .signal-radar {
+  --radar-cycle: 9s;
   position: absolute;
   inset: 12% 5% auto auto;
   z-index: 2;
@@ -599,7 +600,7 @@ body.light-mode .radar-axis-vertical {
   background: conic-gradient(from 18deg, rgba(232, 238, 236, 0.34), rgba(232, 238, 236, 0.07) 13%, transparent 27%);
   mix-blend-mode: screen;
   opacity: 0.78;
-  animation: radar-sweep 9s linear infinite;
+  animation: radar-sweep var(--radar-cycle, 9s) linear infinite;
 }
 
 body.light-mode .radar-sweep {
@@ -633,7 +634,8 @@ body.light-mode .radar-core {
   box-shadow:
     0 0 0 0 rgba(255, 100, 100, 0.16),
     0 0 18px rgba(255, 100, 100, 0.42);
-  animation: radar-blip 4.8s ease-in-out infinite;
+  animation: radar-blip var(--radar-cycle, 9s) linear infinite;
+  animation-delay: var(--radar-blip-delay, 0s);
 }
 
 body.light-mode .radar-blip {
@@ -644,13 +646,14 @@ body.light-mode .radar-blip {
 .blip-1 {
   top: 23%;
   left: 49%;
+  --radar-blip-delay: -1.17s;
 }
 
 .blip-2 {
   top: 62%;
   left: 26%;
   width: 0.48rem;
-  animation-delay: 1.3s;
+  --radar-blip-delay: -4.08s;
 }
 
 .blip-3 {
@@ -658,7 +661,7 @@ body.light-mode .radar-blip {
   left: 58%;
   width: 0.42rem;
   opacity: 0.78;
-  animation-delay: 2.1s;
+  --radar-blip-delay: -6.19s;
 }
 
 .signal-panel,
@@ -2003,7 +2006,7 @@ body.motion-ready [data-reveal].is-visible {
 }
 
 @keyframes radar-blip {
-  0%, 72%, 100% {
+  0%, 18%, 100% {
     transform: scale(1);
     opacity: 0.72;
     box-shadow:
