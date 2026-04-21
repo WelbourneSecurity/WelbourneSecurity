@@ -1955,18 +1955,72 @@ const regexInput = document.getElementById("regex-input");
 const regexResults = document.getElementById("regex-results");
 const regexPreview = document.getElementById("regex-preview");
 const runRegexButton = document.getElementById("run-regex");
+const regexPresetButtons = Array.from(document.querySelectorAll("[data-regex-preset]"));
+
+const regexFlagInputs = [
+  ["g", document.getElementById("regex-flag-g")],
+  ["i", document.getElementById("regex-flag-i")],
+  ["m", document.getElementById("regex-flag-m")],
+  ["s", document.getElementById("regex-flag-s")],
+  ["u", document.getElementById("regex-flag-u")]
+];
 
 const getRegexFlags = () =>
-  [
-    ["g", document.getElementById("regex-flag-g")],
-    ["i", document.getElementById("regex-flag-i")],
-    ["m", document.getElementById("regex-flag-m")],
-    ["s", document.getElementById("regex-flag-s")],
-    ["u", document.getElementById("regex-flag-u")]
-  ]
+  regexFlagInputs
     .filter(([, input]) => input instanceof HTMLInputElement && input.checked)
     .map(([flag]) => flag)
     .join("");
+
+const setRegexFlags = (flags = "") => {
+  regexFlagInputs.forEach(([flag, input]) => {
+    if (input instanceof HTMLInputElement) {
+      input.checked = flags.includes(flag);
+    }
+  });
+};
+
+const regexPresets = {
+  url: {
+    pattern: "https?:\\/\\/[^\\s<>\"'`]+",
+    flags: "gi",
+    sample: "Callback: https://example.com/login?next=/admin and http://192.0.2.10/payload"
+  },
+  domain: {
+    pattern: "\\b(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\\.)+[a-z]{2,63}\\b",
+    flags: "gi",
+    sample: "Observed domains: login.example.com, cdn.bad-domain.net, service.internal.local"
+  },
+  ipv4: {
+    pattern: "\\b(?:(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.){3}(?:25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\b",
+    flags: "g",
+    sample: "Source 198.51.100.23 connected to 203.0.113.10; ignore 999.999.1.1"
+  },
+  email: {
+    pattern: "\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,63}\\b",
+    flags: "gi",
+    sample: "Mailbox targets: analyst@example.com and security.ops@example.co.uk"
+  },
+  hash: {
+    pattern: "\\b(?:[a-f0-9]{32}|[a-f0-9]{40}|[a-f0-9]{64}|[a-f0-9]{128})\\b",
+    flags: "gi",
+    sample: "MD5 d41d8cd98f00b204e9800998ecf8427e SHA256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  cve: {
+    pattern: "\\bCVE-\\d{4}-\\d{4,7}\\b",
+    flags: "gi",
+    sample: "References include CVE-2024-12345, CVE-2023-9999, and advisory IDs."
+  },
+  jwt: {
+    pattern: "\\beyJ[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]*\\b",
+    flags: "g",
+    sample: "Token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjMifQ.signature"
+  },
+  flag: {
+    pattern: "flag\\{[A-Za-z0-9_\\-]+\\}",
+    flags: "g",
+    sample: "Recovered flag{local_regex_test} from the challenge output."
+  }
+};
 
 const collectRegexMatches = (regex, value) => {
   const matches = [];
@@ -2066,6 +2120,526 @@ const runRegexTest = () => {
 
 runRegexButton?.addEventListener("click", runRegexTest);
 
+regexPresetButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    if (!(button instanceof HTMLButtonElement) || !(regexPattern instanceof HTMLInputElement)) return;
+
+    const presetKey = button.dataset.regexPreset || "";
+    const preset = regexPresets[presetKey];
+    if (!preset) return;
+
+    regexPattern.value = preset.pattern;
+    setRegexFlags(preset.flags);
+
+    if (regexInput instanceof HTMLTextAreaElement && !regexInput.value.trim()) {
+      regexInput.value = preset.sample;
+    }
+
+    regexPresetButtons.forEach((item) => {
+      item.classList.toggle("is-active", item === button);
+    });
+
+    runRegexTest();
+  });
+});
+
+const toolWorkbench = document.querySelector(".tool-workbench");
+const toolNav = document.getElementById("tool-nav");
+const toolNavButtons = Array.from(document.querySelectorAll("[data-tool-target]"));
+const toolPanels = Array.from(document.querySelectorAll("[data-tool-id]"));
+const toolContextMode = document.getElementById("tool-context-mode");
+const toolContextTitle = document.getElementById("tool-context-title");
+const toolContextFlow = document.getElementById("tool-context-flow");
+const toolContextAction = document.getElementById("tool-context-action");
+const toolContextSettings = document.getElementById("tool-context-settings");
+const toolSharedInput = document.getElementById("tool-shared-input");
+const toolSharedOutput = document.getElementById("tool-shared-output");
+const toolSharedStatus = document.getElementById("tool-shared-status");
+const toolWorkspaceUseInput = document.getElementById("tool-workspace-use-input");
+const toolWorkspaceCaptureOutput = document.getElementById("tool-workspace-capture-output");
+const toolWorkspaceOutputToInput = document.getElementById("tool-workspace-output-to-input");
+const toolWorkspaceCopyOutput = document.getElementById("tool-workspace-copy-output");
+const toolWorkspaceClear = document.getElementById("tool-workspace-clear");
+const iocInput = document.getElementById("ioc-input");
+const iocOutput = document.getElementById("ioc-output");
+const iocResults = document.getElementById("ioc-results");
+const extractIocsButton = document.getElementById("extract-iocs");
+const defangIocsButton = document.getElementById("defang-iocs");
+const refangIocsButton = document.getElementById("refang-iocs");
+const copyIocReportButton = document.getElementById("copy-ioc-report");
+
+const SHARED_INPUT_KEY = "tool-shared-input";
+const SHARED_OUTPUT_KEY = "tool-shared-output";
+
+const setWorkspaceStatus = (message) => {
+  if (toolSharedStatus instanceof HTMLElement) {
+    toolSharedStatus.textContent = message;
+  }
+};
+
+const setSharedInputValue = (value) => {
+  if (!(toolSharedInput instanceof HTMLTextAreaElement)) return;
+  toolSharedInput.value = value;
+  localStorage.setItem(SHARED_INPUT_KEY, value);
+};
+
+const setSharedOutputValue = (value, status = "Output updated") => {
+  if (!(toolSharedOutput instanceof HTMLTextAreaElement)) return;
+  toolSharedOutput.value = value;
+  localStorage.setItem(SHARED_OUTPUT_KEY, value);
+  setWorkspaceStatus(status);
+};
+
+const normalizeIndicator = (value) =>
+  value
+    .trim()
+    .replace(/^[<("'`]+/g, "")
+    .replace(/[>)"'`,;]+$/g, "");
+
+const uniqueIndicators = (items) => {
+  const seen = new Set();
+  const unique = [];
+
+  items.map(normalizeIndicator).filter(Boolean).forEach((item) => {
+    const key = item.toLowerCase();
+    if (!seen.has(key)) {
+      seen.add(key);
+      unique.push(item);
+    }
+  });
+
+  return unique.sort((left, right) => left.localeCompare(right));
+};
+
+const defangIndicators = (value) =>
+  value
+    .replace(/\bhttps:\/\//gi, "hxxps://")
+    .replace(/\bhttp:\/\//gi, "hxxp://")
+    .replace(/@/g, "[@]")
+    .replace(/\./g, "[.]");
+
+const refangIndicators = (value) =>
+  value
+    .replace(/\bhxxps:\/\//gi, "https://")
+    .replace(/\bhxxp:\/\//gi, "http://")
+    .replace(/\[\s*at\s*\]|\[@\]|\(at\)|\{at\}/gi, "@")
+    .replace(/\[\s*dot\s*\]|\[\.\]|\(\.\)|\{\.\}/gi, ".");
+
+const getPatternMatches = (value, pattern) => value.match(pattern) || [];
+
+const classifyHashes = (items) =>
+  items.map((hash) => {
+    const lengthMap = {
+      32: "MD5",
+      40: "SHA-1",
+      64: "SHA-256",
+      128: "SHA-512"
+    };
+    return `${hash} (${lengthMap[hash.length] || `${hash.length * 4}-bit`})`;
+  });
+
+const analyzeIndicators = (value) => {
+  const source = refangIndicators(value);
+  const urls = uniqueIndicators(getPatternMatches(source, /\bhttps?:\/\/[^\s<>"'`]+/gi));
+  const emails = uniqueIndicators(getPatternMatches(source, /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}\b/gi));
+  const ipv4 = uniqueIndicators(
+    getPatternMatches(source, /\b(?:(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\.){3}(?:25[0-5]|2[0-4]\d|1\d\d|[1-9]?\d)\b/g)
+  );
+  const ipv6 = uniqueIndicators(getPatternMatches(source, /\b(?:[A-F0-9]{1,4}:){2,7}[A-F0-9]{1,4}\b/gi));
+  const cves = uniqueIndicators(getPatternMatches(source, /\bCVE-\d{4}-\d{4,7}\b/gi).map((item) => item.toUpperCase()));
+  const hashes = uniqueIndicators(
+    getPatternMatches(source, /\b(?:[a-f0-9]{32}|[a-f0-9]{40}|[a-f0-9]{64}|[a-f0-9]{128})\b/gi)
+  );
+  const domains = uniqueIndicators(
+    getPatternMatches(source, /\b(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+(?:[a-z]{2,63})(?::\d{2,5})?\b/gi).filter(
+      (domain) => !emails.some((email) => email.toLowerCase().includes(`@${domain.toLowerCase()}`))
+    )
+  );
+
+  return {
+    urls,
+    domains,
+    ips: uniqueIndicators([...ipv4, ...ipv6]),
+    emails,
+    hashes,
+    cves
+  };
+};
+
+const formatIndicatorReport = (analysis) => {
+  const sections = [
+    ["URLs", analysis.urls],
+    ["Domains", analysis.domains],
+    ["IPs", analysis.ips],
+    ["Emails", analysis.emails],
+    ["Hashes", classifyHashes(analysis.hashes)],
+    ["CVEs", analysis.cves]
+  ];
+  const total = sections.reduce((sum, [, items]) => sum + items.length, 0);
+
+  if (!total) {
+    return "IOC Extraction Report\n\nNo indicators found.";
+  }
+
+  return [
+    "IOC Extraction Report",
+    `Generated: ${formatDateTime(new Date())}`,
+    `Total: ${total}`,
+    "",
+    ...sections.flatMap(([label, items]) => [
+      `${label} (${items.length})`,
+      ...(items.length ? items.map((item) => `- ${item}`) : ["- None"]),
+      ""
+    ])
+  ].join("\n").trim();
+};
+
+const renderIocSummary = (analysis) => {
+  const rows = [
+    { label: "Total IOCs", value: Object.values(analysis).reduce((sum, items) => sum + items.length, 0), matched: true },
+    { label: "URLs", value: analysis.urls.length },
+    { label: "Domains", value: analysis.domains.length },
+    { label: "IPs", value: analysis.ips.length },
+    { label: "Emails", value: analysis.emails.length },
+    { label: "Hashes", value: analysis.hashes.length },
+    { label: "CVEs", value: analysis.cves.length }
+  ];
+  setToolRows(iocResults, rows);
+};
+
+const extractIocs = () => {
+  if (!(iocInput instanceof HTMLTextAreaElement) || !(iocOutput instanceof HTMLTextAreaElement)) return "";
+
+  const source = iocInput.value.trim();
+  if (!source) {
+    iocOutput.value = "";
+    setToolError(iocResults, "Paste source text before extracting indicators.");
+    return "";
+  }
+
+  const analysis = analyzeIndicators(source);
+  const report = formatIndicatorReport(analysis);
+  renderIocSummary(analysis);
+  iocOutput.value = report;
+  setSharedOutputValue(report, "IOC report sent to output");
+  return report;
+};
+
+const transformIocText = (transform, label) => {
+  if (!(iocInput instanceof HTMLTextAreaElement) || !(iocOutput instanceof HTMLTextAreaElement)) return "";
+  const source = iocInput.value.trim() || (toolSharedInput instanceof HTMLTextAreaElement ? toolSharedInput.value.trim() : "");
+
+  if (!source) {
+    setToolError(iocResults, `Paste source text before running ${label.toLowerCase()}.`);
+    return "";
+  }
+
+  const transformed = transform(source);
+  iocOutput.value = transformed;
+  setToolRows(iocResults, [
+    { label: "Mode", value: label, matched: true },
+    { label: "Characters", value: formatNumber(transformed.length) }
+  ]);
+  setSharedOutputValue(transformed, `${label} text sent to output`);
+  return transformed;
+};
+
+extractIocsButton?.addEventListener("click", extractIocs);
+defangIocsButton?.addEventListener("click", () => transformIocText(defangIndicators, "Defanged"));
+refangIocsButton?.addEventListener("click", () => transformIocText(refangIndicators, "Refanged"));
+copyIocReportButton?.addEventListener("click", async () => {
+  if (!(iocOutput instanceof HTMLTextAreaElement)) return;
+  await copyTextToClipboard(iocOutput.value, copyIocReportButton, "Copy Report");
+});
+
+const toolRowsToText = (container) => {
+  if (!(container instanceof HTMLElement)) return "";
+
+  return Array.from(container.querySelectorAll(".tool-result-row"))
+    .map((row) => {
+      const label = row.querySelector("span")?.textContent?.trim() || "";
+      const value = row.querySelector("strong")?.textContent?.trim() || "";
+      return label && value ? `${label}: ${value}` : value || label;
+    })
+    .filter(Boolean)
+    .join("\n");
+};
+
+const getActiveToolId = () =>
+  toolWorkbench instanceof HTMLElement ? toolWorkbench.getAttribute("data-active-tool") || "password" : "password";
+
+const getToolDisplayName = (toolId) => {
+  const panel = toolPanels.find((item) => item instanceof HTMLElement && item.dataset.toolId === toolId);
+  return panel instanceof HTMLElement ? panel.dataset.toolTitle || toolId : toolId;
+};
+
+const toolAdapters = {
+  password: {
+    writeInput: (value) => {
+      if (passwordOutput instanceof HTMLTextAreaElement) {
+        passwordOutput.value = value;
+        renderPasswordStrength();
+      }
+    },
+    readOutput: () => (passwordOutput instanceof HTMLTextAreaElement ? passwordOutput.value : "")
+  },
+  subnet: {
+    writeInput: (value) => {
+      if (subnetInput instanceof HTMLInputElement) {
+        subnetInput.value = value.split(/\s+/)[0] || value;
+        renderSubnetResults();
+      }
+    },
+    readOutput: () => toolRowsToText(subnetResults)
+  },
+  alias: {
+    writeInput: (value) => {
+      const parts = value.trim().split(/\s+/).filter(Boolean);
+      if (aliasFirstName instanceof HTMLInputElement) aliasFirstName.value = parts[0] || "";
+      if (aliasLastName instanceof HTMLInputElement) aliasLastName.value = parts[1] || "";
+      if (aliasKeyword instanceof HTMLInputElement) aliasKeyword.value = parts.slice(2).join(" ");
+      generateAliasPersona();
+    },
+    readOutput: () => toolRowsToText(aliasResults)
+  },
+  hash: {
+    writeInput: async (value) => {
+      if (hashInput instanceof HTMLTextAreaElement) {
+        hashInput.value = value;
+        await renderHashResults();
+      }
+    },
+    readOutput: () => toolRowsToText(hashResults)
+  },
+  codec: {
+    writeInput: (value) => {
+      if (codecInput instanceof HTMLTextAreaElement) codecInput.value = value;
+    },
+    readOutput: () => (codecOutput instanceof HTMLTextAreaElement ? codecOutput.value : "")
+  },
+  ioc: {
+    writeInput: (value) => {
+      if (iocInput instanceof HTMLTextAreaElement) {
+        iocInput.value = value;
+        extractIocs();
+      }
+    },
+    readOutput: () => (iocOutput instanceof HTMLTextAreaElement ? iocOutput.value : "")
+  },
+  jwt: {
+    writeInput: (value) => {
+      if (jwtInput instanceof HTMLTextAreaElement) {
+        jwtInput.value = value;
+        decodeJwt();
+      }
+    },
+    readOutput: () => {
+      const rows = toolRowsToText(jwtResults);
+      const header = jwtHeaderOutput instanceof HTMLElement ? jwtHeaderOutput.textContent?.trim() || "" : "";
+      const payload = jwtPayloadOutput instanceof HTMLElement ? jwtPayloadOutput.textContent?.trim() || "" : "";
+      return [rows, header ? `Header\n${header}` : "", payload ? `Payload\n${payload}` : ""].filter(Boolean).join("\n\n");
+    }
+  },
+  file: {
+    readOutput: () => toolRowsToText(fileInspectorResults)
+  },
+  totp: {
+    writeInput: async (value) => {
+      if (totpSecret instanceof HTMLInputElement) {
+        totpSecret.value = value;
+        await startTotp();
+      }
+    },
+    readOutput: () => {
+      const code = totpOutput instanceof HTMLElement ? totpOutput.textContent?.trim() || "" : "";
+      const rows = toolRowsToText(totpResults);
+      return [code && code !== "------" ? `TOTP: ${code}` : "", rows].filter(Boolean).join("\n");
+    }
+  },
+  time: {
+    writeInput: (value) => {
+      if (timestampInput instanceof HTMLInputElement) {
+        timestampInput.value = value.split(/\n/)[0] || value;
+        convertTimestamp();
+      }
+    },
+    readOutput: () => toolRowsToText(timestampResults)
+  },
+  regex: {
+    writeInput: (value) => {
+      if (regexInput instanceof HTMLTextAreaElement) {
+        regexInput.value = value;
+        if (regexPattern instanceof HTMLInputElement && regexPattern.value.trim()) runRegexTest();
+      }
+    },
+    readOutput: () => toolRowsToText(regexResults)
+  }
+};
+
+const applySharedInputToActiveTool = async () => {
+  if (!(toolSharedInput instanceof HTMLTextAreaElement)) return;
+
+  const value = toolSharedInput.value;
+  if (!value.trim()) {
+    setWorkspaceStatus("Add shared input first");
+    return;
+  }
+
+  const toolId = getActiveToolId();
+  const adapter = toolAdapters[toolId];
+  if (!adapter?.writeInput) {
+    setWorkspaceStatus("Selected tool cannot use shared input");
+    return;
+  }
+
+  await adapter.writeInput(value);
+  setWorkspaceStatus(`Input sent to ${getToolDisplayName(toolId)}`);
+};
+
+const captureActiveToolOutput = () => {
+  const toolId = getActiveToolId();
+  const output = toolAdapters[toolId]?.readOutput?.() || "";
+
+  if (!output.trim()) {
+    setWorkspaceStatus("No active output to capture");
+    return;
+  }
+
+  setSharedOutputValue(output, `Captured ${getToolDisplayName(toolId)} output`);
+};
+
+if (toolSharedInput instanceof HTMLTextAreaElement) {
+  toolSharedInput.value = localStorage.getItem(SHARED_INPUT_KEY) || "";
+  toolSharedInput.addEventListener("input", () => {
+    localStorage.setItem(SHARED_INPUT_KEY, toolSharedInput.value);
+    setWorkspaceStatus("Input updated");
+  });
+}
+
+if (toolSharedOutput instanceof HTMLTextAreaElement) {
+  toolSharedOutput.value = localStorage.getItem(SHARED_OUTPUT_KEY) || "";
+  toolSharedOutput.addEventListener("input", () => {
+    localStorage.setItem(SHARED_OUTPUT_KEY, toolSharedOutput.value);
+    setWorkspaceStatus("Output updated");
+  });
+}
+
+toolWorkspaceUseInput?.addEventListener("click", () => {
+  void applySharedInputToActiveTool();
+});
+
+toolWorkspaceCaptureOutput?.addEventListener("click", captureActiveToolOutput);
+
+toolWorkspaceOutputToInput?.addEventListener("click", () => {
+  if (!(toolSharedOutput instanceof HTMLTextAreaElement)) return;
+  if (!toolSharedOutput.value.trim()) {
+    setWorkspaceStatus("No shared output to promote");
+    return;
+  }
+  setSharedInputValue(toolSharedOutput.value);
+  setWorkspaceStatus("Output moved to input");
+});
+
+toolWorkspaceCopyOutput?.addEventListener("click", async () => {
+  if (!(toolSharedOutput instanceof HTMLTextAreaElement)) return;
+  await copyTextToClipboard(toolSharedOutput.value, toolWorkspaceCopyOutput, "Copy Output");
+});
+
+toolWorkspaceClear?.addEventListener("click", () => {
+  setSharedInputValue("");
+  setSharedOutputValue("", "Workspace cleared");
+});
+
+const renderToolContext = (panel) => {
+  if (!(panel instanceof HTMLElement)) return;
+
+  if (toolContextMode) toolContextMode.textContent = panel.dataset.toolMode || "Tool";
+  if (toolContextTitle) toolContextTitle.textContent = panel.dataset.toolTitle || "Selected Tool";
+  if (toolContextFlow) toolContextFlow.textContent = panel.dataset.toolFlow || "";
+  if (toolContextAction) toolContextAction.textContent = panel.dataset.toolAction || "Run";
+
+  if (toolContextSettings) {
+    const settings = (panel.dataset.toolSettings || "")
+      .split(",")
+      .map((item) => item.trim())
+      .filter(Boolean);
+
+    toolContextSettings.innerHTML = settings.map((item) => `<span>${escapeHtml(item)}</span>`).join("");
+  }
+};
+
+const setActiveTool = (toolId, options = {}) => {
+  const activePanel =
+    toolPanels.find((panel) => panel instanceof HTMLElement && panel.dataset.toolId === toolId) || toolPanels[0];
+
+  if (!(activePanel instanceof HTMLElement)) return;
+
+  const activeToolId = activePanel.dataset.toolId || "";
+  toolWorkbench?.setAttribute("data-active-tool", activeToolId);
+
+  toolPanels.forEach((panel) => {
+    if (!(panel instanceof HTMLElement)) return;
+    const isActive = panel === activePanel;
+    panel.classList.toggle("is-active", isActive);
+    panel.hidden = !isActive;
+  });
+
+  toolNavButtons.forEach((button) => {
+    if (!(button instanceof HTMLButtonElement)) return;
+    const isActive = button.dataset.toolTarget === activeToolId;
+    button.classList.toggle("is-active", isActive);
+    button.setAttribute("aria-selected", String(isActive));
+    button.tabIndex = isActive ? 0 : -1;
+  });
+
+  renderToolContext(activePanel);
+
+  if (options.persist !== false) {
+    localStorage.setItem("active-tool", activeToolId);
+  }
+
+  if (options.focusPanel) {
+    activePanel.focus({ preventScroll: true });
+  }
+};
+
+toolNav?.addEventListener("click", (event) => {
+  const button = event.target instanceof Element ? event.target.closest("[data-tool-target]") : null;
+  if (!(button instanceof HTMLButtonElement)) return;
+  setActiveTool(button.dataset.toolTarget || "", { focusPanel: false });
+});
+
+toolNav?.addEventListener("keydown", (event) => {
+  const keys = ["ArrowDown", "ArrowRight", "ArrowUp", "ArrowLeft", "Home", "End"];
+  if (!keys.includes(event.key)) return;
+
+  const currentIndex = toolNavButtons.findIndex((button) => button === document.activeElement);
+  if (currentIndex < 0) return;
+
+  event.preventDefault();
+
+  let nextIndex = currentIndex;
+  if (event.key === "Home") nextIndex = 0;
+  else if (event.key === "End") nextIndex = toolNavButtons.length - 1;
+  else if (event.key === "ArrowDown" || event.key === "ArrowRight") nextIndex = (currentIndex + 1) % toolNavButtons.length;
+  else nextIndex = (currentIndex - 1 + toolNavButtons.length) % toolNavButtons.length;
+
+  const nextButton = toolNavButtons[nextIndex];
+  if (!(nextButton instanceof HTMLButtonElement)) return;
+
+  nextButton.focus();
+  setActiveTool(nextButton.dataset.toolTarget || "");
+});
+
+const savedTool = localStorage.getItem("active-tool");
+const initialTool =
+  toolPanels.some((panel) => panel instanceof HTMLElement && panel.dataset.toolId === savedTool)
+    ? savedTool
+    : toolWorkbench instanceof HTMLElement
+      ? toolWorkbench.dataset.activeTool
+      : "";
+setActiveTool(initialTool || "password", { persist: false });
+
 const writeupSearch = document.getElementById("writeup-search");
 const writeupFilterClear = document.getElementById("writeup-filter-clear");
 const compactMobileQuery = window.matchMedia("(max-width: 960px)");
@@ -2110,6 +2684,7 @@ const syncHeaderOffset = () => {
 
 const syncViewportMode = () => {
   document.body.classList.toggle("mobile-lite", compactMobileQuery.matches);
+  toolNav?.setAttribute("aria-orientation", compactMobileQuery.matches ? "horizontal" : "vertical");
   syncHeaderOffset();
   if (!compactMobileQuery.matches) {
     setActiveNavLink("");
