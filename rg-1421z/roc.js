@@ -52,8 +52,7 @@ const monitoringPosts = [
     number: "62",
     lat: 51.553,
     lon: -0.418,
-    status: "Opened 1967, closed 1991",
-    note: "SubBrit records the post on RAF Northolt, and the local ROC map places Northolt inside the London boundary."
+    status: "Opened 1967, closed 1991"
   },
   {
     id: "p-bowes-park",
@@ -62,8 +61,7 @@ const monitoringPosts = [
     number: "61",
     lat: 51.594,
     lon: -0.125,
-    status: "Opened 1964, closed 1991",
-    note: "SubBrit records the post north of Alexandra Palace Way on public open ground."
+    status: "Opened 1964, closed 1991"
   },
   {
     id: "p-dulwich",
@@ -73,33 +71,32 @@ const monitoringPosts = [
     lat: 51.437,
     lon: -0.071,
     status: "Opened 1965, closed 1991",
-    note: "SubBrit records the post on Dulwich and Sydenham Hill Golf Course."
   },
-  { id: "p-dover", name: "Dover ROC Post", group: "1", number: "7", lat: 51.128, lon: 1.315, status: "Publicly listed ROC post", note: "Representative Maidstone group coastal post from the public ROC post index." },
-  { id: "p-new-buckenham", name: "New Buckenham ROC Post", group: "6", number: "39", lat: 52.47, lon: 1.07, status: "Publicly listed ROC post", note: "Representative Norwich group post placed inland to avoid the coastal SVG edge." },
-  { id: "p-olney", name: "Olney ROC Post", group: "7", number: "35", lat: 52.156, lon: -0.704, status: "Opened 1964, closed 1991", note: "Local history records the Sherington / Olney post near Chicheley Hill." },
-  { id: "p-meriden", name: "Meriden ROC Post", group: "8", number: "31", lat: 52.431, lon: -1.638, status: "Opened 1965, closed 1991", note: "SubBrit records the post near Showell Lane and the A45 junction." },
-  { id: "p-okehampton", name: "Okehampton ROC Post", group: "10", number: "18", lat: 50.738, lon: -4.003, status: "Publicly listed ROC post", note: "Representative Devon post from the public ROC post index." },
-  { id: "p-nanpean", name: "Nanpean ROC Post", group: "11", number: "44", lat: 50.368, lon: -4.867, status: "Publicly listed ROC post", note: "Representative Cornwall post placed inland from the north coast." },
-  { id: "p-long-ashton", name: "Long Ashton ROC Post", group: "12", number: "23", lat: 51.428, lon: -2.667, status: "Publicly listed ROC post", note: "Representative Bristol group post west of the city." },
-  { id: "p-carmarthen", name: "Carmarthen ROC Post", group: "13", number: "38", lat: 51.855, lon: -4.307, status: "Publicly listed ROC post", note: "Representative South Wales group post from the public ROC post index." },
-  { id: "p-overton-hants", name: "Overton ROC Post", group: "14", number: "20", lat: 51.244, lon: -1.263, status: "Publicly listed ROC post", note: "Representative Winchester group post west of Basingstoke." },
-  { id: "p-hackthorn", name: "Hackthorn ROC Post", group: "15", number: "41", lat: 53.333, lon: -0.504, status: "Publicly listed ROC post", note: "Representative Lincolnshire post from the public ROC post index." },
-  { id: "p-upton-magna", name: "Upton Magna ROC Post", group: "16", number: "19", lat: 52.711, lon: -2.665, status: "Publicly listed ROC post", note: "Representative Shrewsbury group post east of Shrewsbury." },
-  { id: "p-llanrhaiadr", name: "Llanrhaiadr ROC Post", group: "17", number: "24", lat: 52.85, lon: -3.3, status: "Publicly listed ROC post", note: "Representative North Wales group post placed inland from the Llyn Peninsula." },
-  { id: "p-skipsea", name: "Skipsea ROC Post", group: "20", number: "21", lat: 53.9783, lon: -0.2203, status: "Opened 1959, closed 1991", note: "York Group post 21 on the Ringbell ROC York map; SubBrit records the site east of Hornsea Road." },
-  { id: "p-keyingham", name: "Keyingham ROC Post", group: "20", number: "56", lat: 53.7135, lon: -0.1125, status: "Opened 1965, closed 1991", note: "York Group post 56 on the Ringbell ROC York map; SubBrit records the site on the west side of Dam Lane." },
-  { id: "p-skirlaugh", name: "Skirlaugh ROC Post", group: "20", number: "57", lat: 53.8394, lon: -0.2664, status: "Opened 1959, closed 1991", note: "York Group post 57 on the Ringbell ROC York map; SubBrit records the site near Rowton Farm." },
-  { id: "p-burscough", name: "Burscough ROC Post", group: "21", number: "11", lat: 53.598, lon: -2.853, status: "Opened 1962, closed 1991", note: "SubBrit records the post on the north side of Pippin Street near the former Royal Navy airfield." },
-  { id: "p-brampton", name: "Brampton ROC Post", group: "22", number: "8", lat: 54.943, lon: -2.739, status: "Opened 1959, closed 1991", note: "SubBrit records the post near Gelt Road, Brampton." },
-  { id: "p-stanhope", name: "Stanhope ROC Post", group: "23", number: "27", lat: 54.748, lon: -2.009, status: "Publicly listed ROC post", note: "Representative Durham group post in upper Weardale." },
-  { id: "p-penicuik", name: "Penicuik ROC Post", group: "24", number: "12", lat: 55.831, lon: -3.223, status: "Publicly listed ROC post", note: "Representative Edinburgh group post placed inland from the Forth coast." },
-  { id: "p-prestwick", name: "Prestwick ROC Post", group: "25", number: "36", lat: 55.496, lon: -4.611, status: "Publicly listed ROC post", note: "Representative Ayr group post in the Prestwick area." },
-  { id: "p-oban", name: "Oban ROC Post", group: "27", number: "7", lat: 56.415, lon: -5.472, status: "Opened 1960, closed 1968", note: "SubBrit records the post near the Cnoc Carnach trig station." },
-  { id: "p-forfar", name: "Forfar ROC Post", group: "28", number: "29", lat: 56.644, lon: -2.889, status: "Publicly listed ROC post", note: "Representative Dundee group post in Angus." },
-  { id: "p-kintore", name: "Kintore ROC Post", group: "29", number: "6", lat: 57.237, lon: -2.346, status: "Publicly listed ROC post", note: "Representative Aberdeen group post placed inland from the exposed east coast." },
-  { id: "p-cannich", name: "Cannich ROC Post", group: "30", number: "14", lat: 57.349, lon: -4.762, status: "Publicly listed ROC post", note: "Representative Inverness group post placed inland in the Highland area." },
-  { id: "p-hillsborough", name: "Hillsborough ROC Post", group: "31", number: "51", lat: 54.463, lon: -6.083, status: "Publicly listed ROC post", note: "Representative Belfast group post placed inland from the lough edge." }
+  { id: "p-dover", name: "Dover ROC Post", group: "1", number: "7", lat: 51.128, lon: 1.315, status: "Publicly listed ROC post" },
+  { id: "p-new-buckenham", name: "New Buckenham ROC Post", group: "6", number: "39", lat: 52.47, lon: 1.07, status: "Publicly listed ROC post" },
+  { id: "p-olney", name: "Olney ROC Post", group: "7", number: "35", lat: 52.156, lon: -0.704, status: "Opened 1964, closed 1991" },
+  { id: "p-meriden", name: "Meriden ROC Post", group: "8", number: "31", lat: 52.431, lon: -1.638, status: "Opened 1965, closed 1991" },
+  { id: "p-okehampton", name: "Okehampton ROC Post", group: "10", number: "18", lat: 50.738, lon: -4.003, status: "Publicly listed ROC post" },
+  { id: "p-nanpean", name: "Nanpean ROC Post", group: "11", number: "44", lat: 50.368, lon: -4.867, status: "Publicly listed ROC post" },
+  { id: "p-long-ashton", name: "Long Ashton ROC Post", group: "12", number: "23", lat: 51.428, lon: -2.667, status: "Publicly listed ROC post" },
+  { id: "p-carmarthen", name: "Carmarthen ROC Post", group: "13", number: "38", lat: 51.855, lon: -4.307, status: "Publicly listed ROC post" },
+  { id: "p-overton-hants", name: "Overton ROC Post", group: "14", number: "20", lat: 51.244, lon: -1.263, status: "Publicly listed ROC post" },
+  { id: "p-hackthorn", name: "Hackthorn ROC Post", group: "15", number: "41", lat: 53.333, lon: -0.504, status: "Publicly listed ROC post" },
+  { id: "p-upton-magna", name: "Upton Magna ROC Post", group: "16", number: "19", lat: 52.711, lon: -2.665, status: "Publicly listed ROC post" },
+  { id: "p-llanrhaiadr", name: "Llanrhaiadr ROC Post", group: "17", number: "24", lat: 52.85, lon: -3.3, status: "Publicly listed ROC post" },
+  { id: "p-skipsea", name: "Skipsea ROC Post", group: "20", number: "21", lat: 53.9783, lon: -0.2203, status: "Opened 1959, closed 1991" },
+  { id: "p-keyingham", name: "Keyingham ROC Post", group: "20", number: "56", lat: 53.7135, lon: -0.1125, status: "Opened 1965, closed 1991" },
+  { id: "p-skirlaugh", name: "Skirlaugh ROC Post", group: "20", number: "57", lat: 53.8394, lon: -0.2664, status: "Opened 1959, closed 1991" },
+  { id: "p-burscough", name: "Burscough ROC Post", group: "21", number: "11", lat: 53.598, lon: -2.853, status: "Opened 1962, closed 1991" },
+  { id: "p-brampton", name: "Brampton ROC Post", group: "22", number: "8", lat: 54.943, lon: -2.739, status: "Opened 1959, closed 1991" },
+  { id: "p-stanhope", name: "Stanhope ROC Post", group: "23", number: "27", lat: 54.748, lon: -2.009, status: "Publicly listed ROC post" },
+  { id: "p-penicuik", name: "Penicuik ROC Post", group: "24", number: "12", lat: 55.831, lon: -3.223, status: "Publicly listed ROC post" },
+  { id: "p-prestwick", name: "Prestwick ROC Post", group: "25", number: "36", lat: 55.496, lon: -4.611, status: "Publicly listed ROC post" },
+  { id: "p-oban", name: "Oban ROC Post", group: "27", number: "7", lat: 56.415, lon: -5.472, status: "Opened 1960, closed 1968" },
+  { id: "p-forfar", name: "Forfar ROC Post", group: "28", number: "29", lat: 56.644, lon: -2.889, status: "Publicly listed ROC post" },
+  { id: "p-kintore", name: "Kintore ROC Post", group: "29", number: "6", lat: 57.237, lon: -2.346, status: "Publicly listed ROC post" },
+  { id: "p-cannich", name: "Cannich ROC Post", group: "30", number: "14", lat: 57.349, lon: -4.762, status: "Publicly listed ROC post" },
+  { id: "p-hillsborough", name: "Hillsborough ROC Post", group: "31", number: "51", lat: 54.463, lon: -6.083, status: "Publicly listed ROC post" }
 ];
 
 const state = {
@@ -281,7 +278,6 @@ const renderSelected = () => {
       <div><dt>Status</dt><dd>${site.status || site.sector}</dd></div>
       <div><dt>Source</dt><dd>${source}</dd></div>
     </dl>
-    <p>${site.note || "Town-level coordinate used for this prototype plot."}</p>
   `;
 };
 
