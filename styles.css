@@ -87,6 +87,546 @@ a {
   overflow: clip;
 }
 
+.roc-page {
+  min-height: 100svh;
+  overflow-x: hidden;
+  background:
+    linear-gradient(rgba(110, 242, 199, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(110, 242, 199, 0.026) 1px, transparent 1px),
+    radial-gradient(circle at 74% 8%, rgba(110, 242, 199, 0.13), transparent 23%),
+    radial-gradient(circle at 18% 12%, rgba(255, 100, 100, 0.07), transparent 19%),
+    linear-gradient(180deg, #080b0d 0%, #020405 44%, #000101 100%);
+  background-size: 4.6rem 4.6rem, 4.6rem 4.6rem, auto, auto, auto;
+}
+
+.roc-page::before {
+  opacity: 0.58;
+}
+
+.roc-shell {
+  position: relative;
+  display: grid;
+  gap: clamp(3rem, 7vw, 6.5rem);
+  width: min(1220px, calc(100vw - 2rem));
+  margin: 0 auto;
+  padding: clamp(1rem, 3vw, 2.2rem) 0 clamp(2rem, 5vw, 4rem);
+}
+
+.roc-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(17rem, 0.55fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  align-items: end;
+  min-height: min(42rem, 82svh);
+  padding-top: clamp(5rem, 9vw, 8rem);
+}
+
+.roc-brand {
+  position: absolute;
+  top: clamp(1rem, 3vw, 2rem);
+  left: 0;
+  display: inline-flex;
+  gap: 0.65rem;
+  align-items: center;
+  color: rgba(242, 247, 251, 0.72);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.roc-brand img {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+
+.roc-hero-copy {
+  display: grid;
+  gap: 1.2rem;
+  max-width: 48rem;
+}
+
+.roc-kicker {
+  margin: 0;
+  color: var(--accent);
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.roc-hero h1,
+.roc-section-heading h2,
+.roc-process h2,
+.roc-sources h2 {
+  margin: 0;
+  font-family: "Space Grotesk", sans-serif;
+  letter-spacing: 0;
+}
+
+.roc-hero h1 {
+  max-width: 11ch;
+  font-size: clamp(4rem, 11vw, 8.25rem);
+  line-height: 0.88;
+}
+
+.roc-hero-copy > p:last-child {
+  max-width: 42rem;
+  margin: 0;
+  color: rgba(242, 247, 251, 0.78);
+  font-size: clamp(1rem, 1.65vw, 1.22rem);
+  line-height: 1.72;
+}
+
+.roc-facts {
+  display: grid;
+  gap: 1rem;
+}
+
+.roc-facts div {
+  display: grid;
+  gap: 0.25rem;
+  padding-block: 1rem;
+  border-top: 1px solid rgba(242, 247, 251, 0.14);
+}
+
+.roc-facts strong {
+  color: var(--accent);
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(2rem, 4.3vw, 3.4rem);
+  line-height: 0.95;
+}
+
+.roc-facts span {
+  color: rgba(242, 247, 251, 0.7);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.roc-map-section,
+.roc-operator,
+.roc-process,
+.roc-sources {
+  display: grid;
+  gap: 1.35rem;
+}
+
+.roc-section-heading {
+  display: grid;
+  gap: 0.65rem;
+  max-width: 54rem;
+}
+
+.roc-section-heading h2,
+.roc-process h2,
+.roc-sources h2 {
+  font-size: clamp(2.15rem, 4.8vw, 4.5rem);
+  line-height: 0.98;
+}
+
+.roc-section-heading p:last-child,
+.roc-process span,
+.roc-sources p {
+  margin: 0;
+  color: rgba(242, 247, 251, 0.72);
+  line-height: 1.65;
+}
+
+.roc-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(19rem, 0.38fr);
+  gap: 1rem;
+  align-items: stretch;
+}
+
+.roc-map-panel,
+.roc-inspector,
+.roc-operator,
+.roc-process,
+.roc-sources {
+  border: 1px solid rgba(242, 247, 251, 0.12);
+  background: rgba(1, 4, 5, 0.64);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(18px);
+}
+
+.roc-map-panel {
+  position: relative;
+  min-height: 40rem;
+  overflow: hidden;
+}
+
+.roc-map {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 40rem;
+}
+
+.roc-map-grid {
+  fill: none;
+  stroke: rgba(242, 247, 251, 0.045);
+  stroke-width: 1;
+}
+
+.roc-uk-map-image {
+  opacity: 0.78;
+  pointer-events: none;
+  filter: drop-shadow(0 0 16px rgba(110, 242, 199, 0.14));
+}
+
+.roc-link {
+  stroke: rgba(110, 242, 199, 0.16);
+  stroke-width: 1;
+}
+
+.roc-point {
+  cursor: pointer;
+  outline: none;
+}
+
+.roc-point circle {
+  fill: rgba(242, 247, 251, 0.8);
+  stroke: #020405;
+  stroke-width: 1.6;
+  transition: transform 150ms ease, fill 150ms ease, stroke 150ms ease;
+}
+
+.roc-point text {
+  fill: rgba(242, 247, 251, 0.8);
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.62rem;
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: #020405;
+  stroke-width: 3px;
+}
+
+.roc-point-control circle {
+  fill: var(--accent);
+}
+
+.roc-point-post circle {
+  fill: rgba(255, 100, 100, 0.86);
+}
+
+.roc-point:hover circle,
+.roc-point:focus-visible circle,
+.roc-point.is-selected circle {
+  fill: #f2f7fb;
+  stroke: var(--accent);
+  transform: scale(1.45);
+}
+
+.roc-inspector {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+  padding: 1rem;
+}
+
+.roc-layer-controls {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.55rem;
+}
+
+.roc-toggle {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  border: 1px solid rgba(242, 247, 251, 0.12);
+  color: rgba(242, 247, 251, 0.72);
+  background: rgba(255, 255, 255, 0.035);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.roc-toggle {
+  min-height: 2.8rem;
+  padding: 0.7rem 0.8rem;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.roc-toggle.is-active {
+  border-color: rgba(110, 242, 199, 0.36);
+  color: var(--text);
+  background: rgba(110, 242, 199, 0.1);
+}
+
+.roc-toggle:hover,
+.roc-toggle:focus-visible {
+  border-color: rgba(110, 242, 199, 0.42);
+  outline: none;
+}
+
+.roc-selected {
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+  border: 1px solid rgba(242, 247, 251, 0.1);
+  background: rgba(0, 1, 1, 0.28);
+}
+
+.roc-selected h3 {
+  margin: 0;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.35rem;
+  line-height: 1.05;
+}
+
+.roc-selected dl {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0;
+}
+
+.roc-selected dl div {
+  display: grid;
+  grid-template-columns: minmax(4.25rem, 0.4fr) minmax(0, 1fr);
+  gap: 0.7rem;
+}
+
+.roc-selected dt,
+.roc-selected dd {
+  margin: 0;
+}
+
+.roc-selected dt {
+  color: rgba(150, 163, 170, 0.9);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.roc-selected dd,
+.roc-selected p {
+  color: rgba(242, 247, 251, 0.74);
+  line-height: 1.55;
+}
+
+.roc-selected p {
+  margin: 0;
+}
+
+.roc-operator {
+  grid-template-columns: minmax(0, 0.52fr) minmax(0, 1fr);
+  gap: clamp(1rem, 3vw, 2rem);
+  padding: clamp(1rem, 3vw, 1.6rem);
+}
+
+.roc-operator-heading {
+  display: grid;
+  align-content: start;
+  gap: 0.75rem;
+}
+
+.roc-operator-heading h2 {
+  margin: 0;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(2rem, 4vw, 3.6rem);
+  line-height: 0.98;
+}
+
+.roc-operator-heading p:last-child {
+  margin: 0;
+  color: rgba(242, 247, 251, 0.72);
+  line-height: 1.6;
+}
+
+.roc-calculator,
+.roc-report-grid {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.roc-report-row {
+  display: grid;
+  grid-template-columns: minmax(5rem, 0.2fr) minmax(12rem, 1fr) minmax(8rem, 0.28fr);
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.roc-report-row > span {
+  color: rgba(242, 247, 251, 0.62);
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.roc-report-row select,
+.roc-report-row input {
+  min-width: 0;
+  min-height: 2.9rem;
+  border: 1px solid rgba(242, 247, 251, 0.13);
+  border-radius: 0;
+  background: rgba(2, 4, 5, 0.82);
+  color: var(--text);
+  font: inherit;
+  outline: none;
+  padding: 0.7rem 0.75rem;
+}
+
+.roc-report-row select:focus,
+.roc-report-row input:focus {
+  border-color: rgba(110, 242, 199, 0.5);
+}
+
+.roc-calculator-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.roc-calc-button {
+  min-height: 2.8rem;
+  border: 1px solid rgba(110, 242, 199, 0.36);
+  border-radius: 0;
+  background: rgba(110, 242, 199, 0.12);
+  color: var(--text);
+  cursor: pointer;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 0.7rem 0.9rem;
+  text-transform: uppercase;
+}
+
+.roc-calc-button.is-secondary {
+  border-color: rgba(242, 247, 251, 0.13);
+  background: rgba(242, 247, 251, 0.04);
+  color: rgba(242, 247, 251, 0.72);
+}
+
+.roc-calc-output {
+  display: grid;
+  min-height: 5rem;
+  gap: 0.75rem;
+  align-content: center;
+  border: 1px solid rgba(242, 247, 251, 0.1);
+  background: rgba(2, 4, 5, 0.52);
+  color: rgba(242, 247, 251, 0.72);
+  padding: 1rem;
+}
+
+.roc-calc-output[data-tone="warn"] {
+  border-color: rgba(255, 100, 100, 0.42);
+  color: rgba(255, 185, 185, 0.9);
+}
+
+.roc-calc-output[data-tone="ready"] {
+  border-color: rgba(110, 242, 199, 0.3);
+}
+
+.roc-calc-result,
+.roc-calc-pairs {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.roc-calc-result div,
+.roc-calc-pairs div {
+  display: grid;
+  grid-template-columns: minmax(7rem, 0.36fr) minmax(0, 1fr);
+  gap: 0.75rem;
+}
+
+.roc-calc-result span,
+.roc-calc-pairs span {
+  color: rgba(150, 163, 170, 0.9);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.roc-calc-result strong,
+.roc-calc-pairs strong {
+  color: var(--accent);
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+}
+
+.roc-process,
+.roc-sources {
+  padding: clamp(1rem, 3vw, 1.6rem);
+}
+
+.roc-process {
+  grid-template-columns: minmax(0, 0.7fr) minmax(0, 1fr);
+  gap: clamp(1.2rem, 4vw, 3rem);
+}
+
+.roc-process ol {
+  display: grid;
+  gap: 0.9rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.roc-process li {
+  display: grid;
+  grid-template-columns: minmax(8rem, 0.36fr) minmax(0, 1fr);
+  gap: 1rem;
+  padding-block: 0.9rem;
+  border-bottom: 1px solid rgba(242, 247, 251, 0.1);
+}
+
+.roc-process li:last-child {
+  border-bottom: 0;
+}
+
+.roc-process strong {
+  color: var(--accent);
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.roc-sources {
+  max-width: 62rem;
+}
+
+.roc-sources ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.roc-sources a {
+  display: inline-flex;
+  min-height: 2.45rem;
+  align-items: center;
+  border: 1px solid rgba(242, 247, 251, 0.12);
+  padding: 0.58rem 0.72rem;
+  color: rgba(242, 247, 251, 0.76);
+  background: rgba(255, 255, 255, 0.035);
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.roc-sources a:hover,
+.roc-sources a:focus-visible {
+  border-color: rgba(110, 242, 199, 0.42);
+  color: var(--accent);
+  outline: none;
+}
+
 .site-header,
 .hero,
 .section,
@@ -1066,7 +1606,7 @@ body.light-mode .tool-nav-button.is-active {
 
 .tool-shared-workspace {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(9rem, 10.5rem);
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(8.5rem, 9.75rem);
   grid-template-areas: "shared-input shared-output shared-actions";
   gap: 1rem;
   align-items: stretch;
@@ -1124,15 +1664,19 @@ body.light-mode .tool-shared-workspace {
 
 .tool-shared-actions .action {
   width: 100%;
-  min-height: 2.45rem;
+  min-height: 2.65rem;
   justify-content: center;
   padding: 0.52rem 0.75rem;
   font-size: 0.84rem;
 }
 
 .tool-shared-workspace .tool-textarea {
-  min-height: 7.4rem;
+  min-height: 10.5rem;
   resize: vertical;
+}
+
+.tool-unified-hidden {
+  display: none !important;
 }
 
 .tool-grid {
@@ -2426,7 +2970,7 @@ body.motion-ready [data-reveal].is-visible {
   }
 
   .tool-shared-workspace {
-    grid-template-columns: minmax(0, 1fr) minmax(8.75rem, 10rem);
+    grid-template-columns: minmax(0, 1fr) minmax(8.25rem, 9.75rem);
     grid-template-areas:
       "shared-input shared-actions"
       "shared-output shared-actions";
@@ -2787,7 +3331,7 @@ body.motion-ready [data-reveal].is-visible {
 
   body.mobile-lite .tool-shared-actions {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     width: 100%;
     min-width: 0;
     gap: 0.6rem;
@@ -2799,12 +3343,8 @@ body.motion-ready [data-reveal].is-visible {
     padding-inline: 0.6rem;
   }
 
-  body.mobile-lite .tool-shared-actions .action:last-child {
-    grid-column: 1 / -1;
-  }
-
   body.mobile-lite .tool-shared-workspace .tool-textarea {
-    min-height: 6.5rem;
+    min-height: 8.5rem;
   }
 
   body.mobile-lite .tool-shared-heading {
@@ -3031,6 +3571,61 @@ body.motion-ready [data-reveal].is-visible {
 }
 
 @media (max-width: 620px) {
+  .roc-shell {
+    width: min(100% - 1rem, 1220px);
+    gap: 2.6rem;
+    padding-top: 0.75rem;
+  }
+
+  .roc-hero,
+  .roc-workspace,
+  .roc-operator,
+  .roc-process {
+    grid-template-columns: 1fr;
+  }
+
+  .roc-hero {
+    min-height: auto;
+    padding-top: 5.5rem;
+  }
+
+  .roc-hero h1 {
+    font-size: clamp(3.25rem, 16vw, 5rem);
+  }
+
+  .roc-facts {
+    grid-template-columns: 1fr;
+  }
+
+  .roc-map-panel {
+    min-height: 33rem;
+  }
+
+  .roc-map {
+    min-height: 33rem;
+  }
+
+  .roc-layer-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .roc-selected dl div,
+  .roc-report-row,
+  .roc-calc-result div,
+  .roc-calc-pairs div,
+  .roc-process li {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+
+  .roc-sources ul {
+    display: grid;
+  }
+
+  .roc-sources a {
+    width: 100%;
+  }
+
   .section-intro h2,
   .contact-copy h2,
   .feature-title {

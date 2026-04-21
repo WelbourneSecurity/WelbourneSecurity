@@ -1065,6 +1065,59 @@ const clearToolContainer = (container) => {
   }
 };
 
+const toolRowsToText = (container) => {
+  if (!(container instanceof HTMLElement)) return "";
+
+  return Array.from(container.querySelectorAll(".tool-result-row"))
+    .map((row) => {
+      const label = row.querySelector("span")?.textContent?.trim() || "";
+      const value = row.querySelector("strong")?.textContent?.trim() || "";
+      return label && value ? `${label}: ${value}` : value || label;
+    })
+    .filter(Boolean)
+    .join("\n");
+};
+
+const getWorkbenchInput = () => {
+  const input = document.getElementById("tool-shared-input");
+  return input instanceof HTMLTextAreaElement ? input.value : "";
+};
+
+const getWorkbenchOutput = () => {
+  const output = document.getElementById("tool-shared-output");
+  return output instanceof HTMLTextAreaElement ? output.value : "";
+};
+
+const setWorkbenchStatus = (message) => {
+  const status = document.getElementById("tool-shared-status");
+  if (status instanceof HTMLElement) {
+    status.textContent = message;
+  }
+};
+
+const setWorkbenchInput = (value) => {
+  const input = document.getElementById("tool-shared-input");
+  if (!(input instanceof HTMLTextAreaElement)) return;
+
+  input.value = value;
+  localStorage.setItem("tool-shared-input", value);
+};
+
+const setWorkbenchOutput = (value, status = "Output updated") => {
+  const output = document.getElementById("tool-shared-output");
+  if (!(output instanceof HTMLTextAreaElement)) return;
+
+  output.value = value;
+  localStorage.setItem("tool-shared-output", value);
+  setWorkbenchStatus(status);
+};
+
+const setWorkbenchOutputFromRows = (container, status = "Output updated") => {
+  const output = toolRowsToText(container);
+  setWorkbenchOutput(output, status);
+  return output;
+};
+
 const setButtonFeedback = (button, label, fallback = null, delay = 1200) => {
   if (!(button instanceof HTMLElement)) return;
 
@@ -1297,13 +1350,14 @@ const updatePasswordLengthLabel = () => {
   }
 };
 
-const generatePassword = () => {
+const generatePassword = ({ publish = true } = {}) => {
   if (!(passwordOutput instanceof HTMLTextAreaElement)) return;
 
   const groups = getPasswordGroups();
   if (!groups.length) {
     passwordOutput.value = "";
     setToolError(passwordStrengthResults, "Select at least one character set.");
+    if (publish) setWorkbenchOutput("", "Select a password character set");
     return;
   }
 
@@ -1326,13 +1380,14 @@ const generatePassword = () => {
 
   passwordOutput.value = combined.join("");
   renderPasswordStrength();
+  if (publish) setWorkbenchOutput(passwordOutput.value, "Password generated");
 };
 
 generatePasswordButton?.addEventListener("click", generatePassword);
 
 copyPasswordButton?.addEventListener("click", async () => {
   if (!(passwordOutput instanceof HTMLTextAreaElement)) return;
-  await copyTextToClipboard(passwordOutput.value.trim(), copyPasswordButton, "Copy");
+  await copyTextToClipboard(getWorkbenchOutput().trim() || passwordOutput.value.trim(), copyPasswordButton, "Copy");
 });
 
 const subnetInput = document.getElementById("subnet-input");
@@ -1356,10 +1411,16 @@ const cidrToMask = (cidr) => (cidr === 0 ? 0 : ((0xffffffff << (32 - cidr)) >>> 
 const renderSubnetResults = () => {
   if (!(subnetInput instanceof HTMLInputElement) || !(subnetResults instanceof HTMLElement)) return;
 
+  const sharedSource = getWorkbenchInput().trim();
+  if (sharedSource) {
+    subnetInput.value = sharedSource.split(/\s+/)[0] || sharedSource;
+  }
+
   const raw = subnetInput.value.trim();
   const match = raw.match(/^(\d{1,3}(?:\.\d{1,3}){3})\/(\d|[12]\d|3[0-2])$/);
   if (!match) {
     setToolError(subnetResults, "Enter a valid IPv4 CIDR such as 192.168.1.10/24.");
+    setWorkbenchOutput("", "CIDR input needed");
     return;
   }
 
@@ -1367,6 +1428,7 @@ const renderSubnetResults = () => {
   const cidr = Number(match[2]);
   if (address === null) {
     setToolError(subnetResults, "The IPv4 address is not valid.");
+    setWorkbenchOutput("", "CIDR input invalid");
     return;
   }
 
@@ -1388,6 +1450,7 @@ const renderSubnetResults = () => {
     { label: "Usable Hosts", value: formatNumber(usableHosts) },
     { label: "Total Addresses", value: formatNumber(totalAddresses) }
   ]);
+  setWorkbenchOutputFromRows(subnetResults, "CIDR output updated");
 };
 
 calculateSubnetButton?.addEventListener("click", renderSubnetResults);
@@ -1411,7 +1474,7 @@ if (passwordLength instanceof HTMLInputElement) {
 });
 
 passwordOutput?.addEventListener("input", renderPasswordStrength);
-generatePassword();
+generatePassword({ publish: false });
 
 const aliasFirstName = document.getElementById("alias-first-name");
 const aliasLastName = document.getElementById("alias-last-name");
@@ -1426,13 +1489,37 @@ const randomAliasKeyword = () =>
   sanitizeAliasPart(randomItem(["intel", "ghost", "labs", "cipher", "vector", "signal", "osint", "ops"]));
 
 const fillRandomAliasSeed = () => {
-  if (aliasFirstName instanceof HTMLInputElement) aliasFirstName.value = randomItem(personaNames.firstNames);
-  if (aliasLastName instanceof HTMLInputElement) aliasLastName.value = randomItem(personaNames.lastNames);
-  if (aliasKeyword instanceof HTMLInputElement) aliasKeyword.value = randomAliasKeyword();
+  const first = randomItem(personaNames.firstNames);
+  const last = randomItem(personaNames.lastNames);
+  const keyword = randomAliasKeyword();
+
+  if (aliasFirstName instanceof HTMLInputElement) aliasFirstName.value = first;
+  if (aliasLastName instanceof HTMLInputElement) aliasLastName.value = last;
+  if (aliasKeyword instanceof HTMLInputElement) aliasKeyword.value = keyword;
+
+  return `${first} ${last} ${keyword}`;
 };
 
-const generateAliasPersona = () => {
+const setAliasSeedFromText = (value) => {
+  const parts = value.trim().split(/\s+/).filter(Boolean);
+  if (aliasFirstName instanceof HTMLInputElement) aliasFirstName.value = parts[0] || "";
+  if (aliasLastName instanceof HTMLInputElement) aliasLastName.value = parts[1] || "";
+  if (aliasKeyword instanceof HTMLInputElement) aliasKeyword.value = parts.slice(2).join(" ");
+};
+
+const getAliasSeedText = () =>
+  [aliasFirstName, aliasLastName, aliasKeyword]
+    .map((input) => (input instanceof HTMLInputElement ? input.value.trim() : ""))
+    .filter(Boolean)
+    .join(" ");
+
+const generateAliasPersona = ({ publish = true } = {}) => {
   if (!(aliasResults instanceof HTMLElement)) return;
+
+  const sharedSource = getWorkbenchInput().trim();
+  if (sharedSource) {
+    setAliasSeedFromText(sharedSource);
+  }
 
   if (
     aliasFirstName instanceof HTMLInputElement &&
@@ -1442,7 +1529,8 @@ const generateAliasPersona = () => {
     !aliasLastName.value.trim() &&
     !aliasKeyword.value.trim()
   ) {
-    fillRandomAliasSeed();
+    const randomSeed = fillRandomAliasSeed();
+    if (publish) setWorkbenchInput(randomSeed);
   }
 
   const first = aliasFirstName instanceof HTMLInputElement ? sanitizeAliasPart(aliasFirstName.value) : "";
@@ -1451,6 +1539,7 @@ const generateAliasPersona = () => {
 
   if (!first && !last && !keyword) {
     setToolError(aliasResults, "Add at least one seed value to generate permutations.");
+    if (publish) setWorkbenchOutput("", "Alias seed needed");
     return;
   }
 
@@ -1489,14 +1578,18 @@ const generateAliasPersona = () => {
     { label: "Email 03", value: emailVariants[2] },
     { label: "Slug", value: `${seedKeyword}-${seedFirst}-${seedLast}`.replace(/-+/g, "-").replace(/^-|-$/g, "") }
   ]);
+  if (publish) {
+    if (!getWorkbenchInput().trim()) setWorkbenchInput(getAliasSeedText());
+    setWorkbenchOutputFromRows(aliasResults, "Alias output updated");
+  }
 };
 
 generateAliasButton?.addEventListener("click", generateAliasPersona);
 generateRandomAliasButton?.addEventListener("click", () => {
-  fillRandomAliasSeed();
+  setWorkbenchInput(fillRandomAliasSeed());
   generateAliasPersona();
 });
-generateAliasPersona();
+generateAliasPersona({ publish: false });
 
 const hashInput = document.getElementById("hash-input");
 const hashCompare = document.getElementById("hash-compare");
@@ -1508,9 +1601,11 @@ const normalizeDigest = (value) => value.trim().replace(/\s+/g, "").toLowerCase(
 const renderHashResults = async () => {
   if (!(hashInput instanceof HTMLTextAreaElement) || !(hashResults instanceof HTMLElement)) return;
 
+  hashInput.value = getWorkbenchInput();
   const source = hashInput.value;
   if (!source.trim()) {
     setToolError(hashResults, "Add text to hash before running verification.");
+    setWorkbenchOutput("", "Hash input needed");
     return;
   }
 
@@ -1543,8 +1638,10 @@ const renderHashResults = async () => {
     ];
 
     setToolRows(hashResults, rows);
+    setWorkbenchOutputFromRows(hashResults, "Hash output updated");
   } catch (error) {
     setToolError(hashResults, error instanceof Error ? error.message : "Unable to hash the provided text.");
+    setWorkbenchOutput("", "Hash failed");
   } finally {
     if (hashTextButton instanceof HTMLElement) {
       hashTextButton.textContent = originalLabel;
@@ -1623,14 +1720,18 @@ const runCodec = (direction) => {
     return;
   }
 
+  codecInput.value = getWorkbenchInput();
+
   try {
     const mode = getCodecMode();
     codecOutput.value =
       direction === "encode"
         ? encodeCodecValue(mode, codecInput.value)
         : decodeCodecValue(mode, codecInput.value);
+    setWorkbenchOutput(codecOutput.value, direction === "encode" ? "Encoded output updated" : "Decoded output updated");
   } catch (error) {
     codecOutput.value = `Error: ${error instanceof Error ? error.message : "Codec conversion failed."}`;
+    setWorkbenchOutput(codecOutput.value, "Transform failed");
   }
 };
 
@@ -1644,13 +1745,15 @@ codecEncodeButton?.addEventListener("click", () => runCodec("encode"));
 codecDecodeButton?.addEventListener("click", () => runCodec("decode"));
 codecSwapButton?.addEventListener("click", () => {
   if (!(codecInput instanceof HTMLTextAreaElement) || !(codecOutput instanceof HTMLTextAreaElement)) return;
-  const nextInput = codecOutput.value;
-  codecOutput.value = codecInput.value;
+  const nextInput = getWorkbenchOutput() || codecOutput.value;
+  const nextOutput = getWorkbenchInput() || codecInput.value;
   codecInput.value = nextInput;
+  codecOutput.value = nextOutput;
+  setWorkbenchInput(nextInput);
+  setWorkbenchOutput(nextOutput, "Transform values swapped");
 });
 codecCopyButton?.addEventListener("click", async () => {
-  if (!(codecOutput instanceof HTMLTextAreaElement)) return;
-  await copyTextToClipboard(codecOutput.value, codecCopyButton, "Copy Output");
+  await copyTextToClipboard(getWorkbenchOutput() || (codecOutput instanceof HTMLTextAreaElement ? codecOutput.value : ""), codecCopyButton, "Copy Output");
 });
 
 const jwtInput = document.getElementById("jwt-input");
@@ -1678,11 +1781,13 @@ const decodeJwt = () => {
     return;
   }
 
+  jwtInput.value = getWorkbenchInput();
   const token = jwtInput.value.trim();
   if (!token) {
     setToolError(jwtResults, "Paste a JWT to decode it locally.");
     jwtHeaderOutput.textContent = "";
     jwtPayloadOutput.textContent = "";
+    setWorkbenchOutput("", "JWT input needed");
     return;
   }
 
@@ -1717,10 +1822,19 @@ const decodeJwt = () => {
 
     jwtHeaderOutput.textContent = JSON.stringify(header, null, 2);
     jwtPayloadOutput.textContent = JSON.stringify(payload, null, 2);
+    setWorkbenchOutput(
+      [
+        toolRowsToText(jwtResults),
+        `Header\n${jwtHeaderOutput.textContent}`,
+        `Payload\n${jwtPayloadOutput.textContent}`
+      ].filter(Boolean).join("\n\n"),
+      "JWT output updated"
+    );
   } catch (error) {
     setToolError(jwtResults, error instanceof Error ? error.message : "Unable to decode the supplied JWT.");
     jwtHeaderOutput.textContent = "";
     jwtPayloadOutput.textContent = "";
+    setWorkbenchOutput("", "JWT decode failed");
   }
 };
 
@@ -1757,8 +1871,10 @@ const inspectFile = async () => {
       { label: "Last Modified", value: formatDateTime(new Date(file.lastModified)) },
       ...Object.entries(hashes).map(([algorithm, digest]) => ({ label: algorithm, value: digest }))
     ]);
+    setWorkbenchOutputFromRows(fileInspectorResults, "File output updated");
   } catch (error) {
     setToolError(fileInspectorResults, error instanceof Error ? error.message : "Unable to inspect the selected file.");
+    setWorkbenchOutput("", "File inspection failed");
   } finally {
     if (inspectFileButton instanceof HTMLElement) {
       inspectFileButton.textContent = originalLabel;
@@ -1854,10 +1970,15 @@ const refreshTotp = async () => {
       { label: "Refresh In", value: `${refreshIn}s` },
       { label: "Counter", value: String(counter) }
     ]);
+    setWorkbenchOutput(
+      [`TOTP: ${code}`, toolRowsToText(totpResults)].filter(Boolean).join("\n"),
+      "TOTP output updated"
+    );
   } catch (error) {
     stopTotpTicker();
     totpOutput.textContent = "------";
     setToolError(totpResults, error instanceof Error ? error.message : "Unable to generate the TOTP code.");
+    setWorkbenchOutput("", "TOTP failed");
   }
 };
 
@@ -1865,6 +1986,10 @@ const startTotp = async () => {
   if (!(totpSecret instanceof HTMLInputElement) || !(totpOutput instanceof HTMLElement)) return;
 
   try {
+    const sharedSource = getWorkbenchInput().trim();
+    if (sharedSource) {
+      totpSecret.value = sharedSource;
+    }
     totpState.bytes = base32Decode(totpSecret.value);
     stopTotpTicker();
     await refreshTotp();
@@ -1876,6 +2001,7 @@ const startTotp = async () => {
     totpState.bytes = null;
     totpOutput.textContent = "------";
     setToolError(totpResults, error instanceof Error ? error.message : "Unable to generate the TOTP code.");
+    setWorkbenchOutput("", "TOTP secret invalid");
   }
 };
 
@@ -1924,9 +2050,15 @@ const parseTimestampValue = (value) => {
 const convertTimestamp = () => {
   if (!(timestampInput instanceof HTMLInputElement) || !(timestampResults instanceof HTMLElement)) return;
 
+  const sharedSource = getWorkbenchInput().trim();
+  if (sharedSource) {
+    timestampInput.value = sharedSource.split(/\n/)[0] || sharedSource;
+  }
+
   const parsed = parseTimestampValue(timestampInput.value);
   if (!parsed || Number.isNaN(parsed.date.getTime())) {
     setToolError(timestampResults, "Enter a Unix epoch or a valid date string to convert it.");
+    setWorkbenchOutput("", "Timestamp input invalid");
     return;
   }
 
@@ -1940,6 +2072,7 @@ const convertTimestamp = () => {
     { label: "Local", value: formatDateTime(parsed.date) },
     { label: "Timezone", value: timezone }
   ]);
+  setWorkbenchOutputFromRows(timestampResults, "Timestamp output updated");
 };
 
 convertTimestampButton?.addEventListener("click", convertTimestamp);
@@ -2075,6 +2208,7 @@ const runRegexTest = () => {
     return;
   }
 
+  regexInput.value = getWorkbenchInput();
   const pattern = regexPattern.value;
   const text = regexInput.value;
   const flags = getRegexFlags();
@@ -2082,6 +2216,7 @@ const runRegexTest = () => {
   if (!pattern) {
     setToolError(regexResults, "Enter a regex pattern before running the tester.");
     regexPreview.textContent = "";
+    setWorkbenchOutput("", "Regex pattern needed");
     return;
   }
 
@@ -2112,9 +2247,11 @@ const runRegexTest = () => {
 
     setToolRows(regexResults, rows);
     regexPreview.innerHTML = text ? highlightRegexMatches(text, pattern, flags) : "No input text supplied.";
+    setWorkbenchOutputFromRows(regexResults, "Regex output updated");
   } catch (error) {
     setToolError(regexResults, error instanceof Error ? error.message : "Unable to execute the regex.");
     regexPreview.textContent = "";
+    setWorkbenchOutput("", "Regex failed");
   }
 };
 
@@ -2131,8 +2268,8 @@ regexPresetButtons.forEach((button) => {
     regexPattern.value = preset.pattern;
     setRegexFlags(preset.flags);
 
-    if (regexInput instanceof HTMLTextAreaElement && !regexInput.value.trim()) {
-      regexInput.value = preset.sample;
+    if (!getWorkbenchInput().trim()) {
+      setWorkbenchInput(preset.sample);
     }
 
     regexPresetButtons.forEach((item) => {
@@ -2172,22 +2309,15 @@ const SHARED_INPUT_KEY = "tool-shared-input";
 const SHARED_OUTPUT_KEY = "tool-shared-output";
 
 const setWorkspaceStatus = (message) => {
-  if (toolSharedStatus instanceof HTMLElement) {
-    toolSharedStatus.textContent = message;
-  }
+  setWorkbenchStatus(message);
 };
 
 const setSharedInputValue = (value) => {
-  if (!(toolSharedInput instanceof HTMLTextAreaElement)) return;
-  toolSharedInput.value = value;
-  localStorage.setItem(SHARED_INPUT_KEY, value);
+  setWorkbenchInput(value);
 };
 
 const setSharedOutputValue = (value, status = "Output updated") => {
-  if (!(toolSharedOutput instanceof HTMLTextAreaElement)) return;
-  toolSharedOutput.value = value;
-  localStorage.setItem(SHARED_OUTPUT_KEY, value);
-  setWorkspaceStatus(status);
+  setWorkbenchOutput(value, status);
 };
 
 const normalizeIndicator = (value) =>
@@ -2310,10 +2440,12 @@ const renderIocSummary = (analysis) => {
 const extractIocs = () => {
   if (!(iocInput instanceof HTMLTextAreaElement) || !(iocOutput instanceof HTMLTextAreaElement)) return "";
 
+  iocInput.value = getWorkbenchInput();
   const source = iocInput.value.trim();
   if (!source) {
     iocOutput.value = "";
     setToolError(iocResults, "Paste source text before extracting indicators.");
+    setSharedOutputValue("", "IOC input needed");
     return "";
   }
 
@@ -2327,7 +2459,7 @@ const extractIocs = () => {
 
 const transformIocText = (transform, label) => {
   if (!(iocInput instanceof HTMLTextAreaElement) || !(iocOutput instanceof HTMLTextAreaElement)) return "";
-  const source = iocInput.value.trim() || (toolSharedInput instanceof HTMLTextAreaElement ? toolSharedInput.value.trim() : "");
+  const source = getWorkbenchInput().trim() || iocInput.value.trim();
 
   if (!source) {
     setToolError(iocResults, `Paste source text before running ${label.toLowerCase()}.`);
@@ -2349,21 +2481,8 @@ defangIocsButton?.addEventListener("click", () => transformIocText(defangIndicat
 refangIocsButton?.addEventListener("click", () => transformIocText(refangIndicators, "Refanged"));
 copyIocReportButton?.addEventListener("click", async () => {
   if (!(iocOutput instanceof HTMLTextAreaElement)) return;
-  await copyTextToClipboard(iocOutput.value, copyIocReportButton, "Copy Report");
+  await copyTextToClipboard(getWorkbenchOutput() || iocOutput.value, copyIocReportButton, "Copy Report");
 });
-
-const toolRowsToText = (container) => {
-  if (!(container instanceof HTMLElement)) return "";
-
-  return Array.from(container.querySelectorAll(".tool-result-row"))
-    .map((row) => {
-      const label = row.querySelector("span")?.textContent?.trim() || "";
-      const value = row.querySelector("strong")?.textContent?.trim() || "";
-      return label && value ? `${label}: ${value}` : value || label;
-    })
-    .filter(Boolean)
-    .join("\n");
-};
 
 const getActiveToolId = () =>
   toolWorkbench instanceof HTMLElement ? toolWorkbench.getAttribute("data-active-tool") || "password" : "password";

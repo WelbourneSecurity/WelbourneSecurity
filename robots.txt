@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# Legacy operator traffic is not part of the public crawl surface.
+Disallow: /ops/traffic.txt

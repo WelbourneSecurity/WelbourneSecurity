@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Royal Observer Corps Network | Welbourne Security</title>
+    <meta
+      name="description"
+      content="An unlisted interactive tribute to the UK Royal Observer Corps monitoring post and Group Control network."
+    />
+    <meta name="robots" content="noindex,nofollow,noarchive,nosnippet" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="theme-color" content="#020405" />
+    <link rel="icon" type="image/svg+xml" href="../src/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+    <script src="./roc.js" defer></script>
+  </head>
+  <body class="roc-page">
+    <main class="roc-shell" aria-label="Royal Observer Corps interactive tribute">
+      <header class="roc-hero">
+        <a class="roc-brand" href="../" aria-label="Return to Welbourne Security">
+          <img src="../src/favicon.svg" alt="" aria-hidden="true" />
+          <span>Welbourne Security</span>
+        </a>
+        <div class="roc-hero-copy">
+          <p class="roc-kicker">Unlisted operator route</p>
+          <h1>Royal Observer Corps Network</h1>
+          <p>
+            A testbed tribute to the volunteers, posts, Group Controls, and reporting chain that supported the UK Warning
+            and Monitoring Organisation during the Cold War.
+          </p>
+        </div>
+        <div class="roc-facts" aria-label="Network facts">
+          <div>
+            <strong>1,563</strong>
+            <span>underground monitoring posts</span>
+          </div>
+          <div>
+            <strong>29</strong>
+            <span>Group Controls listed after reclustering</span>
+          </div>
+          <div>
+            <strong>1991</strong>
+            <span>active ROC training ceased</span>
+          </div>
+        </div>
+      </header>
+
+      <section class="roc-map-section" aria-labelledby="roc-map-title">
+        <div class="roc-section-heading">
+          <p class="roc-kicker">Interactive map</p>
+          <h2 id="roc-map-title">Posts, controls, and operator plotting</h2>
+          <p>
+            The map plots Group Control towns and a public sample of monitoring posts. Use it to identify reporting
+            posts and their Group Controls before entering supplied reports in the operator workstation.
+          </p>
+        </div>
+
+        <div class="roc-workspace">
+          <div class="roc-map-panel">
+            <svg
+              id="roc-map"
+              class="roc-map"
+              viewBox="0 0 628.09174 1051.4788"
+              role="img"
+              aria-labelledby="roc-map-svg-title"
+            >
+              <title id="roc-map-svg-title">Detailed UK map with ROC network points</title>
+              <g class="roc-map-grid" aria-hidden="true">
+                <path d="M0 150 H628.09174 M0 300 H628.09174 M0 450 H628.09174 M0 600 H628.09174 M0 750 H628.09174 M0 900 H628.09174" />
+                <path d="M125.618 0 V1051.4788 M251.236 0 V1051.4788 M376.855 0 V1051.4788 M502.473 0 V1051.4788" />
+              </g>
+              <image
+                class="roc-uk-map-image"
+                href="./united-kingdom.svg"
+                x="0"
+                y="0"
+                width="628.09174"
+                height="1051.4788"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              />
+              <g id="roc-link-layer" class="roc-link-layer"></g>
+              <g id="roc-point-layer" class="roc-point-layer"></g>
+            </svg>
+          </div>
+
+          <aside class="roc-inspector" aria-label="Selected network detail">
+            <div class="roc-layer-controls" aria-label="Map layers">
+              <button class="roc-toggle is-active" type="button" data-layer-toggle="controls">Group Controls</button>
+              <button class="roc-toggle is-active" type="button" data-layer-toggle="posts">Monitoring Posts</button>
+            </div>
+
+            <div class="roc-selected" id="roc-selected" aria-live="polite"></div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="roc-operator" aria-labelledby="roc-operator-title">
+        <div class="roc-operator-heading">
+          <p class="roc-kicker">Group Control Operator</p>
+          <h2 id="roc-operator-title">Plot the supplied post reports</h2>
+          <p>
+            Enter three numbered post reports and their true bearings. The workstation resolves the pairwise
+            intersections and returns a coordinate fix for onward identification.
+          </p>
+        </div>
+
+        <form id="roc-calculator" class="roc-calculator">
+          <div class="roc-report-grid" aria-label="ROC report inputs">
+            <label class="roc-report-row" data-report-row>
+              <span>Report A</span>
+              <select data-report-post aria-label="Report A post"></select>
+              <input data-report-bearing inputmode="decimal" type="number" step="0.1" min="0" max="359.9" placeholder="Bearing" aria-label="Report A true bearing" />
+            </label>
+            <label class="roc-report-row" data-report-row>
+              <span>Report B</span>
+              <select data-report-post aria-label="Report B post"></select>
+              <input data-report-bearing inputmode="decimal" type="number" step="0.1" min="0" max="359.9" placeholder="Bearing" aria-label="Report B true bearing" />
+            </label>
+            <label class="roc-report-row" data-report-row>
+              <span>Report C</span>
+              <select data-report-post aria-label="Report C post"></select>
+              <input data-report-bearing inputmode="decimal" type="number" step="0.1" min="0" max="359.9" placeholder="Bearing" aria-label="Report C true bearing" />
+            </label>
+          </div>
+
+          <div class="roc-calculator-actions">
+            <button class="roc-calc-button" type="submit">Calculate Fix</button>
+            <button class="roc-calc-button is-secondary" type="button" data-calc-clear>Clear</button>
+          </div>
+
+          <output id="roc-calc-output" class="roc-calc-output" aria-live="polite">
+            <span>Awaiting three post reports.</span>
+          </output>
+        </form>
+      </section>
+
+      <section class="roc-process" aria-labelledby="roc-process-title">
+        <div>
+          <p class="roc-kicker">Reporting chain</p>
+          <h2 id="roc-process-title">From post reading to national picture</h2>
+        </div>
+        <ol>
+          <li>
+            <strong>Post observers</strong>
+            <span>GZI bearing and elevation, BPI pressure, and FSM radiation readings were reported from the monitoring post.</span>
+          </li>
+          <li>
+            <strong>Group Control</strong>
+            <span>Bearings from two or more posts were plotted on a table map to fix the burst location.</span>
+          </li>
+          <li>
+            <strong>Sector Control</strong>
+            <span>Sector scientific teams used the Group reports to build the broader fallout and warning picture.</span>
+          </li>
+        </ol>
+      </section>
+
+      <section class="roc-sources" aria-labelledby="roc-sources-title">
+        <h2 id="roc-sources-title">Source Notes</h2>
+        <p>
+          This prototype uses town-level plotting for Group Controls and a representative public sample of posts. It avoids
+          presenting exact access guidance for private or unsafe sites.
+        </p>
+        <ul>
+          <li><a href="https://www.subbrit.org.uk/features/royal-observer-corps/">Subterranea Britannica: Royal Observer Corps</a></li>
+          <li><a href="https://www.ringbell.co.uk/ukwmo/Page221.htm">Ringbell: Royal Observer Corps nuclear monitoring post</a></li>
+          <li><a href="../ROC/Area%20Maps/Mapping.html">Local ROC folder: group and area map index</a></li>
+          <li><a href="https://www.subbrit.org.uk/sites/northolt-roc-post/">SubBrit: Northolt ROC Post</a></li>
+          <li><a href="https://www.subbrit.org.uk/sites/bowes-park-roc-post/">SubBrit: Bowes Park ROC Post</a></li>
+          <li><a href="https://www.subbrit.org.uk/sites/dulwich-roc-post/">SubBrit: Dulwich ROC Post</a></li>
+          <li><a href="https://www.subbrit.org.uk/sites/brampton-roc-post/">SubBrit: Brampton ROC Post</a></li>
+          <li><a href="https://www.subbrit.org.uk/sites/burscough-roc-post/">SubBrit: Burscough ROC Post</a></li>
+          <li><a href="https://www.subbrit.org.uk/sites/">SubBrit: public ROC post index</a></li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

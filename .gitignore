@@ -2,4 +2,16 @@ Writeups/
 Thumbs.db
 Desktop.ini
 .DS_Store
+
+# Local verification artifacts
 .chrome-test/
+.chrome-*/
+.roc-*/
+__pycache__/
+*.pyc
+
+# Local-only challenge material; do not deploy these with the static site.
+BITERRA_ROC_CHALLENGE.txt
+challenge-packet/
+ROC/
+tools/

@@ -243,28 +243,26 @@
               <section class="tool-shared-workspace" aria-label="Shared tool workspace">
                 <div class="tool-shared-pane">
                   <div class="tool-shared-heading">
-                    <label class="tool-label" for="tool-shared-input">Shared Input</label>
+                    <label class="tool-label" for="tool-shared-input">Input</label>
                     <span id="tool-shared-status">Ready</span>
                   </div>
-                  <textarea class="tool-textarea tool-monospace" id="tool-shared-input" rows="4" spellcheck="false" placeholder="Paste raw text, indicators, tokens, hashes, or timestamps here"></textarea>
+                  <textarea class="tool-textarea tool-monospace" id="tool-shared-input" rows="6" spellcheck="false" placeholder="Paste raw text, indicators, tokens, hashes, timestamps, or secrets here"></textarea>
                 </div>
                 <div class="tool-shared-actions" aria-label="Workspace actions">
-                  <button class="action primary tool-button" id="tool-workspace-use-input" type="button">Use Input</button>
-                  <button class="action secondary tool-button" id="tool-workspace-capture-output" type="button">Capture Output</button>
                   <button class="action secondary tool-button" id="tool-workspace-output-to-input" type="button">Output To Input</button>
                   <button class="action secondary tool-button" id="tool-workspace-copy-output" type="button">Copy Output</button>
                   <button class="action secondary tool-button" id="tool-workspace-clear" type="button">Clear</button>
                 </div>
                 <div class="tool-shared-pane">
                   <div class="tool-shared-heading">
-                    <label class="tool-label" for="tool-shared-output">Shared Output</label>
+                    <label class="tool-label" for="tool-shared-output">Output</label>
                     <span>Local only</span>
                   </div>
-                  <textarea class="tool-textarea tool-monospace" id="tool-shared-output" rows="4" spellcheck="false" placeholder="Captured results and reports appear here"></textarea>
+                  <textarea class="tool-textarea tool-monospace" id="tool-shared-output" rows="6" spellcheck="false" placeholder="Tool output appears here"></textarea>
                 </div>
               </section>
               <div class="tool-grid">
-            <article class="tool-panel mobile-tool is-active" id="tool-password" data-tool-id="password" data-tool-title="Password Generator" data-tool-mode="Credential" data-tool-action="Generate / Copy" data-tool-settings="Length, Character sets, Entropy scoring" data-tool-flow="Set the character policy, generate locally, then copy the password if it meets the target strength." role="tabpanel" aria-labelledby="tool-tab-password" tabindex="0">
+            <article class="tool-panel mobile-tool is-active" id="tool-password" data-tool-id="password" data-tool-title="Password Generator" data-tool-mode="Credential" data-tool-action="Generate" data-tool-settings="Length, Character sets, Entropy scoring" data-tool-flow="Set the character policy and generate a local password that publishes into the fixed output box." role="tabpanel" aria-labelledby="tool-tab-password" tabindex="0">
               <div class="tool-header">
                 <div>
                   <h3>Password Generator</h3>
@@ -282,10 +280,9 @@
                 </div>
                 <div class="tool-actions">
                   <button class="action primary tool-button" id="generate-password" type="button">Generate</button>
-                  <button class="action secondary tool-button" id="copy-password" type="button">Copy</button>
                 </div>
-                <label class="tool-label" for="password-output">Password</label>
-                <textarea class="tool-textarea tool-monospace" id="password-output" rows="3" spellcheck="false" aria-live="polite"></textarea>
+                <label class="tool-label tool-unified-hidden" for="password-output">Password</label>
+                <textarea class="tool-textarea tool-monospace tool-unified-hidden" id="password-output" rows="3" spellcheck="false" aria-live="polite"></textarea>
                 <div class="tool-results" id="password-strength-results" aria-live="polite"></div>
               </div>
             </article>
@@ -298,8 +295,8 @@
                 </div>
               </div>
               <div class="tool-controls">
-                <label class="tool-label" for="subnet-input">IPv4 / CIDR</label>
-                <input class="tool-input" id="subnet-input" type="text" placeholder="192.168.1.10/24" />
+                <label class="tool-label tool-unified-hidden" for="subnet-input">IPv4 / CIDR</label>
+                <input class="tool-input tool-unified-hidden" id="subnet-input" type="text" placeholder="192.168.1.10/24" />
                 <button class="action primary tool-button" id="calculate-subnet" type="button">Calculate</button>
                 <div class="tool-results" id="subnet-results" aria-live="polite"></div>
               </div>
@@ -313,9 +310,9 @@
                 </div>
               </div>
               <div class="tool-controls">
-                <input class="tool-input" id="alias-first-name" type="text" placeholder="First name" />
-                <input class="tool-input" id="alias-last-name" type="text" placeholder="Last name" />
-                <input class="tool-input" id="alias-keyword" type="text" placeholder="Keyword or niche" />
+                <input class="tool-input tool-unified-hidden" id="alias-first-name" type="text" placeholder="First name" />
+                <input class="tool-input tool-unified-hidden" id="alias-last-name" type="text" placeholder="Last name" />
+                <input class="tool-input tool-unified-hidden" id="alias-keyword" type="text" placeholder="Keyword or niche" />
                 <div class="tool-actions">
                   <button class="action primary tool-button" id="generate-alias" type="button">Generate</button>
                   <button class="action secondary tool-button" id="generate-random-alias" type="button">Random Seed</button>
@@ -332,8 +329,8 @@
                 </div>
               </div>
               <div class="tool-controls">
-                <label class="tool-label" for="hash-input">Text Input</label>
-                <textarea class="tool-textarea tool-monospace" id="hash-input" rows="5" spellcheck="false" placeholder="Paste text to hash locally"></textarea>
+                <label class="tool-label tool-unified-hidden" for="hash-input">Text Input</label>
+                <textarea class="tool-textarea tool-monospace tool-unified-hidden" id="hash-input" rows="5" spellcheck="false" placeholder="Paste text to hash locally"></textarea>
                 <label class="tool-label" for="hash-compare">Compare Hash</label>
                 <input class="tool-input tool-monospace" id="hash-compare" type="text" placeholder="Optional digest to verify" spellcheck="false" />
                 <div class="tool-actions">
@@ -343,7 +340,7 @@
               </div>
             </article>
 
-            <article class="tool-panel is-wide mobile-tool" id="tool-codec" data-tool-id="codec" data-tool-title="Encoder / Decoder" data-tool-mode="Transform" data-tool-action="Encode / Decode / Swap" data-tool-settings="Base64, URL, Hex, HTML entities" data-tool-flow="Pick a transform mode, convert the input, then swap or copy output as the next working value." role="tabpanel" aria-labelledby="tool-tab-codec" tabindex="0" hidden>
+            <article class="tool-panel is-wide mobile-tool" id="tool-codec" data-tool-id="codec" data-tool-title="Encoder / Decoder" data-tool-mode="Transform" data-tool-action="Encode / Decode" data-tool-settings="Base64, URL, Hex, HTML entities" data-tool-flow="Pick a transform mode and convert the fixed input into the fixed output box." role="tabpanel" aria-labelledby="tool-tab-codec" tabindex="0" hidden>
               <div class="tool-header">
                 <div>
                   <h3>Encoder / Decoder</h3>
@@ -358,20 +355,18 @@
                   <button class="tool-mode-option" type="button" data-codec-mode="hex" aria-pressed="false">Hex</button>
                   <button class="tool-mode-option" type="button" data-codec-mode="html" aria-pressed="false">HTML Entity</button>
                 </div>
-                <label class="tool-label" for="codec-input">Input</label>
-                <textarea class="tool-textarea tool-monospace" id="codec-input" rows="6" spellcheck="false" placeholder="Paste text to encode or decode"></textarea>
+                <label class="tool-label tool-unified-hidden" for="codec-input">Input</label>
+                <textarea class="tool-textarea tool-monospace tool-unified-hidden" id="codec-input" rows="6" spellcheck="false" placeholder="Paste text to encode or decode"></textarea>
                 <div class="tool-actions">
                   <button class="action primary tool-button" id="codec-encode" type="button">Encode</button>
                   <button class="action secondary tool-button" id="codec-decode" type="button">Decode</button>
-                  <button class="action secondary tool-button" id="codec-swap" type="button">Swap</button>
-                  <button class="action secondary tool-button" id="codec-copy" type="button">Copy Output</button>
                 </div>
-                <label class="tool-label" for="codec-output">Output</label>
-                <textarea class="tool-textarea tool-monospace" id="codec-output" rows="6" spellcheck="false" readonly></textarea>
+                <label class="tool-label tool-unified-hidden" for="codec-output">Output</label>
+                <textarea class="tool-textarea tool-monospace tool-unified-hidden" id="codec-output" rows="6" spellcheck="false" readonly></textarea>
               </div>
             </article>
 
-            <article class="tool-panel is-wide mobile-tool" id="tool-ioc" data-tool-id="ioc" data-tool-title="IOC Extractor + Defanger" data-tool-mode="Intel" data-tool-action="Extract / Defang / Refang" data-tool-settings="URLs, Domains, IPs, Hashes, CVEs, Emails" data-tool-flow="Paste raw notes or logs, extract indicators, then defang or refang the result for reporting." role="tabpanel" aria-labelledby="tool-tab-ioc" tabindex="0" hidden>
+            <article class="tool-panel is-wide mobile-tool" id="tool-ioc" data-tool-id="ioc" data-tool-title="IOC Extractor + Defanger" data-tool-mode="Intel" data-tool-action="Extract / Defang / Refang" data-tool-settings="URLs, Domains, IPs, Hashes, CVEs, Emails" data-tool-flow="Paste raw notes or logs, then extract, defang, or refang values into the fixed output box." role="tabpanel" aria-labelledby="tool-tab-ioc" tabindex="0" hidden>
               <div class="tool-header">
                 <div>
                   <h3>IOC Extractor + Defanger</h3>
@@ -379,17 +374,16 @@
                 </div>
               </div>
               <div class="tool-controls">
-                <label class="tool-label" for="ioc-input">Source Text</label>
-                <textarea class="tool-textarea tool-monospace" id="ioc-input" rows="7" spellcheck="false" placeholder="Paste logs, alerts, URLs, domains, hashes, emails, or CVEs"></textarea>
+                <label class="tool-label tool-unified-hidden" for="ioc-input">Source Text</label>
+                <textarea class="tool-textarea tool-monospace tool-unified-hidden" id="ioc-input" rows="7" spellcheck="false" placeholder="Paste logs, alerts, URLs, domains, hashes, emails, or CVEs"></textarea>
                 <div class="tool-actions">
                   <button class="action primary tool-button" id="extract-iocs" type="button">Extract IOCs</button>
                   <button class="action secondary tool-button" id="defang-iocs" type="button">Defang</button>
                   <button class="action secondary tool-button" id="refang-iocs" type="button">Refang</button>
-                  <button class="action secondary tool-button" id="copy-ioc-report" type="button">Copy Report</button>
                 </div>
                 <div class="tool-results" id="ioc-results" aria-live="polite"></div>
-                <label class="tool-label" for="ioc-output">Report</label>
-                <textarea class="tool-textarea tool-monospace" id="ioc-output" rows="8" spellcheck="false" readonly></textarea>
+                <label class="tool-label tool-unified-hidden" for="ioc-output">Report</label>
+                <textarea class="tool-textarea tool-monospace tool-unified-hidden" id="ioc-output" rows="8" spellcheck="false" readonly></textarea>
               </div>
             </article>
 
@@ -401,11 +395,11 @@
                 </div>
               </div>
               <div class="tool-controls">
-                <label class="tool-label" for="jwt-input">JWT</label>
-                <textarea class="tool-textarea tool-monospace" id="jwt-input" rows="5" spellcheck="false" placeholder="eyJhbGciOi..."></textarea>
+                <label class="tool-label tool-unified-hidden" for="jwt-input">JWT</label>
+                <textarea class="tool-textarea tool-monospace tool-unified-hidden" id="jwt-input" rows="5" spellcheck="false" placeholder="eyJhbGciOi..."></textarea>
                 <button class="action primary tool-button" id="decode-jwt" type="button">Decode</button>
                 <div class="tool-results" id="jwt-results" aria-live="polite"></div>
-                <div class="tool-stack">
+                <div class="tool-stack tool-unified-hidden">
                   <div>
                     <p class="tool-label">Header</p>
                     <pre class="tool-pre" id="jwt-header-output"></pre>
@@ -433,7 +427,7 @@
               </div>
             </article>
 
-            <article class="tool-panel mobile-tool" id="tool-totp" data-tool-id="totp" data-tool-title="TOTP Generator" data-tool-mode="MFA" data-tool-action="Generate / Copy Code" data-tool-settings="Base32 secret, Period, Refresh timer" data-tool-flow="Enter a Base32 secret, generate a local one-time code, and monitor the refresh window." role="tabpanel" aria-labelledby="tool-tab-totp" tabindex="0" hidden>
+            <article class="tool-panel mobile-tool" id="tool-totp" data-tool-id="totp" data-tool-title="TOTP Generator" data-tool-mode="MFA" data-tool-action="Generate" data-tool-settings="Base32 secret, Period, Refresh timer" data-tool-flow="Enter a Base32 secret in the fixed input box and generate a local one-time code." role="tabpanel" aria-labelledby="tool-tab-totp" tabindex="0" hidden>
               <div class="tool-header">
                 <div>
                   <h3>TOTP Generator</h3>
@@ -441,15 +435,14 @@
                 </div>
               </div>
               <div class="tool-controls">
-                <label class="tool-label" for="totp-secret">Base32 Secret</label>
-                <input class="tool-input tool-monospace" id="totp-secret" type="text" placeholder="JBSWY3DPEHPK3PXP" spellcheck="false" />
+                <label class="tool-label tool-unified-hidden" for="totp-secret">Base32 Secret</label>
+                <input class="tool-input tool-monospace tool-unified-hidden" id="totp-secret" type="text" placeholder="JBSWY3DPEHPK3PXP" spellcheck="false" />
                 <label class="tool-label" for="totp-period">Period (seconds)</label>
                 <input class="tool-input" id="totp-period" type="number" min="15" max="120" value="30" />
                 <div class="tool-actions">
                   <button class="action primary tool-button" id="generate-totp" type="button">Generate</button>
-                  <button class="action secondary tool-button" id="copy-totp" type="button">Copy Code</button>
                 </div>
-                <div class="tool-output tool-monospace" id="totp-output" aria-live="polite">------</div>
+                <div class="tool-output tool-monospace tool-unified-hidden" id="totp-output" aria-live="polite">------</div>
                 <div class="tool-results" id="totp-results" aria-live="polite"></div>
               </div>
             </article>
@@ -462,8 +455,8 @@
                 </div>
               </div>
               <div class="tool-controls">
-                <label class="tool-label" for="timestamp-input">Timestamp Input</label>
-                <input class="tool-input tool-monospace" id="timestamp-input" type="text" placeholder="1712332800 or 2026-04-05T20:00:00Z" spellcheck="false" />
+                <label class="tool-label tool-unified-hidden" for="timestamp-input">Timestamp Input</label>
+                <input class="tool-input tool-monospace tool-unified-hidden" id="timestamp-input" type="text" placeholder="1712332800 or 2026-04-05T20:00:00Z" spellcheck="false" />
                 <button class="action primary tool-button" id="convert-timestamp" type="button">Convert</button>
                 <div class="tool-results" id="timestamp-results" aria-live="polite"></div>
               </div>
@@ -499,8 +492,8 @@
                   <label><input id="regex-flag-s" type="checkbox" /> Dotall</label>
                   <label><input id="regex-flag-u" type="checkbox" /> Unicode</label>
                 </div>
-                <label class="tool-label" for="regex-input">Test Text</label>
-                <textarea class="tool-textarea tool-monospace" id="regex-input" rows="7" spellcheck="false" placeholder="Paste text to test"></textarea>
+                <label class="tool-label tool-unified-hidden" for="regex-input">Test Text</label>
+                <textarea class="tool-textarea tool-monospace tool-unified-hidden" id="regex-input" rows="7" spellcheck="false" placeholder="Paste text to test"></textarea>
                 <button class="action primary tool-button" id="run-regex" type="button">Run</button>
                 <div class="tool-results" id="regex-results" aria-live="polite"></div>
                 <div class="tool-preview" id="regex-preview" aria-live="polite"></div>
