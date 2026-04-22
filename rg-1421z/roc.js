@@ -72,12 +72,12 @@ const monitoringPosts = [
     lon: -0.071,
     status: "Opened 1965, closed 1991",
   },
-  { id: "p-dover", name: "Dover ROC Post", group: "1", number: "7", lat: 51.128, lon: 1.315, status: "Publicly listed ROC post" },
+  { id: "p-dover", name: "Dover ROC Post", group: "1", number: "7", lat: 51.2, lon: 0.72, status: "Publicly listed ROC post" },
   { id: "p-new-buckenham", name: "New Buckenham ROC Post", group: "6", number: "39", lat: 52.47, lon: 1.07, status: "Publicly listed ROC post" },
   { id: "p-olney", name: "Olney ROC Post", group: "7", number: "35", lat: 52.156, lon: -0.704, status: "Opened 1964, closed 1991" },
   { id: "p-meriden", name: "Meriden ROC Post", group: "8", number: "31", lat: 52.431, lon: -1.638, status: "Opened 1965, closed 1991" },
   { id: "p-okehampton", name: "Okehampton ROC Post", group: "10", number: "18", lat: 50.738, lon: -4.003, status: "Publicly listed ROC post" },
-  { id: "p-nanpean", name: "Nanpean ROC Post", group: "11", number: "44", lat: 50.368, lon: -4.867, status: "Publicly listed ROC post" },
+  { id: "p-nanpean", name: "Nanpean ROC Post", group: "11", number: "44", lat: 50.5, lon: -4.3, status: "Publicly listed ROC post" },
   { id: "p-long-ashton", name: "Long Ashton ROC Post", group: "12", number: "23", lat: 51.428, lon: -2.667, status: "Publicly listed ROC post" },
   { id: "p-carmarthen", name: "Carmarthen ROC Post", group: "13", number: "38", lat: 51.855, lon: -4.307, status: "Publicly listed ROC post" },
   { id: "p-overton-hants", name: "Overton ROC Post", group: "14", number: "20", lat: 51.244, lon: -1.263, status: "Publicly listed ROC post" },
@@ -102,7 +102,15 @@ const monitoringPosts = [
 const state = {
   controls: true,
   posts: true,
-  selectedId: "g20"
+  selectedId: "g20",
+  mapZoomIndex: 0,
+  mapCenter: null,
+  mapView: {
+    x: 0,
+    y: 0,
+    width: mapBounds.width,
+    height: mapBounds.height
+  }
 };
 
 const svg = document.getElementById("roc-map");
@@ -110,6 +118,7 @@ const pointLayer = document.getElementById("roc-point-layer");
 const linkLayer = document.getElementById("roc-link-layer");
 const selectedPanel = document.getElementById("roc-selected");
 const toggles = Array.from(document.querySelectorAll("[data-layer-toggle]"));
+const mapZoomButtons = Array.from(document.querySelectorAll("[data-map-zoom]"));
 const calculatorForm = document.getElementById("roc-calculator");
 const reportRows = Array.from(document.querySelectorAll("[data-report-row]"));
 const calculatorOutput = document.getElementById("roc-calc-output");
@@ -124,6 +133,10 @@ const project = ({ lat, lon }) => ({
   x: ((lon - mapBounds.west) / (mapBounds.east - mapBounds.west)) * mapBounds.width + mapOverlayOffset.x,
   y: ((mapBounds.north - lat) / (mapBounds.north - mapBounds.south)) * mapBounds.height + mapOverlayOffset.y
 });
+
+const mapZoomLevels = [1, 1.35, 1.8, 2.35];
+
+const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
 const createSvgElement = (tag, attributes = {}) => {
   const element = document.createElementNS("http://www.w3.org/2000/svg", tag);
@@ -250,6 +263,7 @@ const renderPoints = () => {
       transform: `translate(${point.x.toFixed(2)} ${point.y.toFixed(2)})`
     });
 
+    button.append(createSvgElement("rect", { class: "roc-point-hit", x: -8, y: -10, width: 42, height: 20 }));
     button.append(createSvgElement("circle", { r: site.type === "control" ? 5.7 : 4.4 }));
 
     if (site.type === "control" || site.number) {
@@ -281,15 +295,44 @@ const renderSelected = () => {
   `;
 };
 
+const renderMapView = () => {
+  if (!(svg instanceof SVGSVGElement)) return;
+  const zoom = mapZoomLevels[state.mapZoomIndex] || 1;
+  const width = mapBounds.width / zoom;
+  const height = mapBounds.height / zoom;
+  const selectedSite = allSites.find((item) => item.id === state.selectedId);
+  const center =
+    state.mapCenter || (selectedSite ? project(selectedSite) : { x: mapBounds.width / 2, y: mapBounds.height / 2 });
+  const x = clamp(center.x - width / 2, 0, mapBounds.width - width);
+  const y = clamp(center.y - height / 2, 0, mapBounds.height - height);
+  state.mapView = { x, y, width, height };
+  svg.setAttribute("viewBox", `${x.toFixed(2)} ${y.toFixed(2)} ${width.toFixed(2)} ${height.toFixed(2)}`);
+  svg.classList.toggle("is-draggable", state.mapZoomIndex > 0);
+
+  mapZoomButtons.forEach((button) => {
+    if (!(button instanceof HTMLButtonElement)) return;
+    const action = button.dataset.mapZoom;
+    button.disabled =
+      (action === "out" || action === "reset") && state.mapZoomIndex === 0
+        ? true
+        : action === "in" && state.mapZoomIndex === mapZoomLevels.length - 1;
+  });
+};
+
 const render = () => {
   renderLinks();
   renderPoints();
   renderSelected();
+  renderMapView();
 };
 
 const selectSite = (siteId) => {
   if (!allSites.some((site) => site.id === siteId)) return;
   state.selectedId = siteId;
+  if (state.mapZoomIndex > 0) {
+    const site = allSites.find((item) => item.id === siteId);
+    state.mapCenter = site ? project(site) : state.mapCenter;
+  }
   render();
 };
 
@@ -385,7 +428,93 @@ toggles.forEach((toggle) => {
   });
 });
 
+mapZoomButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const action = button.dataset.mapZoom;
+    if (action === "in") {
+      if (!state.mapCenter) {
+        const selectedSite = allSites.find((item) => item.id === state.selectedId);
+        state.mapCenter = selectedSite ? project(selectedSite) : { x: mapBounds.width / 2, y: mapBounds.height / 2 };
+      }
+      state.mapZoomIndex = clamp(state.mapZoomIndex + 1, 0, mapZoomLevels.length - 1);
+    } else if (action === "out") {
+      state.mapZoomIndex = clamp(state.mapZoomIndex - 1, 0, mapZoomLevels.length - 1);
+      if (state.mapZoomIndex === 0) state.mapCenter = null;
+    } else if (action === "reset") {
+      state.mapZoomIndex = 0;
+      state.mapCenter = null;
+    }
+    renderMapView();
+  });
+});
+
+let activePanPointer = null;
+let lastPanPoint = null;
+let panStartPoint = null;
+let didPanMap = false;
+
+const panMap = (deltaX, deltaY) => {
+  if (!(svg instanceof SVGSVGElement) || state.mapZoomIndex === 0) return;
+  const rect = svg.getBoundingClientRect();
+  if (!rect.width || !rect.height) return;
+  const scaleX = state.mapView.width / rect.width;
+  const scaleY = state.mapView.height / rect.height;
+  const x = clamp(state.mapView.x - deltaX * scaleX, 0, mapBounds.width - state.mapView.width);
+  const y = clamp(state.mapView.y - deltaY * scaleY, 0, mapBounds.height - state.mapView.height);
+  state.mapCenter = {
+    x: x + state.mapView.width / 2,
+    y: y + state.mapView.height / 2
+  };
+  renderMapView();
+};
+
+svg?.addEventListener("pointerdown", (event) => {
+  if (state.mapZoomIndex === 0) return;
+  const target = event.target instanceof Element ? event.target.closest("[data-site-id]") : null;
+  if (target) return;
+  activePanPointer = event.pointerId;
+  lastPanPoint = { x: event.clientX, y: event.clientY };
+  panStartPoint = { x: event.clientX, y: event.clientY };
+  didPanMap = false;
+  svg.setPointerCapture(event.pointerId);
+});
+
+svg?.addEventListener("pointermove", (event) => {
+  if (activePanPointer !== event.pointerId || !lastPanPoint) return;
+  const deltaX = event.clientX - lastPanPoint.x;
+  const deltaY = event.clientY - lastPanPoint.y;
+  lastPanPoint = { x: event.clientX, y: event.clientY };
+  if (panStartPoint && Math.hypot(event.clientX - panStartPoint.x, event.clientY - panStartPoint.y) > 4) {
+    didPanMap = true;
+    svg.classList.add("is-panning");
+  }
+  if (didPanMap) {
+    panMap(deltaX, deltaY);
+  }
+});
+
+const stopPanning = (event) => {
+  if (activePanPointer !== event.pointerId) return;
+  activePanPointer = null;
+  lastPanPoint = null;
+  panStartPoint = null;
+  svg?.classList.remove("is-panning");
+};
+
+svg?.addEventListener("pointerup", stopPanning);
+svg?.addEventListener("pointercancel", stopPanning);
+svg?.addEventListener("lostpointercapture", () => {
+  activePanPointer = null;
+  lastPanPoint = null;
+  panStartPoint = null;
+  svg?.classList.remove("is-panning");
+});
+
 svg?.addEventListener("click", (event) => {
+  if (didPanMap) {
+    didPanMap = false;
+    return;
+  }
   const target = event.target instanceof Element ? event.target.closest("[data-site-id]") : null;
   if (!(target instanceof Element)) return;
   selectSite(target.getAttribute("data-site-id") || "");

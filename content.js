@@ -55,12 +55,6 @@ export const portfolio = {
       description: "",
       key: "thm",
       path: "THM"
-    },
-    {
-      label: "CTF",
-      description: "",
-      key: "ctf",
-      path: "CTF"
     }
   ],
   platformLinks: [

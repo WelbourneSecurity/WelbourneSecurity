@@ -205,6 +205,7 @@ a {
 }
 
 .roc-map-section,
+.roc-briefing,
 .roc-operator,
 .roc-process,
 .roc-sources {
@@ -242,6 +243,7 @@ a {
 
 .roc-map-panel,
 .roc-inspector,
+.roc-briefing,
 .roc-operator,
 .roc-process,
 .roc-sources {
@@ -262,10 +264,21 @@ a {
   width: 100%;
   height: 100%;
   min-height: 40rem;
+  transition: filter 160ms ease;
+  touch-action: none;
+}
+
+.roc-map.is-draggable {
+  cursor: grab;
+}
+
+.roc-map.is-panning {
+  cursor: grabbing;
 }
 
 .roc-map-grid {
   fill: none;
+  pointer-events: none;
   stroke: rgba(242, 247, 251, 0.045);
   stroke-width: 1;
 }
@@ -277,6 +290,7 @@ a {
 }
 
 .roc-link {
+  pointer-events: none;
   stroke: rgba(110, 242, 199, 0.16);
   stroke-width: 1;
 }
@@ -284,6 +298,11 @@ a {
 .roc-point {
   cursor: pointer;
   outline: none;
+}
+
+.roc-point-hit {
+  fill: rgba(255, 255, 255, 0);
+  pointer-events: all;
 }
 
 .roc-point circle {
@@ -317,6 +336,58 @@ a {
   fill: #f2f7fb;
   stroke: var(--accent);
   transform: scale(1.45);
+}
+
+.roc-map-zoom {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  z-index: 2;
+  display: inline-flex;
+  overflow: hidden;
+  border: 1px solid rgba(110, 242, 199, 0.32);
+  background: rgba(1, 4, 5, 0.94);
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.28);
+  backdrop-filter: blur(12px);
+}
+
+.roc-map-zoom button {
+  min-width: 3rem;
+  min-height: 3rem;
+  border: 0;
+  border-left: 1px solid rgba(242, 247, 251, 0.1);
+  border-radius: 0;
+  color: #f2f7fb;
+  background: transparent;
+  cursor: pointer;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.roc-map-zoom button:first-child {
+  border-left: 0;
+}
+
+.roc-map-zoom button:last-child {
+  min-width: 4.65rem;
+  padding-inline: 0.75rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.roc-map-zoom button:hover,
+.roc-map-zoom button:focus-visible {
+  color: var(--accent);
+  background: rgba(110, 242, 199, 0.1);
+  outline: none;
+}
+
+.roc-map-zoom button:disabled {
+  color: rgba(242, 247, 251, 0.48);
+  cursor: not-allowed;
+  background: transparent;
 }
 
 .roc-inspector {
@@ -417,6 +488,294 @@ a {
 
 .roc-selected p {
   margin: 0;
+}
+
+.roc-map-key {
+  border: 1px solid rgba(242, 247, 251, 0.1);
+  background: rgba(0, 1, 1, 0.22);
+  padding: 0.85rem;
+}
+
+.roc-map-key summary,
+.roc-training-note summary {
+  color: rgba(242, 247, 251, 0.82);
+  cursor: pointer;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.roc-map-key summary:focus-visible,
+.roc-training-note summary:focus-visible {
+  outline: 1px solid rgba(110, 242, 199, 0.5);
+  outline-offset: 0.25rem;
+}
+
+.roc-map-key ul {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.roc-map-key li {
+  display: grid;
+  grid-template-columns: 1.1rem minmax(0, 1fr);
+  gap: 0.55rem;
+  align-items: center;
+  color: rgba(242, 247, 251, 0.7);
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.roc-key-dot {
+  width: 0.72rem;
+  height: 0.72rem;
+  border-radius: 50%;
+  border: 1px solid #020405;
+}
+
+.roc-key-dot.is-control {
+  background: var(--accent);
+}
+
+.roc-key-dot.is-post {
+  background: rgba(255, 100, 100, 0.86);
+}
+
+.roc-key-line {
+  width: 1rem;
+  border-top: 1px solid rgba(110, 242, 199, 0.42);
+}
+
+.roc-briefing {
+  gap: clamp(1.35rem, 3vw, 2rem);
+  padding: clamp(1rem, 3vw, 1.6rem);
+}
+
+.roc-briefing h3,
+.roc-sources h3 {
+  margin: 0;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.92rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.roc-briefing-grid,
+.roc-knowledge-grid,
+.roc-source-groups {
+  display: grid;
+  gap: clamp(1rem, 3vw, 1.65rem);
+}
+
+.roc-briefing-grid {
+  grid-template-columns: minmax(0, 0.78fr) minmax(28rem, 0.92fr);
+  border-top: 1px solid rgba(242, 247, 251, 0.1);
+  padding-top: clamp(1rem, 2.5vw, 1.45rem);
+}
+
+.roc-knowledge-grid {
+  grid-template-columns: minmax(0, 0.92fr) minmax(20rem, 0.62fr);
+  border-top: 1px solid rgba(242, 247, 251, 0.1);
+  padding-top: clamp(1rem, 2.5vw, 1.45rem);
+}
+
+.roc-timeline,
+.roc-anatomy,
+.roc-chain,
+.roc-glossary,
+.roc-source-groups > div {
+  display: grid;
+  align-content: start;
+  gap: 0.95rem;
+  min-width: 0;
+}
+
+.roc-anatomy {
+  grid-column: 1 / -1;
+}
+
+.roc-anatomy ul {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 0;
+  border: 1px solid rgba(110, 242, 199, 0.18);
+  border-top: 0;
+  background: rgba(0, 1, 1, 0.28);
+}
+
+.roc-timeline ol,
+.roc-chain ol,
+.roc-anatomy ul {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.roc-timeline li,
+.roc-chain li,
+.roc-anatomy li {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 2.25rem minmax(0, 1fr);
+  align-content: start;
+  gap: 0.45rem;
+  padding: 0.9rem;
+  border-bottom: 0;
+  border-left: 1px solid rgba(242, 247, 251, 0.09);
+}
+
+.roc-anatomy li:first-child {
+  padding: 0.9rem;
+  border-left: 0;
+}
+
+.roc-anatomy li:last-child {
+  padding-bottom: 0.9rem;
+}
+
+.roc-timeline li:first-child,
+.roc-chain li:first-child {
+  padding-top: 0;
+}
+
+.roc-timeline li:last-child,
+.roc-chain li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.roc-timeline time,
+.roc-chain strong,
+.roc-anatomy strong {
+  color: var(--accent);
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  align-self: start;
+}
+
+.roc-timeline span,
+.roc-chain span,
+.roc-anatomy span,
+.roc-glossary p {
+  margin: 0;
+  color: rgba(242, 247, 251, 0.72);
+  line-height: 1.58;
+  align-self: start;
+}
+
+.roc-post-cutaway-media {
+  display: grid;
+  gap: 0;
+  margin: 0;
+}
+
+.roc-post-cutaway-media a {
+  display: block;
+  overflow: hidden;
+  border: 1px solid rgba(110, 242, 199, 0.18);
+  background: rgba(0, 1, 1, 0.36);
+}
+
+.roc-post-cutaway-media img {
+  display: block;
+  width: 100%;
+  max-height: min(78vh, 56rem);
+  aspect-ratio: 1800 / 1415;
+  object-fit: contain;
+  object-position: center;
+  filter: saturate(0.98) contrast(1.03);
+  transition: transform 180ms ease, filter 180ms ease;
+}
+
+.roc-post-cutaway-media a:hover img,
+.roc-post-cutaway-media a:focus-visible img {
+  filter: saturate(1.08) contrast(1.08);
+  transform: scale(1.015);
+}
+
+.roc-post-cutaway-media a:focus-visible {
+  outline: 1px solid rgba(110, 242, 199, 0.5);
+  outline-offset: 0.25rem;
+}
+
+.roc-glossary {
+  gap: 0.55rem;
+}
+
+.roc-glossary h3 {
+  margin-bottom: 0.4rem;
+}
+
+.roc-glossary details {
+  border-top: 1px solid rgba(242, 247, 251, 0.1);
+  padding-block: 0.7rem;
+}
+
+.roc-glossary details:last-child {
+  border-bottom: 1px solid rgba(242, 247, 251, 0.1);
+}
+
+.roc-glossary summary {
+  color: var(--accent);
+  cursor: pointer;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.roc-glossary summary:focus-visible {
+  outline: 1px solid rgba(110, 242, 199, 0.5);
+  outline-offset: 0.25rem;
+}
+
+.roc-glossary p {
+  padding-top: 0.55rem;
+}
+
+.roc-training-note {
+  border-top: 1px solid rgba(242, 247, 251, 0.1);
+  padding-top: clamp(1rem, 2.5vw, 1.45rem);
+}
+
+.roc-training-note > div {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: 0.9rem;
+  border: 1px solid rgba(242, 247, 251, 0.1);
+  background:
+    linear-gradient(90deg, rgba(110, 242, 199, 0.12), transparent 34%),
+    rgba(0, 1, 1, 0.28);
+  padding: clamp(0.9rem, 2vw, 1.15rem);
+}
+
+.roc-training-note h3,
+.roc-training-note p,
+.roc-training-note ul {
+  margin: 0;
+}
+
+.roc-training-note h3 {
+  font-size: 1.15rem;
+}
+
+.roc-training-note p:not(.roc-kicker),
+.roc-training-note li {
+  color: rgba(242, 247, 251, 0.72);
+  line-height: 1.58;
+}
+
+.roc-training-note ul {
+  display: grid;
+  gap: 0.35rem;
+  padding-left: 1.1rem;
 }
 
 .roc-operator {
@@ -596,10 +955,16 @@ a {
 }
 
 .roc-sources {
-  max-width: 62rem;
+  max-width: none;
 }
 
-.roc-sources ul {
+.roc-source-groups {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border-top: 1px solid rgba(242, 247, 251, 0.1);
+  padding-top: clamp(1rem, 2.5vw, 1.45rem);
+}
+
+.roc-source-groups ul {
   display: flex;
   flex-wrap: wrap;
   gap: 0.55rem;
@@ -3579,6 +3944,9 @@ body.motion-ready [data-reveal].is-visible {
 
   .roc-hero,
   .roc-workspace,
+  .roc-briefing-grid,
+  .roc-knowledge-grid,
+  .roc-source-groups,
   .roc-operator,
   .roc-process {
     grid-template-columns: 1fr;
@@ -3613,12 +3981,16 @@ body.motion-ready [data-reveal].is-visible {
   .roc-report-row,
   .roc-calc-result div,
   .roc-calc-pairs div,
+  .roc-anatomy ul,
+  .roc-timeline li,
+  .roc-chain li,
+  .roc-anatomy li,
   .roc-process li {
     grid-template-columns: 1fr;
     gap: 0.35rem;
   }
 
-  .roc-sources ul {
+  .roc-source-groups ul {
     display: grid;
   }
 
