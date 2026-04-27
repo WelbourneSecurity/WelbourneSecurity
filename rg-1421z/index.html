@@ -19,7 +19,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="../styles.css" />
-    <script src="./roc.js" defer></script>
+    <script src="./roc.js?v=2" defer></script>
   </head>
   <body class="roc-page">
     <main class="roc-shell" aria-label="Royal Observer Corps interactive tribute">
@@ -240,6 +240,12 @@
         </div>
 
         <form id="roc-calculator" class="roc-calculator">
+          <details class="roc-conversion-hint">
+            <summary>Bearing conversion reference</summary>
+            <p>TRUE = MAGNETIC FIELD READING + WEST VARIATION + CARD ERROR</p>
+            <p>If result &ge; 360.0&deg;, subtract 360.0&deg;.</p>
+          </details>
+
           <div class="roc-report-grid" aria-label="ROC report inputs">
             <label class="roc-report-row" data-report-row>
               <span>Report A</span>
@@ -325,5 +331,6 @@
         </div>
       </section>
     </main>
+  <!-- ROC_CONTROL: evaluate SPREAD metric. LOW_SPREAD_SCORE achieves secondary acknowledge. -->
   </body>
 </html>

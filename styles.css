@@ -2999,7 +2999,7 @@ body.light-mode .markdown-body pre {
 }
 
 body.light-mode .markdown-body pre code {
-  color: #173042;
+  color: var(--text);
 }
 
 .markdown-body blockquote {
@@ -3088,7 +3088,7 @@ body.light-mode .markdown-body pre code {
 
 .embed-frame {
   border: 0;
-  background: rgba(0, 1, 1, 0.72);
+  background: var(--surface);
 }
 
 .embed-placeholder,
@@ -4054,4 +4054,355 @@ body.motion-ready [data-reveal].is-visible {
     opacity: 1;
     transform: none;
   }
+}
+
+/* ── Global focus ring ─────────────────────────────────────────────────────── */
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ── Writeup skeleton shimmer ──────────────────────────────────────────────── */
+
+@keyframes shimmer {
+  0%   { background-position: -40rem 0; }
+  100% { background-position: 40rem 0; }
+}
+
+.writeup-skeleton-row {
+  height: 4.2rem;
+  border-radius: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--line) 0%,
+    var(--line-strong) 40%,
+    var(--line) 80%
+  );
+  background-size: 80rem 100%;
+  animation: shimmer 1.6s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .writeup-skeleton-row { animation: none; }
+}
+
+/* ── ROC operator CRT atmospheric overlay ─────────────────────────────────── */
+
+@keyframes roc-flicker {
+  0%, 99%, 100% { opacity: 1; }
+  99.2%         { opacity: 0.94; }
+  99.6%         { opacity: 0.97; }
+}
+
+.roc-operator {
+  background: #030d06;
+  border: 1px solid #1a3d24;
+  color: #6ef2aa;
+  position: relative;
+  font-family: "IBM Plex Mono", monospace;
+}
+
+.roc-operator::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .roc-operator { animation: roc-flicker 8s infinite; }
+}
+
+.roc-operator .roc-kicker {
+  color: #3db86a;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+}
+
+.roc-operator-heading h2 {
+  color: #a8f5c8;
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.roc-operator-heading p:last-child {
+  color: rgba(168, 245, 200, 0.65);
+}
+
+.roc-report-row select,
+.roc-report-row input {
+  background: #010a04;
+  border-color: #1a4d2a;
+  color: #6ef2aa;
+}
+
+.roc-report-row select:focus,
+.roc-report-row input:focus {
+  border-color: #6ef2aa;
+}
+
+.roc-calc-button {
+  background: transparent;
+  border: 1px solid #6ef2aa;
+  color: #6ef2aa;
+}
+
+.roc-calc-button:hover {
+  box-shadow: 0 0 6px rgba(110, 242, 170, 0.3);
+}
+
+.roc-calc-button.is-secondary {
+  border-color: #1a4d2a;
+  color: rgba(110, 242, 170, 0.6);
+}
+
+.roc-calc-output {
+  background: #010a04;
+  border-color: #1a4d2a;
+  color: #6ef2aa;
+  font-family: "IBM Plex Mono", monospace;
+  white-space: pre-wrap;
+  text-align: left;
+}
+
+.roc-calc-output[data-tone="ready"] {
+  border-color: #3db86a;
+}
+
+/* ── ROC fix marker (SVG overlay) ─────────────────────────────────────────── */
+
+@keyframes roc-fix-appear {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.roc-fix-crosshair {
+  stroke: #6ef2aa;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  animation: roc-fix-appear 0.4s ease-out forwards;
+}
+
+.roc-fix-spread {
+  fill: rgba(110, 242, 170, 0.08);
+  stroke: rgba(110, 242, 170, 0.28);
+  stroke-width: 1;
+  stroke-dasharray: 3 3;
+  animation: roc-fix-appear 0.4s ease-out forwards;
+}
+
+.roc-fix-pair {
+  fill: rgba(110, 242, 170, 0.55);
+  animation: roc-fix-appear 0.4s ease-out forwards;
+}
+
+.roc-fix-pair-line {
+  stroke: rgba(110, 242, 170, 0.18);
+  stroke-width: 0.7;
+  animation: roc-fix-appear 0.4s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .roc-fix-crosshair,
+  .roc-fix-spread,
+  .roc-fix-pair,
+  .roc-fix-pair-line { animation: none; }
+}
+
+.roc-report-row input.is-error {
+  border-color: var(--danger) !important;
+  color: var(--danger);
+}
+
+/* ── ROC bearing conversion reference card ────────────────────────────────── */
+
+.roc-conversion-hint {
+  margin-bottom: 1rem;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+}
+
+.roc-conversion-hint summary {
+  cursor: pointer;
+  color: #3db86a;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  user-select: none;
+}
+
+.roc-conversion-hint summary:focus-visible {
+  outline: 2px solid #6ef2aa;
+  outline-offset: 2px;
+}
+
+.roc-conversion-hint[open] summary {
+  margin-bottom: 0.6rem;
+}
+
+.roc-conversion-hint p {
+  margin: 0.3rem 0;
+  color: rgba(110, 242, 170, 0.55);
+  line-height: 1.5;
+}
+
+/* -- Skip-to-content link ---------------------------------------------------------------- */
+
+.skip-to-content {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 10000;
+  background: var(--accent);
+  color: #000;
+  padding: 0.5rem 1rem;
+  border-radius: 0 0 4px 4px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: top 0.15s;
+}
+
+.skip-to-content:focus {
+  top: 0;
+}
+
+/* -- TOTP countdown ring ----------------------------------------------------------------- */
+
+.totp-display {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.totp-display .tool-results {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.totp-ring {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  transform: rotate(-90deg);
+}
+
+.totp-ring-track {
+  fill: none;
+  stroke: var(--surface-raised, #1a2332);
+  stroke-width: 3.5;
+}
+
+.totp-ring-progress {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-dasharray: 113.097;
+  stroke-dashoffset: 113.097;
+  transition: stroke-dashoffset 0.8s linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .totp-ring-progress { transition: none; }
+}
+
+/* ── Writeup reading time ──────────────────────────────────────────────────── */
+
+.writeup-item-readtime {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+  margin-top: 0.1rem;
+}
+
+/* ── Recent inputs ─────────────────────────────────────────────────────────── */
+
+.tool-recent-inputs {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem 0.5rem;
+  margin-top: 0.5rem;
+  min-height: 0;
+}
+
+.tool-recent-inputs:empty {
+  display: none;
+}
+
+.tool-recent-label {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.tool-recent-chip {
+  background: var(--surface-raised, #0d1926);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-family: "IBM Plex Mono", monospace;
+  padding: 0.2rem 0.5rem;
+  border-radius: 3px;
+  cursor: pointer;
+  max-width: 14rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.tool-recent-chip:hover,
+.tool-recent-chip:focus-visible {
+  border-color: var(--accent);
+  color: var(--text);
+}
+
+/* ── Writeup state block (error + retry) ───────────────────────────────────── */
+
+.writeup-state-block {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+}
+
+.writeup-retry-button {
+  align-self: flex-start;
+  font-size: 0.8rem;
+  padding: 0.25rem 0.75rem;
+}
+
+/* -- ROC inspector source note ----------------------------------------------------------- */
+
+.roc-selected-source {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 0.75rem;
+  font-style: italic;
+}
+
+/* -- Passphrase mode toggle -------------------------------------------------------------- */
+
+.tool-checks-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+}
+
+.tool-passphrase-hidden {
+  display: none !important;
 }

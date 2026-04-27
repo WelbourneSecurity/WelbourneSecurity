@@ -59,9 +59,11 @@
         ]
       }
     </script>
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https: data:; connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://api.ipify.org; frame-src https://www.credly.com; object-src 'none'; base-uri 'self';" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
+    <a class="skip-to-content" href="#top">Skip to main content</a>
     <div class="page-shell">
       <header class="site-header">
         <a class="brand" href="#top" aria-label="Back to top">
@@ -246,11 +248,13 @@
                     <span id="tool-shared-status">Ready</span>
                   </div>
                   <textarea class="tool-textarea tool-monospace" id="tool-shared-input" rows="6" spellcheck="false" placeholder="Paste raw text, indicators, tokens, hashes, timestamps, or secrets here"></textarea>
+                  <div class="tool-recent-inputs" id="tool-recent-inputs" aria-label="Recent inputs"></div>
                 </div>
                 <div class="tool-shared-actions" aria-label="Workspace actions">
-                  <button class="action secondary tool-button" id="tool-workspace-output-to-input" type="button">Output To Input</button>
-                  <button class="action secondary tool-button" id="tool-workspace-copy-output" type="button">Copy Output</button>
-                  <button class="action secondary tool-button" id="tool-workspace-clear" type="button">Clear</button>
+                  <button class="action secondary tool-button" id="tool-workspace-output-to-input" type="button" aria-label="Move output content into the input field">Output To Input</button>
+                  <button class="action secondary tool-button" id="tool-workspace-copy-output" type="button" aria-label="Copy output to clipboard">Copy Output</button>
+                  <button class="action secondary tool-button" id="tool-workspace-clear" type="button" aria-label="Clear both input and output fields">Clear</button>
+                  <p class="sr-only" id="tool-copy-announce" aria-live="polite" aria-atomic="true"></p>
                 </div>
                 <div class="tool-shared-pane">
                   <div class="tool-shared-heading">
@@ -277,8 +281,13 @@
                   <label><input id="password-numbers" type="checkbox" checked /> Numbers</label>
                   <label><input id="password-symbols" type="checkbox" checked /> Symbols</label>
                 </div>
+                <label class="tool-label tool-checks-inline">
+                  <input id="password-passphrase-mode" type="checkbox" />
+                  Passphrase mode
+                </label>
                 <div class="tool-actions">
                   <button class="action primary tool-button" id="generate-password" type="button">Generate</button>
+                  <button class="action secondary tool-button" id="copy-password" type="button">Copy</button>
                 </div>
                 <label class="tool-label tool-unified-hidden" for="password-output">Password</label>
                 <textarea class="tool-textarea tool-monospace tool-unified-hidden" id="password-output" rows="3" spellcheck="false" aria-live="polite"></textarea>
@@ -440,9 +449,16 @@
                 <input class="tool-input" id="totp-period" type="number" min="15" max="120" value="30" />
                 <div class="tool-actions">
                   <button class="action primary tool-button" id="generate-totp" type="button">Generate</button>
+                  <button class="action secondary tool-button" id="copy-totp" type="button">Copy Code</button>
+                </div>
+                <div class="totp-display">
+                  <svg class="totp-ring" viewBox="0 0 44 44" aria-hidden="true">
+                    <circle class="totp-ring-track" cx="22" cy="22" r="18" />
+                    <circle class="totp-ring-progress" id="totp-ring-progress" cx="22" cy="22" r="18" />
+                  </svg>
+                  <div class="tool-results" id="totp-results" aria-live="polite"></div>
                 </div>
                 <div class="tool-output tool-monospace tool-unified-hidden" id="totp-output" aria-live="polite">------</div>
-                <div class="tool-results" id="totp-results" aria-live="polite"></div>
               </div>
             </article>
 

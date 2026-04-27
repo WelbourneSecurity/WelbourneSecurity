@@ -146,6 +146,10 @@ const createSvgElement = (tag, attributes = {}) => {
   return element;
 };
 
+// Fix-marker layer — sits above links, below interactive points (must come after createSvgElement)
+const fixLayer = createSvgElement("g", { "aria-hidden": "true", class: "roc-fix-layer" });
+svg?.insertBefore(fixLayer, pointLayer);
+
 const toRadians = (value) => (value * Math.PI) / 180;
 
 const numberedPosts = monitoringPosts
@@ -221,8 +225,75 @@ const calculateFix = (reports) => {
     return Math.max(largest, distance);
   }, 0);
 
-  return { fix, intersections, spread };
+  return { fix, intersections, spread, origin };
 };
+
+// ── Fix marker helpers ────────────────────────────────────────────────────────
+
+const clearFixMarker = () => {
+  while (fixLayer.firstChild) fixLayer.firstChild.remove();
+};
+
+const renderFixMarker = (result) => {
+  clearFixMarker();
+  if (!result) return;
+
+  const { fix, intersections, spread, origin } = result;
+  const center = project({ lat: fix.lat, lon: fix.lon });
+
+  // Convert spread (km) to SVG pixels using approximate px/km at UK centre latitude
+  const midLat = (mapBounds.north + mapBounds.south) / 2;
+  const lonKmPerDeg = 111.32 * Math.cos(midLat * Math.PI / 180);
+  const pxPerKm = mapBounds.width / ((mapBounds.east - mapBounds.west) * lonKmPerDeg);
+  const spreadPx = Math.max(5, spread * pxPerKm);
+
+  // Spread uncertainty circle
+  fixLayer.append(createSvgElement("circle", {
+    cx: center.x.toFixed(2), cy: center.y.toFixed(2),
+    r: spreadPx.toFixed(2),
+    class: "roc-fix-spread"
+  }));
+
+  // Pairwise intersection dots + faint lines to mean
+  intersections.forEach(({ point }) => {
+    const pt = project(fromLocalPoint(point, origin));
+    fixLayer.append(createSvgElement("line", {
+      x1: pt.x.toFixed(2), y1: pt.y.toFixed(2),
+      x2: center.x.toFixed(2), y2: center.y.toFixed(2),
+      class: "roc-fix-pair-line"
+    }));
+    fixLayer.append(createSvgElement("circle", {
+      cx: pt.x.toFixed(2), cy: pt.y.toFixed(2),
+      r: "2.5",
+      class: "roc-fix-pair"
+    }));
+  });
+
+  // Crosshair at mean fix
+  const arm = 9;
+  fixLayer.append(createSvgElement("line", {
+    x1: (center.x - arm).toFixed(2), y1: center.y.toFixed(2),
+    x2: (center.x + arm).toFixed(2), y2: center.y.toFixed(2),
+    class: "roc-fix-crosshair"
+  }));
+  fixLayer.append(createSvgElement("line", {
+    x1: center.x.toFixed(2), y1: (center.y - arm).toFixed(2),
+    x2: center.x.toFixed(2), y2: (center.y + arm).toFixed(2),
+    class: "roc-fix-crosshair"
+  }));
+};
+
+// Stagger-fade result rows for a teletype feel
+const animateOutputRows = (container) => {
+  const rows = Array.from(container.querySelectorAll(".roc-calc-result > div, .roc-calc-pairs > div"));
+  rows.forEach((row, i) => {
+    row.style.opacity = "0";
+    row.style.transition = "opacity 0.15s";
+    window.setTimeout(() => { row.style.opacity = "1"; }, (i + 1) * 90);
+  });
+};
+
+// ── Map rendering ─────────────────────────────────────────────────────────────
 
 const renderLinks = () => {
   linkLayer.innerHTML = "";
@@ -276,23 +347,51 @@ const renderPoints = () => {
   });
 };
 
+const makeDlRow = (label, value) => {
+  const div = document.createElement("div");
+  const dt = document.createElement("dt");
+  dt.textContent = label;
+  const dd = document.createElement("dd");
+  dd.textContent = value;
+  div.append(dt, dd);
+  return div;
+};
+
 const renderSelected = () => {
   const site = allSites.find((item) => item.id === state.selectedId) || allSites[0];
   if (!site || !(selectedPanel instanceof HTMLElement)) return;
 
-  const source = site.type === "control" ? "SubBrit Group HQ list" : "SubBrit public post index";
-  const postNumber = site.number ? `<div><dt>Post</dt><dd>No. ${site.number}</dd></div>` : "";
-  selectedPanel.innerHTML = `
-    <p class="roc-kicker">${site.type === "control" ? "Group Control" : "Monitoring Post"}</p>
-    <h3>${site.name}</h3>
-    <dl>
-      <div><dt>Area</dt><dd>${site.place || site.name}</dd></div>
-      ${postNumber}
-      <div><dt>Group</dt><dd>No. ${site.group}</dd></div>
-      <div><dt>Status</dt><dd>${site.status || site.sector}</dd></div>
-      <div><dt>Source</dt><dd>${source}</dd></div>
-    </dl>
-  `;
+  const isControl = site.type === "control";
+
+  const kicker = document.createElement("p");
+  kicker.className = "roc-kicker";
+  kicker.textContent = isControl ? "Group Control" : "Monitoring Post";
+
+  const heading = document.createElement("h3");
+  heading.textContent = site.name;
+
+  const dl = document.createElement("dl");
+  dl.append(makeDlRow("Area", site.place || site.name));
+
+  if (site.number) dl.append(makeDlRow("Post No.", site.number));
+
+  dl.append(makeDlRow("Group", `No. ${site.group}`));
+  dl.append(makeDlRow(isControl ? "Sector" : "Status", site.status || site.sector || "—"));
+
+  if (!isControl) {
+    dl.append(makeDlRow("Instruments", "GZI · FSM · BPI"));
+    dl.append(makeDlRow("Depth", "Approx. 14 ft underground"));
+    const coords = `${site.lat.toFixed(4)}°N, ${Math.abs(site.lon).toFixed(4)}°${site.lon < 0 ? "W" : "E"}`;
+    dl.append(makeDlRow("Coordinates", coords));
+  }
+
+  dl.append(makeDlRow("Active period", "1955 – 1991"));
+
+  const source = document.createElement("p");
+  source.className = "roc-selected-source";
+  source.textContent = `Source: ${isControl ? "SubBrit Group HQ list" : "SubBrit public post index"}`;
+
+  selectedPanel.replaceChildren(kicker, heading, dl, source);
 };
 
 const renderMapView = () => {
@@ -406,6 +505,18 @@ calculatorForm?.addEventListener("submit", (event) => {
     </div>
     <div class="roc-calc-pairs">${pairRows}</div>
   `;
+
+  renderFixMarker(result);
+  animateOutputRows(calculatorOutput);
+
+  // Secondary flag: only a precise solve (spread < 2.0 km) qualifies
+  if (result.spread < 2.0) {
+    console.log(
+      "%c[ROC_CONTROL] SIGNAL QUALITY: HIGH — secondary acknowledge",
+      "color: #6ef2aa; font-family: monospace; font-weight: bold",
+      "\nP2P{RAVEN_GLASS_OPERATOR}"
+    );
+  }
 });
 
 clearCalculatorButton?.addEventListener("click", () => {
@@ -413,8 +524,13 @@ clearCalculatorButton?.addEventListener("click", () => {
     const select = row.querySelector("[data-report-post]");
     const input = row.querySelector("[data-report-bearing]");
     if (select instanceof HTMLSelectElement) select.value = "";
-    if (input instanceof HTMLInputElement) input.value = "";
+    if (input instanceof HTMLInputElement) {
+      input.value = "";
+      input.classList.remove("is-error");
+      input.removeAttribute("aria-invalid");
+    }
   });
+  clearFixMarker();
   setCalculatorMessage("Awaiting three post reports.");
 });
 
@@ -530,3 +646,21 @@ svg?.addEventListener("keydown", (event) => {
 
 populateCalculator();
 render();
+
+// Real-time bearing validation
+reportRows.forEach((row) => {
+  const input = row.querySelector("[data-report-bearing]");
+  if (!(input instanceof HTMLInputElement)) return;
+  input.addEventListener("input", () => {
+    if (!input.value.trim()) {
+      input.classList.remove("is-error");
+      input.removeAttribute("aria-invalid");
+      return;
+    }
+    const val = Number(input.value);
+    const invalid = !Number.isFinite(val) || val < 0 || val >= 360;
+    input.classList.toggle("is-error", invalid);
+    if (invalid) input.setAttribute("aria-invalid", "true");
+    else input.removeAttribute("aria-invalid");
+  });
+});
