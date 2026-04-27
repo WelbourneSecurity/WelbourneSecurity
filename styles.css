@@ -463,8 +463,9 @@ a {
 
 .roc-selected dl div {
   display: grid;
-  grid-template-columns: minmax(4.25rem, 0.4fr) minmax(0, 1fr);
+  grid-template-columns: max-content 1fr;
   gap: 0.7rem;
+  align-items: baseline;
 }
 
 .roc-selected dt,
@@ -478,6 +479,7 @@ a {
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  min-width: 7.5rem;
 }
 
 .roc-selected dd,
@@ -3977,7 +3979,6 @@ body.motion-ready [data-reveal].is-visible {
     grid-template-columns: 1fr;
   }
 
-  .roc-selected dl div,
   .roc-report-row,
   .roc-calc-result div,
   .roc-calc-pairs div,
