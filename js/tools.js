@@ -1331,11 +1331,24 @@ const initToolWorkbench = (toolAdapters) => {
     setActiveTool(nextBtn.dataset.toolTarget || "");
   });
 
+  const getToolIdFromHash = () => window.location.hash.replace(/^#tool-?/, "");
+  const hashTool = getToolIdFromHash();
   const savedTool = localStorage.getItem("active-tool");
-  const initialTool = toolPanels.some((p) => p instanceof HTMLElement && p.dataset.toolId === savedTool)
-    ? savedTool
-    : toolWorkbench instanceof HTMLElement ? toolWorkbench.dataset.activeTool : "";
+  let initialTool = toolWorkbench instanceof HTMLElement ? toolWorkbench.dataset.activeTool || "" : "";
+  if (toolPanels.some((p) => p instanceof HTMLElement && p.dataset.toolId === savedTool)) {
+    initialTool = savedTool || initialTool;
+  }
+  if (toolPanels.some((p) => p instanceof HTMLElement && p.dataset.toolId === hashTool)) {
+    initialTool = hashTool;
+  }
   setActiveTool(initialTool || "password", { persist: false });
+
+  window.addEventListener("hashchange", () => {
+    const nextTool = getToolIdFromHash();
+    if (toolPanels.some((p) => p instanceof HTMLElement && p.dataset.toolId === nextTool)) {
+      setActiveTool(nextTool, { focusPanel: true });
+    }
+  });
 
   const applySharedInputToActiveTool = async () => {
     if (!(toolSharedInput instanceof HTMLTextAreaElement)) return;
@@ -1444,6 +1457,8 @@ const initToolWorkbench = (toolAdapters) => {
 // ── Public entry point ────────────────────────────────────────────────────────
 
 export function initTools() {
+  if (!document.querySelector(".tool-workbench")) return;
+
   const adapters = {
     password: initPasswordTool(),
     subnet:   initSubnetTool(),

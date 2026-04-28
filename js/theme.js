@@ -2,7 +2,9 @@ export function initTheme({ onDesktopViewport } = {}) {
   const compactMobileQuery = window.matchMedia("(max-width: 960px)");
   const siteHeader = document.querySelector(".site-header");
   const primaryNavLinks = Array.from(document.querySelectorAll(".site-nav a[href^='#']"));
-  const mobileNavTargetIds = ["tools", "presence", "contact"];
+  const mobileNavTargetIds = primaryNavLinks
+    .map((link) => (link.getAttribute("href") || "").replace("#", ""))
+    .filter((sectionId) => sectionId && document.getElementById(sectionId));
   const mobileNavTargets = new Set(mobileNavTargetIds);
   const themeToggle = document.getElementById("theme-toggle");
 

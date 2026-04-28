@@ -5,18 +5,22 @@ export const portfolio = {
     branch: "main",
     autoDetectGithubPages: true
   },
+  writeupFolders: [
+    { label: "Hack The Box", description: "", key: "htb", path: "HTB" },
+    { label: "TryHackMe", description: "", key: "thm", path: "THM" }
+  ],
   profile: {
     name: "Welbourne Security",
     role: "Cyber Intelligence Portfolio",
     eyebrow: "Welbourne Security",
-    headline: "Private Sector Cyber Intelligence Solutions.",
+    headline: "Cyber Intelligence Projects, Tools, and Investigations.",
     summary:
-      "Cybersecurity writeups, browser tools, certifications, and public profiles built for quick review.",
+      "A focused portfolio of security projects, local analyst utilities, credentials, and practical cyber intelligence workflows.",
     focus: "Signals intelligence and anonymity",
-    signalTagline: "Private-sector intelligence, privacy, and research",
-    contactHeading: "Open to cyber intelligence, research, and security work.",
+    signalTagline: "Private-sector intelligence and privacy",
+    contactHeading: "Open to cyber intelligence and security-focused opportunities.",
     contactSummary:
-      "For collaboration, hiring enquiries, or research opportunities, contact me directly or use the linked public profiles below.",
+      "For collaboration, hiring enquiries, or security opportunities, contact me directly or use the linked public profiles below.",
     primaryAction: {
       label: "Email Me",
       href: "mailto:info@welbournesecurity.com"
@@ -32,9 +36,9 @@ export const portfolio = {
     ]
   },
   heroMetrics: [
-    { label: "Writeups Ready", value: "01" },
-    { label: "Certifications", value: "05" },
-    { label: "Core Focus", value: "SIGINT + Privacy" }
+    { label: "Projects", value: "02" },
+    { label: "Local Tools", value: "11" },
+    { label: "Verified Creds", value: "05" }
   ],
   signalTags: [
     "Signals Intelligence",
@@ -42,20 +46,6 @@ export const portfolio = {
     "OSINT",
     "TryHackMe",
     "Hack The Box"
-  ],
-  writeupFolders: [
-    {
-      label: "Hack The Box",
-      description: "",
-      key: "htb",
-      path: "HTB"
-    },
-    {
-      label: "TryHackMe",
-      description: "",
-      key: "thm",
-      path: "THM"
-    }
   ],
   platformLinks: [
     {
@@ -79,37 +69,43 @@ export const portfolio = {
     {
       title: "Cisco Ethical Hacker",
       description:
-        "Replace this title with the exact certification name if you want the text to match the embedded badge.",
+        "Cisco ethical hacking credential covering reconnaissance, exploitation concepts, vulnerability handling, and defensive security awareness.",
       issuer: "Credly",
       verificationUrl: "https://www.credly.com/badges/56385cdf-944a-481d-b441-274df8b16fc4/public_url",
       imagePath: "./src/ethical-hacker.png"
     },
     {
-      title: "IBM Fundamentals",
+      title: "IBM Cybersecurity Fundamentals",
       description:
-        "This badge is already wired into the page using the share badge ID you provided.",
+        "Foundational cybersecurity credential covering security concepts, threat types, controls, and basic operational practices.",
       issuer: "Credly",
       verificationUrl: "https://www.credly.com/badges/e54afb67-fbd1-43ab-8b52-e338eb096318/public_url",
       imagePath: "./src/cybersecurity-fundamentals.png"
     },
     {
-      title: "CC",
+      title: "ISC2 Certified in Cybersecurity",
       description:
-        "Use the verification link or replace this copy with the exact cert summary you want recruiters to see.",
+        "ISC2 entry-level cybersecurity certification covering security principles, incident response, access controls, and network security basics.",
       issuer: "Credly",
       verificationUrl: "https://www.credly.com/badges/9f81cd7c-cf0b-48e9-9c71-bc37f6fe5fba/public_url",
       imagePath: "./src/certified-in-cybersecurity-cc.png"
     },
     {
       title: "ICS-300",
-      description: "CISA cybersecurity and infrastructure security training badge.",
+      description:
+        "CISA Advanced Cybersecurity for Industrial Control Systems course covering ICS security, IT/OT defense concepts, network discovery and mapping, detection, exploitation process, and attack demonstrations.",
       issuer: "CISA",
+      resourceUrl: "https://www.cisa.gov/resources-tools/training/advanced-cybersecurity-industrial-control-systems-ics300",
+      resourceLabel: "View CISA ICS300 course",
       imagePath: "./src/cisa.png"
     },
     {
       title: "ICS-401",
-      description: "CISA cybersecurity and infrastructure security training badge.",
+      description:
+        "CISA Industrial Control Systems Evaluation training focused on analyzing, evaluating, and documenting the cybersecurity posture of an ICS network using a repeatable assessment process.",
       issuer: "CISA",
+      resourceUrl: "https://www.cisa.gov/resources-tools/training/industrial-control-systems-evaluation-401v",
+      resourceLabel: "View CISA 401V course",
       imagePath: "./src/cisa.png"
     }
   ]

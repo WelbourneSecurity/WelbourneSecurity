@@ -1,4 +1,6 @@
-Writeups/
+/Writeups/
+!/writeups/
+!/writeups/**
 Thumbs.db
 Desktop.ini
 .DS_Store
@@ -15,3 +17,7 @@ BITERRA_ROC_CHALLENGE.txt
 challenge-packet/
 ROC/
 tools/
+!/tools/
+/tools/*
+!/tools/index.html
+!/tools/workbench.js

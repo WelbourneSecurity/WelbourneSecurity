@@ -1,0 +1,4 @@
+Contact: mailto:info@welbournesecurity.com
+Canonical: https://welbournesecurity.com/security.txt
+Preferred-Languages: en
+Policy: https://welbournesecurity.com/#contact

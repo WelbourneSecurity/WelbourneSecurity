@@ -74,7 +74,7 @@ const resolvePublicIp = async () => {
   const timeoutId = window.setTimeout(() => controller.abort(), 2200);
 
   try {
-    const response = await fetch("https://api64.ipify.org?format=json", {
+    const response = await fetch("https://api.ipify.org?format=json", {
       cache: "no-store",
       signal: controller.signal
     });

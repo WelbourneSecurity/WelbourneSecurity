@@ -4,7 +4,7 @@ const SITE_URL = "https://welbournesecurity.com/";
 
 const syncRuntimeMetadata = () => {
   const socialImageUrl = new URL("./src/social-preview.svg", SITE_URL).href;
-  document.title = "Welbourne Security | Cyber Intelligence Portfolio, Writeups, and Browser Tools";
+  document.title = "Welbourne Security | Cyber Intelligence Projects and Tools";
   document.querySelector('link[rel="canonical"]')?.setAttribute("href", SITE_URL);
   document.querySelector('meta[property="og:url"]')?.setAttribute("content", SITE_URL);
   document.querySelector('meta[property="og:image"]')?.setAttribute("content", socialImageUrl);
@@ -46,12 +46,12 @@ const createEmbed = ({ embedUrl, embedTitle, title, description }) => {
   return placeholder;
 };
 
-const createCertificationImage = ({ title, imagePath, verificationUrl }) => {
-  const frame = verificationUrl ? document.createElement("a") : document.createElement("div");
+const createCertificationImage = ({ title, imagePath, linkUrl }) => {
+  const frame = linkUrl ? document.createElement("a") : document.createElement("div");
   frame.className = "certification-link";
 
-  if (verificationUrl && frame instanceof HTMLAnchorElement) {
-    frame.href = verificationUrl;
+  if (linkUrl && frame instanceof HTMLAnchorElement) {
+    frame.href = linkUrl;
     frame.target = "_blank";
     frame.rel = "noreferrer";
   }
@@ -78,18 +78,48 @@ const createPlatform = ({ title, profileUrl }) => {
   return link;
 };
 
-const createCertification = ({ title, description, verificationUrl, imagePath }) => {
+const createCertification = ({ title, description, issuer, verificationUrl, resourceUrl, resourceLabel, imagePath }, index = 0) => {
   const item = document.createElement("article");
-  item.className = "certification-item";
-  item.append(imagePath ? createCertificationImage({ title, imagePath, verificationUrl }) : createEmbed({ title, description }));
+  item.className = `certification-item${index === 0 ? " is-featured" : ""}${verificationUrl ? " is-verifiable" : ""}`;
+  const linkUrl = verificationUrl || resourceUrl || "";
+  item.append(imagePath ? createCertificationImage({ title, imagePath, linkUrl }) : createEmbed({ title, description }));
 
-  if (imagePath) {
-    const caption = document.createElement("p");
-    caption.className = "certification-caption";
-    caption.textContent = title;
-    item.append(caption);
+  const copy = document.createElement("div");
+  copy.className = "certification-copy";
+
+  const status = document.createElement("span");
+  status.className = "certification-status";
+  status.textContent = verificationUrl ? "Verified badge" : "Training record";
+  copy.append(status);
+
+  const heading = document.createElement("h3");
+  heading.textContent = title;
+  copy.append(heading);
+
+  if (issuer) {
+    const meta = document.createElement("p");
+    meta.className = "certification-meta";
+    meta.textContent = issuer;
+    copy.append(meta);
   }
 
+  if (description) {
+    const p = document.createElement("p");
+    p.textContent = description;
+    copy.append(p);
+  }
+
+  if (linkUrl) {
+    const link = document.createElement("a");
+    link.className = "certification-text-link";
+    link.href = linkUrl;
+    link.target = "_blank";
+    link.rel = "noreferrer";
+    link.textContent = verificationUrl ? "Verify credential" : resourceLabel || "View course";
+    copy.append(link);
+  }
+
+  item.append(copy);
   return item;
 };
 
@@ -166,5 +196,5 @@ export function initPlatform(portfolio) {
   );
 
   const certificationGrid = document.getElementById("certification-grid");
-  portfolio.certifications.forEach((cert) => certificationGrid?.append(createCertification(cert)));
+  portfolio.certifications.forEach((cert, index) => certificationGrid?.append(createCertification(cert, index)));
 }

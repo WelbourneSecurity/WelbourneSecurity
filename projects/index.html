@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Projects | Welbourne Security</title>
+    <meta name="description" content="Welbourne Security projects: RFIDemon, a Raspberry Pi RFID analysis workstation, and the Royal Observer Corps Network interactive project page." />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#071018" />
+    <link rel="canonical" href="https://welbournesecurity.com/projects/" />
+    <link rel="icon" type="image/svg+xml" href="../src/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../styles.css?v=3" />
+  </head>
+  <body>
+    <a class="skip-to-content" href="#top">Skip to main content</a>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="/" aria-label="Back to home">
+          <span class="brand-mark" aria-hidden="true"><img src="../src/favicon.svg" alt="" /></span>
+          <span class="brand-copy"><strong>Welbourne Security</strong><small>Projects</small></span>
+        </a>
+        <div class="header-actions">
+          <nav class="site-nav" aria-label="Primary navigation">
+            <a href="/services/">Services</a>
+            <a href="/projects/" aria-current="page">Projects</a>
+            <a href="/writeups/">Writeups</a>
+            <a href="/tools/">Tools</a>
+            <a href="/#contact">Contact</a>
+          </nav>
+          <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle light and dark mode"><span class="theme-toggle-label">Light Mode</span></button>
+        </div>
+      </header>
+
+      <main id="top">
+        <section class="page-hero">
+          <div>
+            <p class="eyebrow">Projects</p>
+            <h1>Hardware, tooling, and interactive security projects.</h1>
+          </div>
+        </section>
+
+        <section class="section project-detail-section" id="rfidemon">
+          <div class="project-detail-hero">
+            <div class="project-logo-panel">
+              <picture>
+                <source srcset="../src/rfidemon-logo.webp" type="image/webp" />
+                <img src="../src/rfidemon-logo.png" alt="RFIDemon logo on a dark aircraft fuselage" />
+              </picture>
+            </div>
+            <div>
+              <p class="eyebrow">Primary Project</p>
+              <h2>RFIDemon</h2>
+              <p>
+                RFIDemon is a Raspberry Pi based RFID analysis and cloning workstation for authorised MIFARE Classic
+                testing. The Pi owns the RC522 reader, REST API, scan loop, encrypted capture storage, and AutoPwn
+                cracking pipeline. A laptop runs the browser dashboard proxy and HTTPS receiver for captured card
+                snapshots.
+              </p>
+              <div class="section-actions">
+                <a class="action primary" href="https://github.com/WelbourneSecurity/RFIDemon" target="_blank" rel="noreferrer">View repository</a>
+                <a class="action secondary" href="/tools/">Open browser tools</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="project-fact-grid">
+            <article>
+              <span>Hardware</span>
+              <strong>Raspberry Pi + RC522</strong>
+              <p>SPI-connected MFRC522/RC522 reader support with a Windows development path through `MockMFRC522`.</p>
+            </article>
+            <article>
+              <span>Target</span>
+              <strong>MIFARE Classic</strong>
+              <p>Classification for 1K, Mini, 4K, and Fudan-style cards, with card-type routing into AutoPwn workers.</p>
+            </article>
+            <article>
+              <span>Pipeline</span>
+              <strong>AutoPwn phases</strong>
+              <p>Dictionary, Darkside, and nested attack phases with shared reader locking for hardware-safe access.</p>
+            </article>
+            <article>
+              <span>Storage</span>
+              <strong>Encrypted Pi captures</strong>
+              <p>Pi-side card data is encrypted before SQLite writes, while the laptop inbox is plaintext by design for review/export.</p>
+            </article>
+          </div>
+
+          <div class="project-architecture">
+            <article>
+              <h3>Runtime Model</h3>
+              <ul>
+                <li>Pi API runs on port 5000.</li>
+                <li>Laptop dashboard proxy serves the browser UI on localhost port 5001.</li>
+                <li>Laptop receiver accepts HTTPS capture pushes on port 5002.</li>
+                <li>Both devices use the same infrastructure Wi-Fi network.</li>
+              </ul>
+            </article>
+            <article>
+              <h3>Security Model</h3>
+              <ul>
+                <li>Dashboard login uses JWT access and refresh tokens.</li>
+                <li>Proxy-to-Pi traffic can use HTTPS with SHA-256 certificate fingerprint pinning.</li>
+                <li>Secure exfil mode supports bearer auth, HMAC request signatures, and encrypted payloads.</li>
+                <li>Runtime secrets, captures, logs, pair state, and virtual environments are ignored by Git.</li>
+              </ul>
+            </article>
+            <article>
+              <h3>Operator Flow</h3>
+              <ul>
+                <li>Start Pi service, laptop receiver, and dashboard proxy.</li>
+                <li>Open the local dashboard and authenticate with the Pi API password.</li>
+                <li>Pair the laptop receiver with the Pi, then switch into attack mode.</li>
+                <li>Present an authorised card and review status, keys, cloneability, exports, and reports.</li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="project-note">
+            <strong>Use boundary</strong>
+            <p>RFIDemon is intended for authorised RFID security testing, controlled lab work, and defensive assessment only. It should only be used on cards and systems owned by the tester or covered by explicit permission.</p>
+          </div>
+        </section>
+
+        <section class="section project-detail-section" id="roc-network">
+          <div class="section-intro">
+            <p class="eyebrow">Interactive Project</p>
+            <h2>Royal Observer Corps Network</h2>
+          </div>
+          <div class="project-card-grid">
+            <a class="project-card project-card-featured" href="">
+              <span>Map + Operator Exercise</span>
+              <picture class="project-card-logo">
+                <source srcset="../src/roc-logo.webp" type="image/webp" />
+                <img src="../src/roc-logo.png" alt="Royal Observer Corps Network project logo" loading="lazy" decoding="async" />
+              </picture>
+              <strong>Open the ROC Network project</strong>
+              <p>An educational tribute to the Royal Observer Corps network. Act as a Group Control, review posts in your sector, and plot incoming report data.</p>
+            </a>
+            <article class="project-card">
+              <span>Focus</span>
+              <strong>Group Control plotting workflow</strong>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <div class="footer-brand"><strong>Welbourne Security</strong><span>Cyber intelligence portfolio and local browser tools.</span></div>
+        <nav class="footer-links" aria-label="Footer navigation">
+          <a href="/">Home</a><a href="/services/">Services</a><a href="/writeups/">Writeups</a><a href="/tools/">Tools</a><a href="/credentials/">Credentials</a><a href="mailto:info@welbournesecurity.com">Email</a>
+        </nav>
+      </footer>
+    </div>
+    <script type="module" src="../js/page.js"></script>
+  </body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Writeups | Welbourne Security</title>
+    <meta name="description" content="Welbourne Security writeup archive for Hack The Box and TryHackMe notes, separated from the main projects section." />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#071018" />
+    <link rel="canonical" href="https://welbournesecurity.com/writeups/" />
+    <link rel="icon" type="image/svg+xml" href="../src/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' https: data:; connect-src 'self' https://api.github.com https://raw.githubusercontent.com; object-src 'none'; base-uri 'self';" />
+    <link rel="stylesheet" href="../styles.css?v=3" />
+  </head>
+  <body>
+    <a class="skip-to-content" href="#top">Skip to main content</a>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="/" aria-label="Back to home">
+          <span class="brand-mark" aria-hidden="true"><img src="../src/favicon.svg" alt="" /></span>
+          <span class="brand-copy"><strong>Welbourne Security</strong><small>Writeups</small></span>
+        </a>
+        <div class="header-actions">
+          <nav class="site-nav" aria-label="Primary navigation">
+            <a href="/services/">Services</a>
+            <a href="/projects/">Projects</a>
+            <a href="/writeups/" aria-current="page">Writeups</a>
+            <a href="/tools/">Tools</a>
+            <a href="/#contact">Contact</a>
+          </nav>
+          <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle light and dark mode"><span class="theme-toggle-label">Light Mode</span></button>
+        </div>
+      </header>
+
+      <main id="top">
+        <section class="page-hero">
+          <div>
+            <p class="eyebrow">Writeups</p>
+            <h1>Challenge notes in their own archive.</h1>
+          </div>
+        </section>
+
+        <section class="section writeups-archive-section" aria-labelledby="writeups-heading">
+          <div class="section-intro">
+            <p class="eyebrow">Archive</p>
+            <h2 id="writeups-heading">Writeup archive.</h2>
+          </div>
+
+          <div class="writeup-toolbar" aria-label="Writeup filters">
+            <label class="tool-label" for="writeup-search">Search writeups</label>
+            <input class="tool-input writeup-toolbar-search" id="writeup-search" type="search" placeholder="Search by title, tag, path, or platform" />
+            <div class="writeup-toolbar-row">
+              <div class="writeup-filter-group" aria-label="Platform filter">
+                <button class="writeup-filter-button is-active" type="button" data-folder-filter="all" aria-pressed="true">All</button>
+                <button class="writeup-filter-button" type="button" data-folder-filter="htb" aria-pressed="false">Hack The Box</button>
+                <button class="writeup-filter-button" type="button" data-folder-filter="thm" aria-pressed="false">TryHackMe</button>
+              </div>
+              <button class="action secondary" id="writeup-filter-clear" type="button">Reset Filters</button>
+            </div>
+            <div class="writeup-toolbar-meta">
+              <span class="writeup-filter-count" id="writeup-filter-count">Loading writeups...</span>
+              <div class="writeup-tag-filters" id="writeup-tag-filters" aria-label="Tag filters"></div>
+            </div>
+          </div>
+
+          <div class="writeup-browser" aria-live="polite">
+            <div class="writeup-groups" id="writeup-groups"></div>
+            <article class="writeup-viewer is-collapsed" id="writeup-viewer" aria-label="Selected writeup">
+              <div class="writeup-viewer-empty">
+                <div>
+                  <h3>Select a writeup to open it.</h3>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <div class="footer-brand"><strong>Welbourne Security</strong><span>Cyber intelligence portfolio and local browser tools.</span></div>
+        <nav class="footer-links" aria-label="Footer navigation">
+          <a href="/">Home</a><a href="/projects/">Projects</a><a href="/writeups/">Writeups</a><a href="/tools/">Tools</a><a href="/credentials/">Credentials</a><a href="mailto:info@welbournesecurity.com">Email</a>
+        </nav>
+      </footer>
+    </div>
+    <script type="module" src="./writeups-page.js"></script>
+  </body>
+</html>

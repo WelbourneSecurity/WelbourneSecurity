@@ -387,9 +387,11 @@ const createWriteupItem = (writeup) => {
   return button;
 };
 
-const renderEmptyWriteupViewer = (title, message = "") => {
+const renderEmptyWriteupViewer = (title, message = "", options = {}) => {
   const viewer = document.getElementById("writeup-viewer");
   if (!viewer) return;
+
+  viewer.classList.toggle("is-collapsed", Boolean(options.collapsed));
 
   const wrapper = document.createElement("div");
   wrapper.className = "writeup-viewer-empty";
@@ -599,6 +601,7 @@ const renderWriteup = (writeup) => {
   const viewer = document.getElementById("writeup-viewer");
   if (!viewer) return;
 
+  viewer.classList.remove("is-collapsed");
   state.activeWriteupPath = writeup.path;
   updateActiveWriteupItem();
 
@@ -727,7 +730,13 @@ const applyWriteupFilters = () => {
   }
 
   if (!state.filteredWriteups.some((w) => w.path === state.activeWriteupPath)) {
-    renderWriteup(state.filteredWriteups[0]);
+    state.activeWriteupPath = "";
+    updateActiveWriteupItem();
+    renderEmptyWriteupViewer(
+      "Select a writeup to open it.",
+      "The reader stays collapsed until you choose a writeup from the list.",
+      { collapsed: true }
+    );
     return;
   }
 
@@ -843,18 +852,18 @@ export const loadRepositoryWriteups = async (portfolio) => {
   applyWriteupFilters();
 };
 
-export function initWriteups(portfolio) {
+export function initWriteups(portfolio, options = {}) {
   const compactMobileQuery = window.matchMedia("(max-width: 960px)");
   const writeupSearch = document.getElementById("writeup-search");
   const writeupFilterClear = document.getElementById("writeup-filter-clear");
 
-  const ensureWriteupsOnDesktop = () => {
-    if (!compactMobileQuery.matches && !state.writeupSources.length) {
+  const ensureWriteupsLoaded = () => {
+    if ((options.loadOnMobile || !compactMobileQuery.matches) && !state.writeupSources.length) {
       void loadRepositoryWriteups(portfolio);
     }
   };
 
-  ensureWriteupsOnDesktop();
+  ensureWriteupsLoaded();
 
   writeupSearch?.addEventListener("input", (event) => {
     if (!(event.target instanceof HTMLInputElement)) return;
@@ -890,5 +899,5 @@ export function initWriteups(portfolio) {
     }
   });
 
-  return { ensureWriteupsOnDesktop };
+  return { ensureWriteupsOnDesktop: ensureWriteupsLoaded, ensureWriteupsLoaded };
 }
