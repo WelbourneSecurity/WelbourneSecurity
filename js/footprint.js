@@ -90,32 +90,58 @@ const resolvePublicIp = async () => {
   }
 };
 
-const initialiseFootprintSnapshot = async () => {
+const initialiseFootprintSnapshot = () => {
   setFootprintStatus(
     "Inspecting browser exposure...",
     "Checking the quick browser details exposed immediately on page load."
   );
   updateFootprintSnapshot();
+  setFootprintValue("public-ip", "Not checked");
 
-  const publicIp = await resolvePublicIp();
-  if (publicIp) {
-    setFootprintValue("public-ip", publicIp);
-    setFootprintStatus(
-      "Quick browser details are visible on load.",
-      "Browser, OS, language, time zone, and public IP are easy to inspect immediately from the client."
-    );
-    return;
-  }
-
-  setFootprintValue("public-ip", "Lookup unavailable");
   setFootprintStatus(
     "Browser details are visible on load.",
-    "Browser, OS, language, and time zone are readable immediately. Public IP depends on a separate client-side lookup."
+    "Browser, OS, language, and time zone are readable immediately. Public IP is only checked if you request it."
   );
 };
 
+const bindPublicIpLookup = () => {
+  const action = document.querySelector("[data-footprint-ip-action]");
+  if (!(action instanceof HTMLButtonElement)) return;
+
+  action.addEventListener("click", async () => {
+    action.disabled = true;
+    action.textContent = "Checking...";
+    setFootprintValue("public-ip", "Checking...");
+    setFootprintStatus(
+      "Checking public IP...",
+      "This request asks api.ipify.org for the public IP address visible to external services."
+    );
+
+    const publicIp = await resolvePublicIp();
+    if (publicIp) {
+      setFootprintValue("public-ip", publicIp);
+      setFootprintStatus(
+        "Public IP lookup complete.",
+        "Browser, OS, language, time zone, and the requested public IP value are visible from the client."
+      );
+      action.textContent = "Refresh IP";
+      action.disabled = false;
+      return;
+    }
+
+    setFootprintValue("public-ip", "Lookup unavailable");
+    setFootprintStatus(
+      "Public IP lookup unavailable.",
+      "Browser, OS, language, and time zone are readable locally. Public IP depends on the optional client-side lookup."
+    );
+    action.textContent = "Try again";
+    action.disabled = false;
+  });
+};
+
 export function initFootprint() {
-  void initialiseFootprintSnapshot();
+  initialiseFootprintSnapshot();
+  bindPublicIpLookup();
 
   let resizeTimer = 0;
   window.addEventListener(
