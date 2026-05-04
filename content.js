@@ -38,7 +38,7 @@ export const portfolio = {
   heroMetrics: [
     { label: "Projects", value: "02" },
     { label: "Local Tools", value: "11" },
-    { label: "Verified Creds", value: "05" }
+    { label: "Credentials", value: "07" }
   ],
   signalTags: [
     "Signals Intelligence",
@@ -91,6 +91,15 @@ export const portfolio = {
       imagePath: "./src/certified-in-cybersecurity-cc.png"
     },
     {
+      title: "BSc (Hons) Cyber Security - 1:1",
+      description:
+        "First Class Honours degree in Cyber Security from De Montfort University; UCAS course code G550.",
+      issuer: "De Montfort University",
+      resourceUrl: "https://www.dmu.ac.uk/study/courses/undergraduate-courses/cyber-security-bsc-degree/cyber-security-bsc-hons.aspx",
+      resourceLabel: "View DMU G550 course",
+      imagePath: "./src/dmu.png"
+    },
+    {
       title: "ICS-300",
       description:
         "CISA Advanced Cybersecurity for Industrial Control Systems course covering ICS security, IT/OT defense concepts, network discovery and mapping, detection, exploitation process, and attack demonstrations.",
@@ -107,6 +116,17 @@ export const portfolio = {
       resourceUrl: "https://www.cisa.gov/resources-tools/training/industrial-control-systems-evaluation-401v",
       resourceLabel: "View CISA 401V course",
       imagePath: "./src/cisa.png"
+    },
+    {
+      title: "HTB Certified Defensive Security Analyst",
+      description:
+        "Hack The Box CDSA certification in progress, focused on security analysis, SOC operations, incident handling, and actionable incident reporting.",
+      issuer: "Hack The Box",
+      resourceUrl: "https://academy.hackthebox.com/preview/certifications/htb-certified-defensive-security-analyst",
+      resourceLabel: "View HTB CDSA certification",
+      imagePath: "./src/cdsa.webp",
+      statusLabel: "In progress",
+      statusTone: "in-progress"
     }
   ]
 };

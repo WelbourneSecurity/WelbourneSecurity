@@ -9,6 +9,7 @@ Desktop.ini
 .chrome-test/
 .chrome-*/
 .roc-*/
+tmp/
 __pycache__/
 *.pyc
 

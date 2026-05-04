@@ -78,9 +78,12 @@ const createPlatform = ({ title, profileUrl }) => {
   return link;
 };
 
-const createCertification = ({ title, description, issuer, verificationUrl, resourceUrl, resourceLabel, imagePath }, index = 0) => {
+const createCertification = (
+  { title, description, issuer, verificationUrl, resourceUrl, resourceLabel, imagePath, statusLabel, statusTone },
+  index = 0
+) => {
   const item = document.createElement("article");
-  item.className = `certification-item${index === 0 ? " is-featured" : ""}${verificationUrl ? " is-verifiable" : ""}`;
+  item.className = `certification-item${index === 0 ? " is-featured" : ""}${verificationUrl ? " is-verifiable" : ""}${statusTone ? ` is-${statusTone}` : ""}`;
   const linkUrl = verificationUrl || resourceUrl || "";
   item.append(imagePath ? createCertificationImage({ title, imagePath, linkUrl }) : createEmbed({ title, description }));
 
@@ -89,7 +92,7 @@ const createCertification = ({ title, description, issuer, verificationUrl, reso
 
   const status = document.createElement("span");
   status.className = "certification-status";
-  status.textContent = verificationUrl ? "Verified badge" : "Training record";
+  status.textContent = statusLabel || (verificationUrl ? "Verified badge" : "Training record");
   copy.append(status);
 
   const heading = document.createElement("h3");

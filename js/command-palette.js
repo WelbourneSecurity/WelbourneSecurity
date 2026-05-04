@@ -7,6 +7,7 @@ const commandItems = [
   { label: "Credentials", detail: "Credential details and verification links", href: "/credentials/" },
   { label: "Contact", detail: "Collaboration and hiring contact", href: "/#contact" },
   { label: "RFIDemon", detail: "Raspberry Pi RFID analysis and cloning workstation", href: "/projects/#rfidemon" },
+  { label: "ROC Network", detail: "Royal Observer Corps interactive project", href: "/projects/roc-network/" },
   { label: "Password Generator", detail: "Generate and score local passwords", href: "/tools/#tool-password" },
   { label: "IOC Extractor", detail: "Extract, defang, and refang indicators", href: "/tools/#tool-ioc" },
   { label: "JWT Decoder", detail: "Decode token headers and claims locally", href: "/tools/#tool-jwt" },

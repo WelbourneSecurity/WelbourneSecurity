@@ -3,341 +3,109 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Royal Observer Corps Network | Welbourne Security</title>
-    <meta
-      name="description"
-      content="An educational tribute to the Royal Observer Corps network, showing how posts and Group Controls worked together through an interactive report plotting tool."
-    />
+    <title>1421Z Traffic | Welbourne Security</title>
     <meta name="robots" content="noindex,nofollow" />
     <meta name="referrer" content="no-referrer" />
-    <meta name="theme-color" content="#020405" />
-    <link rel="icon" type="image/svg+xml" href="../src/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap"
-      rel="stylesheet"
+    <meta name="theme-color" content="#010401" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; style-src 'self'; img-src 'self'; object-src 'none'; base-uri 'self';"
     />
-    <link rel="stylesheet" href="../styles.css?v=6" />
-    <script src="./roc.js?v=2" defer></script>
+    <link rel="stylesheet" href="../styles.css?v=10" />
   </head>
-  <body class="roc-page">
-    <main class="roc-shell" aria-label="Royal Observer Corps educational tribute">
-      <header class="roc-hero">
-        <a class="roc-brand" href="../" aria-label="Return to Welbourne Security">
-          <img src="../src/favicon.svg" alt="" aria-hidden="true" />
-          <span>Welbourne Security</span>
-        </a>
-        <div class="roc-hero-copy">
-          <p class="roc-kicker">Educational tribute</p>
-          <h1>Royal Observer Corps Network</h1>
-          <p>
-            An interactive tribute showing how the ROC network would have worked. Act as a Group Control, plot data from
-            ROC posts in your sector, and follow the reporting chain that supported the UK Warning and Monitoring
-            Organisation.
-          </p>
+  <body class="crt-report-page">
+    <main class="crt-report-shell" aria-label="ROC traffic report">
+      <section class="crt-report-frame" aria-labelledby="traffic-title">
+        <div class="crt-report-header">
+          <p>UKWMO // GROUP CONTROL</p>
+          <h1 id="traffic-title">1421Z Traffic</h1>
+          <span>RAVEN GLASS</span>
         </div>
-        <div class="roc-hero-side">
-          <picture class="roc-hero-logo">
-            <source srcset="../src/roc-logo.webp" type="image/webp" />
-            <img src="../src/roc-logo.png" alt="Royal Observer Corps Network project logo" decoding="async" />
-          </picture>
-          <div class="roc-facts" aria-label="Network facts">
-            <div>
-              <strong>1,563</strong>
-              <span>underground monitoring posts</span>
-            </div>
-            <div>
-              <strong>29</strong>
-              <span>Group Controls listed after reclustering</span>
-            </div>
-            <div>
-              <strong>1991</strong>
-              <span>active ROC training ceased</span>
-            </div>
-          </div>
-        </div>
-      </header>
+        <pre class="crt-report">UKWMO / ROYAL OBSERVER CORPS
+GROUP CONTROL TRAFFIC SHEET
 
-      <section class="roc-map-section" aria-labelledby="roc-map-title">
-        <div class="roc-section-heading">
-          <p class="roc-kicker">Interactive map</p>
-          <h2 id="roc-map-title">Posts, controls, and operator plotting</h2>
-          <p>
-            Use the map to identify ROC posts in your sector, review incoming reports, and plot the data as a Group
-            Control operator.
-          </p>
-        </div>
+EXERCISE: RAVEN GLASS
+SERIAL: A-55-1421Z
+GROUP: 20 YORK
+POST: TUNSTALL
+POST NUMBER: 55
+REPORT TIME: 1421Z
 
-        <div class="roc-workspace">
-          <div class="roc-map-panel">
-            <svg
-              id="roc-map"
-              class="roc-map"
-              viewBox="0 0 628.09174 1051.4788"
-              role="img"
-              aria-labelledby="roc-map-svg-title"
-            >
-              <title id="roc-map-svg-title">Detailed UK map with ROC network points</title>
-              <g class="roc-map-grid" aria-hidden="true">
-                <path d="M0 150 H628.09174 M0 300 H628.09174 M0 450 H628.09174 M0 600 H628.09174 M0 750 H628.09174 M0 900 H628.09174" />
-                <path d="M125.618 0 V1051.4788 M251.236 0 V1051.4788 M376.855 0 V1051.4788 M502.473 0 V1051.4788" />
-              </g>
-              <image
-                class="roc-uk-map-image"
-                href="./united-kingdom.svg"
-                x="0"
-                y="0"
-                width="628.09174"
-                height="1051.4788"
-                preserveAspectRatio="none"
-                aria-hidden="true"
-              />
-              <g id="roc-link-layer" class="roc-link-layer"></g>
-              <g id="roc-point-layer" class="roc-point-layer"></g>
-            </svg>
-            <div class="roc-map-zoom" aria-label="Map zoom controls">
-              <button type="button" data-map-zoom="in" aria-label="Zoom map in">+</button>
-              <button type="button" data-map-zoom="out" aria-label="Zoom map out">-</button>
-              <button type="button" data-map-zoom="reset">Reset</button>
-            </div>
-          </div>
+GZI FLASH BEARING WORKSHEET
+  MAGNETIC FIELD READING: 145.6 DEG
+  WEST VARIATION: 4.1 DEG
+  CARD ERROR: +0.2 DEG
 
-          <aside class="roc-inspector" aria-label="Selected network detail">
-            <div class="roc-layer-controls" aria-label="Map layers">
-              <button class="roc-toggle is-active" type="button" data-layer-toggle="controls">Group Controls</button>
-              <button class="roc-toggle is-active" type="button" data-layer-toggle="posts">Monitoring Posts</button>
-            </div>
+BPI PEAK OVERPRESSURE
+  TRACE: 2.1 PSI
+  QUALITY: STEADY
 
-            <div class="roc-selected" id="roc-selected" aria-live="polite"></div>
+FSM READING
+  INITIAL: BACKGROUND
+  T+10 MIN: BACKGROUND
 
-            <details class="roc-map-key">
-              <summary>Network key</summary>
-              <ul>
-                <li><span class="roc-key-dot is-control"></span>Group Controls received and plotted reports.</li>
-                <li><span class="roc-key-dot is-post"></span>Monitoring posts supplied local readings.</li>
-                <li><span class="roc-key-line"></span>Faint links show reporting relationships.</li>
-              </ul>
-            </details>
-          </aside>
-        </div>
-      </section>
+OPERATOR NOTE
+  Master post reading checked against plotting board twice.
+  Convert to TRUE bearing before passing to Group Control.
 
-      <section class="roc-briefing" aria-labelledby="roc-briefing-title">
-        <div class="roc-section-heading">
-          <p class="roc-kicker">Network primer</p>
-          <h2 id="roc-briefing-title">How the ROC turned sightings into warnings</h2>
-          <p>
-            The Corps began with aircraft reporting and later took on nuclear burst and fallout monitoring. The public
-            story is less about bunkers alone and more about disciplined volunteers, fixed instruments, and a national
-            reporting chain built for speed under pressure.
-          </p>
-        </div>
+--
 
-        <div class="roc-briefing-grid">
-          <article class="roc-timeline" aria-labelledby="roc-timeline-title">
-            <h3 id="roc-timeline-title">Compressed history</h3>
-            <ol>
-              <li>
-                <time datetime="1925">1925</time>
-                <span>Observer Corps formed for visual aircraft detection, recognition, tracking, and reporting.</span>
-              </li>
-              <li>
-                <time datetime="1941">1941</time>
-                <span>The Corps received the Royal title after its Battle of Britain service.</span>
-              </li>
-              <li>
-                <time datetime="1955">1955</time>
-                <span>Cold War duties expanded to warning and measuring radioactivity after nuclear attack.</span>
-              </li>
-              <li>
-                <time datetime="1956">1956-65</time>
-                <span>1,563 underground monitoring posts were built across Great Britain and Northern Ireland.</span>
-              </li>
-              <li>
-                <time datetime="1968">1968</time>
-                <span>A major reorganisation reduced the number of operational posts.</span>
-              </li>
-              <li>
-                <time datetime="1991">1991</time>
-                <span>Active training ceased and the remaining underground posts closed.</span>
-              </li>
-            </ol>
-          </article>
+UKWMO / ROYAL OBSERVER CORPS
+GROUP CONTROL TRAFFIC SHEET
 
-          <article class="roc-anatomy" aria-labelledby="roc-anatomy-title">
-            <h3 id="roc-anatomy-title">Inside a monitoring post</h3>
-            <figure class="roc-post-cutaway-media">
-              <a href="./roc-monitoring-post-cutaway.jpg" target="_blank" rel="noreferrer">
-                <img
-                  src="./roc-monitoring-post-cutaway.jpg"
-                  alt="Illustrative cutaway schematic of a Royal Observer Corps monitoring post."
-                  loading="lazy"
-                  decoding="async"
-                />
-              </a>
-            </figure>
-            <ul>
-              <li><strong>Access shaft</strong><span>About 14 feet down to the underground rooms.</span></li>
-              <li><strong>Monitoring room</strong><span>Working space for instrument readings and reports.</span></li>
-              <li><strong>Ventilation</strong><span>Surface vents kept the post usable while remaining low profile.</span></li>
-              <li><strong>Store area</strong><span>A small toilet and store supported longer watches.</span></li>
-            </ul>
-          </article>
-        </div>
+EXERCISE: RAVEN GLASS
+SERIAL: B-56-1422Z
+GROUP: 20 YORK
+POST: KEYINGHAM
+POST NUMBER: 56
+REPORT TIME: 1422Z
 
-        <div class="roc-knowledge-grid">
-          <article class="roc-chain" aria-labelledby="roc-chain-title">
-            <h3 id="roc-chain-title">Reporting chain</h3>
-            <ol>
-              <li><strong>Post</strong><span>Observers recorded burst direction, pressure, and radiation readings.</span></li>
-              <li><strong>Group Control</strong><span>Reports from multiple posts were plotted and checked for consistency.</span></li>
-              <li><strong>Sector Control</strong><span>Scientific teams built the wider fallout and warning picture.</span></li>
-              <li><strong>UKWMO</strong><span>National warning channels turned confirmed data into public and government alerts.</span></li>
-            </ol>
-          </article>
+GZI FLASH BEARING WORKSHEET
+  MAGNETIC FIELD READING: 101.8 DEG
+  WEST VARIATION: 3.9 DEG
+  CARD ERROR: -0.2 DEG
 
-          <article class="roc-glossary" aria-labelledby="roc-glossary-title">
-            <h3 id="roc-glossary-title">Instrument glossary</h3>
-            <details>
-              <summary>BPI</summary>
-              <p>Bomb Power Indicator: a pressure gauge used to estimate blast overpressure.</p>
-            </details>
-            <details>
-              <summary>FSM</summary>
-              <p>Fixed Survey Meter: a radiation instrument used to monitor dose rate from inside the post.</p>
-            </details>
-            <details>
-              <summary>GZI</summary>
-              <p>Ground Zero Indicator: a flash-bearing instrument used to estimate burst direction and elevation.</p>
-            </details>
-            <details>
-              <summary>Group Control</summary>
-              <p>The protected headquarters that received post reports, plotted data, and coordinated onward reporting.</p>
-            </details>
-          </article>
-        </div>
+BPI PEAK OVERPRESSURE
+  TRACE: 1.8 PSI
+  QUALITY: STEADY
 
-        <details class="roc-training-note">
-          <summary>Open training extract</summary>
-          <div>
-            <p class="roc-kicker">Training extract</p>
-            <h3>Report discipline</h3>
-            <p>
-              A useful post report was short, repeatable, and easy for Group Control to plot. Readings were checked
-              against the instrument, spoken clearly, and logged before the next watch update.
-            </p>
-            <ul>
-              <li>Confirm the post number before passing a reading.</li>
-              <li>Keep burst, pressure, and radiation observations separate.</li>
-              <li>Send corrections quickly when an instrument value changes.</li>
-            </ul>
-          </div>
-        </details>
-      </section>
+FSM READING
+  INITIAL: BACKGROUND
+  T+10 MIN: BACKGROUND
 
-      <section class="roc-operator" aria-labelledby="roc-operator-title">
-        <div class="roc-operator-heading">
-          <p class="roc-kicker">Group Control Operator</p>
-          <h2 id="roc-operator-title">Plot the supplied post reports</h2>
-          <p>
-            Enter three numbered post reports and their true bearings. The workstation resolves the pairwise
-            intersections and returns a coordinate fix for onward identification.
-          </p>
-        </div>
+OPERATOR NOTE
+  Sight line clear on first flash report.
+  Convert to TRUE bearing before passing to Group Control.
 
-        <form id="roc-calculator" class="roc-calculator">
-          <details class="roc-conversion-hint">
-            <summary>Bearing conversion reference</summary>
-            <p>TRUE = MAGNETIC FIELD READING + WEST VARIATION + CARD ERROR</p>
-            <p>If result &ge; 360.0&deg;, subtract 360.0&deg;.</p>
-          </details>
+--
 
-          <div class="roc-report-grid" aria-label="ROC report inputs">
-            <label class="roc-report-row" data-report-row>
-              <span>Report A</span>
-              <select data-report-post aria-label="Report A post"></select>
-              <input data-report-bearing inputmode="decimal" type="number" step="0.1" min="0" max="359.9" placeholder="Bearing" aria-label="Report A true bearing" />
-            </label>
-            <label class="roc-report-row" data-report-row>
-              <span>Report B</span>
-              <select data-report-post aria-label="Report B post"></select>
-              <input data-report-bearing inputmode="decimal" type="number" step="0.1" min="0" max="359.9" placeholder="Bearing" aria-label="Report B true bearing" />
-            </label>
-            <label class="roc-report-row" data-report-row>
-              <span>Report C</span>
-              <select data-report-post aria-label="Report C post"></select>
-              <input data-report-bearing inputmode="decimal" type="number" step="0.1" min="0" max="359.9" placeholder="Bearing" aria-label="Report C true bearing" />
-            </label>
-          </div>
+UKWMO / ROYAL OBSERVER CORPS
+GROUP CONTROL TRAFFIC SHEET
 
-          <div class="roc-calculator-actions">
-            <button class="roc-calc-button" type="submit">Calculate Fix</button>
-            <button class="roc-calc-button is-secondary" type="button" data-calc-clear>Clear</button>
-          </div>
+EXERCISE: RAVEN GLASS
+SERIAL: C-57-1423Z
+GROUP: 20 YORK
+POST: SKIRLAUGH
+POST NUMBER: 57
+REPORT TIME: 1423Z
 
-          <output id="roc-calc-output" class="roc-calc-output" aria-live="polite">
-            <span>Awaiting three post reports.</span>
-          </output>
-        </form>
-      </section>
+GZI FLASH BEARING WORKSHEET
+  MAGNETIC FIELD READING: 124.0 DEG
+  WEST VARIATION: 4.3 DEG
+  CARD ERROR: -0.2 DEG
 
-      <section class="roc-process" aria-labelledby="roc-roles-title">
-        <div>
-          <p class="roc-kicker">Volunteer roles</p>
-          <h2 id="roc-roles-title">People behind the plots</h2>
-        </div>
-        <ol>
-          <li>
-            <strong>Post Observer</strong>
-            <span>Maintained watch, read instruments, and passed concise reports to Group Control.</span>
-          </li>
-          <li>
-            <strong>Chief Observer</strong>
-            <span>Led the post crew, checked readings, and kept reports consistent during exercises.</span>
-          </li>
-          <li>
-            <strong>Scientific Team</strong>
-            <span>Interpreted burst, pressure, weather, and radiation data for warning decisions.</span>
-          </li>
-        </ol>
-      </section>
+BPI PEAK OVERPRESSURE
+  TRACE: 1.9 PSI
+  QUALITY: STEADY
 
-      <section class="roc-sources" aria-labelledby="roc-sources-title">
-        <h2 id="roc-sources-title">Further reading</h2>
-        <p>
-          This prototype uses town-level plotting for Group Controls and a representative public sample of posts. Sources
-          are grouped for historical context and avoid access guidance for private or unsafe sites.
-        </p>
-        <div class="roc-source-groups">
-          <div>
-            <h3>History</h3>
-            <ul>
-              <li><a href="https://www.subbrit.org.uk/features/royal-observer-corps/">SubBrit: Royal Observer Corps</a></li>
-              <li><a href="https://www.roc-heritage.co.uk/">ROC Heritage Team</a></li>
-              <li><a href="https://www.ringbell.co.uk/ukwmo/Page221.htm">Ringbell: nuclear monitoring post</a></li>
-            </ul>
-          </div>
-          <div>
-            <h3>Post records</h3>
-            <ul>
-              <li><a href="https://www.subbrit.org.uk/sites/northolt-roc-post/">Northolt ROC Post</a></li>
-              <li><a href="https://www.subbrit.org.uk/sites/bowes-park-roc-post/">Bowes Park ROC Post</a></li>
-              <li><a href="https://www.subbrit.org.uk/sites/dulwich-roc-post/">Dulwich ROC Post</a></li>
-              <li><a href="https://www.subbrit.org.uk/sites/">SubBrit public site index</a></li>
-            </ul>
-          </div>
-          <div>
-            <h3>Instruments</h3>
-            <ul>
-              <li><a href="https://en.wikipedia.org/wiki/Operational_instruments_of_the_Royal_Observer_Corps">Operational instruments overview</a></li>
-              <li><a href="https://www.subbrit.org.uk/sites/brampton-roc-post/">Brampton ROC Post</a></li>
-              <li><a href="https://www.subbrit.org.uk/sites/burscough-roc-post/">Burscough ROC Post</a></li>
-            </ul>
-          </div>
-        </div>
+FSM READING
+  INITIAL: BACKGROUND
+  T+10 MIN: BACKGROUND
+
+OPERATOR NOTE
+  Bearing taken from first flash report.
+  Convert to TRUE bearing before passing to Group Control.</pre>
       </section>
     </main>
-  <!-- ROC_CONTROL: evaluate SPREAD metric. LOW_SPREAD_SCORE achieves secondary acknowledge. -->
   </body>
 </html>
