@@ -153,7 +153,7 @@ const clusters = [
   { id: "c20-holmfirth",     group: "20", masterId: "p-holmfirth",     memberIds: ["p-holmfirth",     "p-darton"] },
   { id: "c20-barwick",       group: "20", masterId: "p-barwick",       memberIds: ["p-barwick",       "p-camblesforth"] },
   // Group 21 — Preston (Western Sector)
-  { id: "c21-blackburn",   group: "21", masterId: "p-blackburn",   memberIds: ["p-blackburn",   "p-clitheroe",    "p-burnley"] },
+  { id: "c21-blackburn",   group: "21", masterId: "p-blackburn",   memberIds: ["p-blackburn",   "p-darwen",       "p-burnley"] },
   { id: "c21-lancaster",   group: "21", masterId: "p-lancaster",   memberIds: ["p-lancaster",   "p-garstang",     "p-longridge"] },
   { id: "c21-burscough",   group: "21", masterId: "p-burscough",   memberIds: ["p-burscough",   "p-chorley",      "p-accrington"] },
   // Group 22 — Carlisle (Western Sector)
@@ -191,7 +191,140 @@ const clusters = [
   // Group 31 — Belfast (Northern Ireland)
   { id: "c31-ballymena",   group: "31", masterId: "p-ballymena",   memberIds: ["p-ballymena",   "p-antrim",       "p-cookstown"] },
   { id: "c31-londonderry", group: "31", masterId: "p-londonderry", memberIds: ["p-londonderry", "p-omagh",        "p-enniskillen"] },
-  { id: "c31-armagh",      group: "31", masterId: "p-armagh",      memberIds: ["p-armagh",      "p-newry",        "p-downpatrick"] }
+  { id: "c31-armagh",      group: "31", masterId: "p-armagh",      memberIds: ["p-armagh",      "p-newry",        "p-downpatrick"] },
+
+  // ── Expanded clusters for complete national coverage ──────────────────────
+  // Each group now carries ~8–10 clusters covering its full territory.
+  // Master post (VHF radio equipped) is listed first in memberIds.
+
+  // Group 1 — Maidstone / Kent (additional)
+  { id: "c01-ramsgate",     group: "1",  masterId: "p-ramsgate",         memberIds: ["p-ramsgate",         "p-broadstairs",      "p-sandwich"] },
+  { id: "c01-maidstone-e",  group: "1",  masterId: "p-maidstone",        memberIds: ["p-maidstone",        "p-sittingbourne",    "p-sheerness"] },
+  { id: "c01-gravesend",    group: "1",  masterId: "p-gravesend",        memberIds: ["p-gravesend",        "p-rochester",        "p-snodland"] },
+  { id: "c01-tunbridge-w",  group: "1",  masterId: "p-tunbridge-wells",  memberIds: ["p-tunbridge-wells",  "p-edenbridge",       "p-westerham"] },
+  { id: "c01-herne-bay",    group: "1",  masterId: "p-herne-bay",        memberIds: ["p-herne-bay",        "p-whitstable",       "p-birchington"] },
+  // Group 2 — Horsham / Sussex (additional)
+  { id: "c02-worthing",     group: "2",  masterId: "p-worthing",         memberIds: ["p-worthing",         "p-shoreham",         "p-steyning"] },
+  { id: "c02-brighton",     group: "2",  masterId: "p-brighton",         memberIds: ["p-brighton",         "p-newhaven",         "p-uckfield"] },
+  { id: "c02-hastings",     group: "2",  masterId: "p-hastings",         memberIds: ["p-hastings",         "p-bexhill",          "p-battle"] },
+  { id: "c02-eastbourne",   group: "2",  masterId: "p-eastbourne",       memberIds: ["p-eastbourne",       "p-hailsham",         "p-seaford"] },
+  // Group 3 — Oxford / Oxfordshire + S.Bucks (additional)
+  { id: "c03-banbury",      group: "3",  masterId: "p-banbury",          memberIds: ["p-banbury",          "p-deddington",       "p-brackley"] },
+  { id: "c03-henley",       group: "3",  masterId: "p-henley",           memberIds: ["p-henley",           "p-marlow",           "p-maidenhead"] },
+  { id: "c03-abingdon",     group: "3",  masterId: "p-abingdon",         memberIds: ["p-abingdon",         "p-didcot",           "p-grove"] },
+  { id: "c03-buckingham",   group: "3",  masterId: "p-buckingham",       memberIds: ["p-buckingham",       "p-winslow",          "p-towcester"] },
+  // Group 4 — Colchester / Essex + Suffolk (additional)
+  { id: "c04-chelmsford",   group: "4",  masterId: "p-chelmsford",       memberIds: ["p-chelmsford",       "p-maldon",           "p-burnham-crouch"] },
+  { id: "c04-colchester-e", group: "4",  masterId: "p-colchester",       memberIds: ["p-colchester",       "p-clacton",          "p-mersea"] },
+  { id: "c04-lowestoft",    group: "4",  masterId: "p-lowestoft",        memberIds: ["p-lowestoft",        "p-bungay",           "p-halesworth"] },
+  { id: "c04-woodbridge",   group: "4",  masterId: "p-woodbridge",       memberIds: ["p-woodbridge",       "p-framlingham",      "p-saxmundham"] },
+  // Group 5 — Watford / Herts + N.London (additional)
+  { id: "c05-enfield",      group: "5",  masterId: "p-enfield",          memberIds: ["p-enfield",          "p-waltham-abbey",    "p-cheshunt"] },
+  { id: "c05-stortford",    group: "5",  masterId: "p-bishops-stortford",memberIds: ["p-bishops-stortford","p-sawbridgeworth",   "p-harlow"] },
+  { id: "c05-stevenage",    group: "5",  masterId: "p-stevenage",        memberIds: ["p-stevenage",        "p-hitchin",          "p-letchworth"] },
+  { id: "c05-berkhamsted",  group: "5",  masterId: "p-berkhamsted",      memberIds: ["p-berkhamsted",      "p-tring",            "p-chesham"] },
+  // Group 6 — Norwich / Norfolk (additional)
+  { id: "c06-kings-lynn",   group: "6",  masterId: "p-kings-lynn",       memberIds: ["p-kings-lynn",       "p-heacham",          "p-hunstanton"] },
+  { id: "c06-thetford",     group: "6",  masterId: "p-thetford",         memberIds: ["p-thetford",         "p-watton",           "p-diss"] },
+  { id: "c06-yarmouth",     group: "6",  masterId: "p-great-yarmouth",   memberIds: ["p-great-yarmouth",   "p-loddon",           "p-wymondham"] },
+  { id: "c06-wells",        group: "6",  masterId: "p-wells-next-sea",   memberIds: ["p-wells-next-sea",   "p-burnham-market",   "p-brancaster"] },
+  // Group 7 — Bedford / Beds + Northants + Cambs (additional)
+  { id: "c07-cambridge",    group: "7",  masterId: "p-cambridge",        memberIds: ["p-cambridge",        "p-royston",          "p-sawston"] },
+  { id: "c07-kettering",    group: "7",  masterId: "p-kettering",        memberIds: ["p-kettering",        "p-corby",            "p-thrapston"] },
+  { id: "c07-bedford",      group: "7",  masterId: "p-bedford",          memberIds: ["p-bedford",          "p-sandy",            "p-biggleswade"] },
+  { id: "c07-ely",          group: "7",  masterId: "p-ely",              memberIds: ["p-ely",              "p-march",            "p-chatteris"] },
+  // Group 8 — Coventry / Warwicks + W.Midlands (additional)
+  { id: "c08-warwick",      group: "8",  masterId: "p-warwick",          memberIds: ["p-warwick",          "p-henley-in-arden",  "p-solihull"] },
+  { id: "c08-tamworth",     group: "8",  masterId: "p-tamworth",         memberIds: ["p-tamworth",         "p-lichfield",        "p-burton"] },
+  { id: "c08-redditch",     group: "8",  masterId: "p-redditch",         memberIds: ["p-redditch",         "p-alcester",         "p-evesham"] },
+  // Group 9 — Yeovil / Dorset + Somerset (additional)
+  { id: "c09-taunton",      group: "9",  masterId: "p-taunton",          memberIds: ["p-taunton",          "p-chard",            "p-ilminster"] },
+  { id: "c09-glastonbury",  group: "9",  masterId: "p-glastonbury",      memberIds: ["p-glastonbury",      "p-bridgwater",       "p-burnham-sea"] },
+  { id: "c09-yeovil",       group: "9",  masterId: "p-yeovil",           memberIds: ["p-yeovil",           "p-crewkerne",        "p-somerton"] },
+  { id: "c09-blandford",    group: "9",  masterId: "p-blandford",        memberIds: ["p-blandford",        "p-sturminster-newton","p-gillingham-dorset"] },
+  // Group 10 — Exeter / Devon (additional)
+  { id: "c10-tiverton",     group: "10", masterId: "p-tiverton",         memberIds: ["p-tiverton",         "p-cullompton",       "p-bampton"] },
+  { id: "c10-exeter",       group: "10", masterId: "p-exeter",           memberIds: ["p-exeter",           "p-exmouth",          "p-sidmouth"] },
+  { id: "c10-brixham",      group: "10", masterId: "p-brixham",          memberIds: ["p-brixham",          "p-paignton",         "p-torquay"] },
+  // Group 11 — Truro / Cornwall (additional)
+  { id: "c11-truro",        group: "11", masterId: "p-truro",            memberIds: ["p-truro",            "p-redruth",          "p-perranporth"] },
+  { id: "c11-lostwithiel",  group: "11", masterId: "p-lostwithiel",      memberIds: ["p-lostwithiel",      "p-fowey",            "p-liskeard"] },
+  { id: "c11-bude",         group: "11", masterId: "p-bude",             memberIds: ["p-bude",             "p-camelford",        "p-wadebridge"] },
+  // Group 12 — Bristol / Bristol + Wilts + Glos + N.Som (additional)
+  { id: "c12-cheltenham",   group: "12", masterId: "p-cheltenham",       memberIds: ["p-cheltenham",       "p-gloucester",       "p-tewkesbury"] },
+  { id: "c12-tetbury",      group: "12", masterId: "p-tetbury",          memberIds: ["p-tetbury",          "p-chipping-sodbury", "p-thornbury"] },
+  { id: "c12-shepton-m",    group: "12", masterId: "p-shepton-mallet",   memberIds: ["p-shepton-mallet",   "p-radstock",         "p-midsomer-norton"] },
+  { id: "c12-trowbridge",   group: "12", masterId: "p-trowbridge",       memberIds: ["p-trowbridge",       "p-westbury",         "p-melksham"] },
+  // Group 13 — South Wales / Carmarthen + Valleys (additional)
+  { id: "c13-merthyr",      group: "13", masterId: "p-merthyr-tydfil",   memberIds: ["p-merthyr-tydfil",   "p-aberdare",         "p-rhymney"] },
+  { id: "c13-neath",        group: "13", masterId: "p-neath",            memberIds: ["p-neath",            "p-port-talbot",      "p-maesteg"] },
+  { id: "c13-abergavenny",  group: "13", masterId: "p-abergavenny",      memberIds: ["p-abergavenny",      "p-monmouth",         "p-raglan"] },
+  { id: "c13-rhayader",     group: "13", masterId: "p-rhayader",         memberIds: ["p-rhayader",         "p-builth-wells",     "p-llandrindod"] },
+  // Group 14 — Winchester / Hampshire (additional)
+  { id: "c14-southampton",  group: "14", masterId: "p-southampton",      memberIds: ["p-southampton",      "p-eastleigh",        "p-chandlers-ford"] },
+  { id: "c14-fareham",      group: "14", masterId: "p-fareham",          memberIds: ["p-fareham",          "p-gosport",          "p-havant"] },
+  { id: "c14-ringwood",     group: "14", masterId: "p-ringwood",         memberIds: ["p-ringwood",         "p-lymington",        "p-hythe"] },
+  { id: "c14-portsmouth",   group: "14", masterId: "p-portsmouth",       memberIds: ["p-portsmouth",       "p-waterlooville",    "p-hamble"] },
+  // Group 15 — Lincoln / Lincolnshire (additional)
+  { id: "c15-horncastle",   group: "15", masterId: "p-horncastle",       memberIds: ["p-horncastle",       "p-woodhall-spa",     "p-tattershall"] },
+  { id: "c15-boston",       group: "15", masterId: "p-boston-lincs",     memberIds: ["p-boston-lincs",     "p-holbeach",         "p-donington"] },
+  { id: "c15-gainsborough", group: "15", masterId: "p-gainsborough",     memberIds: ["p-gainsborough",     "p-retford",          "p-bawtry"] },
+  // Group 16 — Shrewsbury / Shropshire + Staffs + Hereford (additional)
+  { id: "c16-wolverhampton",group: "16", masterId: "p-wolverhampton",    memberIds: ["p-wolverhampton",    "p-sedgley",          "p-stourbridge"] },
+  { id: "c16-oswestry",     group: "16", masterId: "p-oswestry",         memberIds: ["p-oswestry",         "p-ellesmere",        "p-whitchurch"] },
+  { id: "c16-telford",      group: "16", masterId: "p-telford",          memberIds: ["p-telford",          "p-newport-sa",       "p-much-wenlock"] },
+  { id: "c16-kidderminster",group: "16", masterId: "p-kidderminster",    memberIds: ["p-kidderminster",    "p-bewdley",          "p-stourport"] },
+  // Group 17 — North Wales / Wrexham (additional)
+  { id: "c17-rhyl",         group: "17", masterId: "p-rhyl",             memberIds: ["p-rhyl",             "p-prestatyn",        "p-st-asaph"] },
+  { id: "c17-llangefni",    group: "17", masterId: "p-llangefni",        memberIds: ["p-llangefni",        "p-amlwch",           "p-beaumaris"] },
+  { id: "c17-pwllheli",     group: "17", masterId: "p-pwllheli",         memberIds: ["p-pwllheli",         "p-criccieth",        "p-portmadoc"] },
+  { id: "c17-barmouth",     group: "17", masterId: "p-barmouth",         memberIds: ["p-barmouth",         "p-tywyn",            "p-aberdyfi"] },
+  // Group 18 — Leeds / W.Yorkshire + S.Yorkshire (additional)
+  { id: "c18-bradford",     group: "18", masterId: "p-bradford",         memberIds: ["p-bradford",         "p-bingley",          "p-shipley"] },
+  { id: "c18-huddersfield", group: "18", masterId: "p-huddersfield",     memberIds: ["p-huddersfield",     "p-mirfield",         "p-brighouse"] },
+  { id: "c18-barnsley",     group: "18", masterId: "p-barnsley",         memberIds: ["p-barnsley",         "p-royston-yorks",    "p-hoyland"] },
+  { id: "c18-sheffield",    group: "18", masterId: "p-sheffield",        memberIds: ["p-sheffield",        "p-chapeltown",       "p-rotherham"] },
+  { id: "c18-harrogate",    group: "18", masterId: "p-harrogate",        memberIds: ["p-harrogate",        "p-knaresborough",    "p-ripon"] },
+  // Group 21 — Preston / Lancashire (additional)
+  { id: "c21-southport",    group: "21", masterId: "p-southport",        memberIds: ["p-southport",        "p-ormskirk",         "p-skelmersdale"] },
+  { id: "c21-blackpool",    group: "21", masterId: "p-blackpool",        memberIds: ["p-blackpool",        "p-lytham-st-annes",  "p-fleetwood"] },
+  { id: "c21-colne",        group: "21", masterId: "p-colne",            memberIds: ["p-colne",            "p-nelson",           "p-padiham"] },
+  { id: "c21-clitheroe",    group: "21", masterId: "p-clitheroe",        memberIds: ["p-clitheroe",        "p-ribchester",       "p-slaidburn"] },
+  // Group 22 — Carlisle / Cumbria (additional)
+  { id: "c22-carlisle-c",   group: "22", masterId: "p-carlisle",         memberIds: ["p-carlisle",         "p-brampton",         "p-longtown"] },
+  { id: "c22-ulverston",    group: "22", masterId: "p-ulverston",        memberIds: ["p-ulverston",        "p-barrow",           "p-dalton"] },
+  { id: "c22-ambleside",    group: "22", masterId: "p-ambleside",        memberIds: ["p-ambleside",        "p-windermere",       "p-coniston"] },
+  // Group 23 — Durham / Co.Durham + Tyne&Wear + Teesside (additional)
+  { id: "c23-north-tyne",   group: "23", masterId: "p-morpeth",          memberIds: ["p-morpeth",          "p-blyth",            "p-ashington"] },
+  { id: "c23-gateshead",    group: "23", masterId: "p-gateshead",        memberIds: ["p-gateshead",        "p-sunderland",       "p-washington"] },
+  { id: "c23-middlesbrough",group: "23", masterId: "p-middlesbrough",    memberIds: ["p-middlesbrough",    "p-redcar",           "p-guisborough"] },
+  // Group 24 — Edinburgh / Lothian + Borders (additional)
+  { id: "c24-edinburgh",    group: "24", masterId: "p-edinburgh-city",   memberIds: ["p-edinburgh-city",   "p-penicuik",         "p-bathgate"] },
+  { id: "c24-linlithgow",   group: "24", masterId: "p-linlithgow",       memberIds: ["p-linlithgow",       "p-bo-ness",          "p-falkirk"] },
+  { id: "c24-berwick",      group: "24", masterId: "p-berwick",          memberIds: ["p-berwick",          "p-coldstream",       "p-duns"] },
+  // Group 25 — Ayr / Ayrshire + Galloway (additional)
+  { id: "c25-largs",        group: "25", masterId: "p-largs",            memberIds: ["p-largs",            "p-ardrossan",        "p-irvine"] },
+  { id: "c25-beith",        group: "25", masterId: "p-beith",            memberIds: ["p-beith",            "p-dalry",            "p-stewarton"] },
+  { id: "c25-sanquhar",     group: "25", masterId: "p-sanquhar",         memberIds: ["p-sanquhar",         "p-thornhill",        "p-moffat"] },
+  // Group 27 — Oban / Argyll + Islands (additional)
+  { id: "c27-islay",        group: "27", masterId: "p-port-ellen",       memberIds: ["p-port-ellen",       "p-bowmore",          "p-bridgend-islay"] },
+  { id: "c27-mull",         group: "27", masterId: "p-tobermory",        memberIds: ["p-tobermory",        "p-craignure",        "p-fionnphort"] },
+  { id: "c27-arran",        group: "27", masterId: "p-brodick",          memberIds: ["p-brodick",          "p-lamlash",          "p-lochranza"] },
+  // Group 28 — Dundee / Tayside + Fife (additional)
+  { id: "c28-dundee-city",  group: "28", masterId: "p-dundee",           memberIds: ["p-dundee",           "p-balgay",           "p-broughty-ferry"] },
+  { id: "c28-kinross",      group: "28", masterId: "p-kinross",          memberIds: ["p-kinross",          "p-cowdenbeath",      "p-auchtermuchty"] },
+  { id: "c28-pitlochry",    group: "28", masterId: "p-pitlochry",        memberIds: ["p-pitlochry",        "p-aberfeldy",        "p-dunkeld"] },
+  // Group 29 — Aberdeen / Aberdeenshire + Moray (additional)
+  { id: "c29-aberdeen",     group: "29", masterId: "p-aberdeen-city",    memberIds: ["p-aberdeen-city",    "p-portlethen",       "p-westhill"] },
+  { id: "c29-turriff",      group: "29", masterId: "p-turriff",          memberIds: ["p-turriff",          "p-oldmeldrum",       "p-macduff"] },
+  // Group 30 — Inverness / Highland (additional)
+  { id: "c30-wick",         group: "30", masterId: "p-wick",             memberIds: ["p-wick",             "p-thurso",           "p-brora"] },
+  { id: "c30-kyle",         group: "30", masterId: "p-kyle",             memberIds: ["p-kyle",             "p-plockton",         "p-glenelg"] },
+  { id: "c30-ullapool",     group: "30", masterId: "p-ullapool",         memberIds: ["p-ullapool",         "p-garve",            "p-lairg"] },
+  // Group 31 — Belfast / Northern Ireland (additional)
+  { id: "c31-belfast",      group: "31", masterId: "p-belfast",          memberIds: ["p-belfast",          "p-hillsborough",     "p-lisburn"] },
+  { id: "c31-bangor-ni",    group: "31", masterId: "p-bangor-ni",        memberIds: ["p-bangor-ni",        "p-newtownards",      "p-comber"] },
+  { id: "c31-coleraine",    group: "31", masterId: "p-coleraine",        memberIds: ["p-coleraine",        "p-portrush",         "p-ballymoney"] }
 ];
 
 const monitoringPosts = [
@@ -226,9 +359,11 @@ const monitoringPosts = [
   { id: "p-luton",        name: "Luton ROC Post",          group: "7",  number: "12", lat: 51.879, lon: -0.416, status: "Publicly listed ROC post" },
   { id: "p-huntingdon",   name: "Huntingdon ROC Post",     group: "7",  number: "48", lat: 52.330, lon: -0.188, status: "Publicly listed ROC post" },
   // Group 8 — Coventry (Midland)
-  { id: "p-meriden",      name: "Meriden ROC Post",        group: "8",  number: "31", lat: 52.431, lon: -1.638, status: "Opened 1965, closed 1991" },
-  { id: "p-leamington",   name: "Leamington Spa ROC Post", group: "8",  number: "18", lat: 52.291, lon: -1.537, status: "Publicly listed ROC post" },
-  { id: "p-rugby",        name: "Rugby ROC Post",          group: "8",  number: "24", lat: 52.375, lon: -1.266, status: "Publicly listed ROC post" },
+  { id: "p-meriden",      name: "Meriden ROC Post",           group: "8",  number: "31", lat: 52.431, lon: -1.638, status: "Opened 1965, closed 1991" },
+  { id: "p-leamington",   name: "Leamington Spa ROC Post",    group: "8",  number: "18", lat: 52.291, lon: -1.537, status: "Publicly listed ROC post" },
+  { id: "p-rugby",        name: "Rugby ROC Post",             group: "8",  number: "24", lat: 52.375, lon: -1.266, status: "Publicly listed ROC post" },
+  // p-stratford: archivedPostCoordinates has Stratford, East London — override with Stratford-upon-Avon
+  { id: "p-stratford",    name: "Stratford-upon-Avon ROC Post",group: "8", number: "36", lat: 52.192, lon: -1.707, status: "Publicly listed ROC post" },
   // Group 9 — Yeovil (Southern)
   { id: "p-sherborne",    name: "Sherborne ROC Post",      group: "9",  number: "19", lat: 50.947, lon: -2.516, status: "Publicly listed ROC post" },
   { id: "p-bridport",     name: "Bridport ROC Post",       group: "9",  number: "25", lat: 50.733, lon: -2.759, status: "Publicly listed ROC post" },
@@ -249,10 +384,14 @@ const monitoringPosts = [
   { id: "p-carmarthen",   name: "Carmarthen ROC Post",     group: "13", number: "38", lat: 51.855, lon: -4.307, status: "Publicly listed ROC post" },
   { id: "p-swansea",      name: "Swansea ROC Post",        group: "13", number: "15", lat: 51.621, lon: -3.943, status: "Publicly listed ROC post" },
   { id: "p-haverfordwest",name: "Haverfordwest ROC Post",  group: "13", number: "51", lat: 51.802, lon: -4.969, status: "Publicly listed ROC post" },
-  // Group 14 — Winchester (Southern)
+  // Group 14 — Winchester (Metropolitan/Southern)
   { id: "p-overton-hants",name: "Overton ROC Post",        group: "14", number: "20", lat: 51.244, lon: -1.263, status: "Publicly listed ROC post" },
   { id: "p-basingstoke",  name: "Basingstoke ROC Post",    group: "14", number: "8",  lat: 51.266, lon: -1.087, status: "Publicly listed ROC post" },
   { id: "p-petersfield",  name: "Petersfield ROC Post",    group: "14", number: "32", lat: 51.005, lon: -0.933, status: "Publicly listed ROC post" },
+  // p-stockbridge: archivedPostCoordinates has Stocksbridge, S. Yorkshire — override with Stockbridge, Hampshire
+  { id: "p-stockbridge",  name: "Stockbridge ROC Post",    group: "14", number: "27", lat: 51.104, lon: -1.493, status: "Publicly listed ROC post" },
+  { id: "p-andover",      name: "Andover ROC Post",        group: "14", number: "12", lat: 51.208, lon: -1.481, status: "Publicly listed ROC post" },
+  { id: "p-romsey",       name: "Romsey ROC Post",         group: "14", number: "38", lat: 50.987, lon: -1.500, status: "Publicly listed ROC post" },
   // Group 15 — Lincoln (Eastern)
   { id: "p-hackthorn",    name: "Hackthorn ROC Post",      group: "15", number: "41", lat: 53.333, lon: -0.504, status: "Publicly listed ROC post" },
   { id: "p-louth",        name: "Louth ROC Post",          group: "15", number: "22", lat: 53.367, lon: -0.001, status: "Publicly listed ROC post" },
@@ -269,6 +408,41 @@ const monitoringPosts = [
   { id: "p-wetherby",     name: "Wetherby ROC Post",       group: "18", number: "15", lat: 53.909, lon: -1.388, status: "Publicly listed ROC post" },
   { id: "p-dewsbury",     name: "Dewsbury ROC Post",       group: "18", number: "34", lat: 53.692, lon: -1.632, status: "Publicly listed ROC post" },
   { id: "p-ilkley",       name: "Ilkley ROC Post",         group: "18", number: "22", lat: 53.924, lon: -1.830, status: "Publicly listed ROC post" },
+
+  // Additional cluster master / anchor posts for Groups 1–17.
+  // These ensure clusterAnchor() places each cluster in the correct geographic
+  // area. Without at least one originalPostById member, clusterAnchor() falls
+  // back to a ring around the Group Control, which can put the master post
+  // 30–70 km from its true location.
+  //
+  // Group 1 — Maidstone
+  { id: "p-ashford",     name: "Ashford ROC Post",     group: "1",  number: "27", lat: 51.147, lon:  0.874, status: "Publicly listed ROC post" },
+  // Group 2 — Horsham
+  { id: "p-chichester",  name: "Chichester ROC Post",  group: "2",  number: "11", lat: 50.838, lon: -0.778, status: "Publicly listed ROC post" },
+  // Group 3 — Oxford
+  { id: "p-bicester",    name: "Bicester ROC Post",    group: "3",  number: "31", lat: 51.900, lon: -1.153, status: "Publicly listed ROC post" },
+  // Group 5 — Watford (master of c05-ware; archived coords for p-stratford
+  // put it in East London so we override the entry above in Group 8 instead)
+  { id: "p-ware",        name: "Ware ROC Post",        group: "5",  number: "19", lat: 51.810, lon: -0.004, status: "Publicly listed ROC post" },
+  // Group 8 — Coventry
+  { id: "p-nuneaton",    name: "Nuneaton ROC Post",    group: "8",  number: "14", lat: 52.524, lon: -1.460, status: "Publicly listed ROC post" },
+  // Group 10 — Exeter (also in archivedPostCoordinates but needs to be in
+  // monitoringPosts so it anchors clusterAnchor for c10-barnstaple)
+  { id: "p-barnstaple",  name: "Barnstaple ROC Post",  group: "10", number: "7",  lat: 51.047, lon: -4.023, status: "Publicly listed ROC post" },
+  // Group 11 — Truro (Penzance and Camborne clusters are far SW; without
+  // anchors they fall back to the Truro ring, 30–40 km from their true area)
+  { id: "p-penzance",    name: "Penzance ROC Post",    group: "11", number: "41", lat: 50.119, lon: -5.537, status: "Publicly listed ROC post" },
+  { id: "p-camborne",    name: "Camborne ROC Post",    group: "11", number: "32", lat: 50.214, lon: -5.289, status: "Publicly listed ROC post" },
+  { id: "p-launceston",  name: "Launceston ROC Post",  group: "11", number: "18", lat: 50.636, lon: -4.363, status: "Publicly listed ROC post" },
+  // Group 15 — Lincoln
+  { id: "p-grimsby",     name: "Grimsby ROC Post",     group: "15", number: "9",  lat: 53.567, lon: -0.079, status: "Publicly listed ROC post" },
+  // Group 16 — Shrewsbury (Hereford cluster has no members in original posts
+  // or archived coords, so all three ended up near Shrewsbury without this)
+  { id: "p-hereford",    name: "Hereford ROC Post",    group: "16", number: "42", lat: 52.057, lon: -2.713, status: "Publicly listed ROC post" },
+  // Group 17 — North Wales (Bangor cluster members ended up near Wrexham
+  // without an anchor; p-bangor is in archived but that doesn't feed
+  // clusterAnchor, which only looks at monitoringPosts)
+  { id: "p-bangor",      name: "Bangor ROC Post",      group: "17", number: "26", lat: 53.228, lon: -4.129, status: "Publicly listed ROC post" },
 
   // Group 20 — York. Full network as shown on the ringbell.co.uk March 1989
   // map. Cluster assignments follow the green sector lines on that map.
@@ -324,57 +498,250 @@ const monitoringPosts = [
   { id: "p-barwick",        name: "Barwick-in-Elmet ROC Post", group: "20", number: "65", lat: 53.8230, lon: -1.4050, status: "Opened 1962, closed 1991. Master post.", cluster: "c20-barwick" },
   { id: "p-camblesforth",   name: "Camblesforth ROC Post",   group: "20", number: "45", lat: 53.7470, lon: -1.0660, status: "Opened 1962, closed 1991", cluster: "c20-barwick" },
 
-  // Groups 21–31 — representative posts for national coverage
+  // Groups 21–31 — anchor posts (cluster members that need originalPostById entries
+  // so that clusterAnchor() places generated posts in the correct area).
   // Group 21 — Preston (Western)
   { id: "p-burscough",    name: "Burscough ROC Post",      group: "21", number: "11", lat: 53.598, lon: -2.853, status: "Opened 1962, closed 1991" },
   { id: "p-blackburn",    name: "Blackburn ROC Post",      group: "21", number: "24", lat: 53.748, lon: -2.480, status: "Publicly listed ROC post" },
   { id: "p-chorley",      name: "Chorley ROC Post",        group: "21", number: "33", lat: 53.653, lon: -2.632, status: "Publicly listed ROC post" },
+  { id: "p-lancaster",    name: "Lancaster ROC Post",      group: "21", number: "8",  lat: 54.047, lon: -2.799, status: "Publicly listed ROC post" },
+  { id: "p-burnley",      name: "Burnley ROC Post",        group: "21", number: "29", lat: 53.789, lon: -2.234, status: "Publicly listed ROC post" },
+  { id: "p-accrington",   name: "Accrington ROC Post",     group: "21", number: "37", lat: 53.753, lon: -2.364, status: "Publicly listed ROC post" },
   // Group 22 — Carlisle (Western)
   { id: "p-brampton",     name: "Brampton ROC Post",       group: "22", number: "8",  lat: 54.943, lon: -2.739, status: "Opened 1959, closed 1991" },
   { id: "p-penrith",      name: "Penrith ROC Post",        group: "22", number: "19", lat: 54.665, lon: -2.752, status: "Publicly listed ROC post" },
   { id: "p-whitehaven",   name: "Whitehaven ROC Post",     group: "22", number: "31", lat: 54.549, lon: -3.591, status: "Publicly listed ROC post" },
+  { id: "p-keswick",      name: "Keswick ROC Post",        group: "22", number: "22", lat: 54.601, lon: -3.135, status: "Publicly listed ROC post" },
+  { id: "p-appleby",      name: "Appleby ROC Post",        group: "22", number: "14", lat: 54.574, lon: -2.489, status: "Publicly listed ROC post" },
+  { id: "p-alston",       name: "Alston ROC Post",         group: "22", number: "26", lat: 54.810, lon: -2.430, status: "Publicly listed ROC post" },
   // Group 23 — Durham (Eastern)
   { id: "p-stanhope",     name: "Stanhope ROC Post",       group: "23", number: "27", lat: 54.748, lon: -2.009, status: "Publicly listed ROC post" },
   { id: "p-sunderland",   name: "Sunderland ROC Post",     group: "23", number: "14", lat: 54.906, lon: -1.381, status: "Publicly listed ROC post" },
   { id: "p-darlington",   name: "Darlington ROC Post",     group: "23", number: "36", lat: 54.527, lon: -1.550, status: "Publicly listed ROC post" },
+  { id: "p-hexham",       name: "Hexham ROC Post",         group: "23", number: "18", lat: 54.971, lon: -2.102, status: "Publicly listed ROC post" },
+  { id: "p-bishop-auckland",name:"Bishop Auckland ROC Post",group:"23", number: "42", lat: 54.661, lon: -1.679, status: "Publicly listed ROC post" },
+  { id: "p-barnard-castle",name:"Barnard Castle ROC Post", group: "23", number: "33", lat: 54.547, lon: -1.920, status: "Publicly listed ROC post" },
   // Group 24 — Edinburgh (Caledonian)
   { id: "p-penicuik",     name: "Penicuik ROC Post",       group: "24", number: "12", lat: 55.831, lon: -3.223, status: "Publicly listed ROC post" },
   { id: "p-dunbar",       name: "Dunbar ROC Post",         group: "24", number: "27", lat: 55.997, lon: -2.519, status: "Publicly listed ROC post" },
   { id: "p-galashiels",   name: "Galashiels ROC Post",     group: "24", number: "38", lat: 55.618, lon: -2.809, status: "Publicly listed ROC post" },
+  { id: "p-hawick",       name: "Hawick ROC Post",         group: "24", number: "44", lat: 55.423, lon: -2.788, status: "Publicly listed ROC post" },
+  { id: "p-melrose",      name: "Melrose ROC Post",        group: "24", number: "31", lat: 55.595, lon: -2.718, status: "Publicly listed ROC post" },
+  { id: "p-haddington",   name: "Haddington ROC Post",     group: "24", number: "19", lat: 55.956, lon: -2.779, status: "Publicly listed ROC post" },
   // Group 25 — Ayr (Caledonian)
   { id: "p-prestwick",    name: "Prestwick ROC Post",      group: "25", number: "36", lat: 55.496, lon: -4.611, status: "Publicly listed ROC post" },
   { id: "p-kilmarnock",   name: "Kilmarnock ROC Post",     group: "25", number: "19", lat: 55.611, lon: -4.497, status: "Publicly listed ROC post" },
   { id: "p-girvan",       name: "Girvan ROC Post",         group: "25", number: "42", lat: 55.246, lon: -4.861, status: "Publicly listed ROC post" },
+  { id: "p-troon",        name: "Troon ROC Post",          group: "25", number: "12", lat: 55.540, lon: -4.657, status: "Publicly listed ROC post" },
+  { id: "p-stranraer",    name: "Stranraer ROC Post",      group: "25", number: "51", lat: 54.905, lon: -5.026, status: "Publicly listed ROC post" },
   // Group 27 — Oban (Caledonian)
   { id: "p-oban",         name: "Oban ROC Post",           group: "27", number: "7",  lat: 56.415, lon: -5.472, status: "Opened 1960, closed 1968" },
   { id: "p-fort-william", name: "Fort William ROC Post",   group: "27", number: "15", lat: 56.820, lon: -5.105, status: "Publicly listed ROC post" },
   { id: "p-inveraray",    name: "Inveraray ROC Post",      group: "27", number: "22", lat: 56.228, lon: -5.078, status: "Publicly listed ROC post" },
+  { id: "p-campbeltown",  name: "Campbeltown ROC Post",    group: "27", number: "31", lat: 55.420, lon: -5.619, status: "Publicly listed ROC post" },
+  { id: "p-tyndrum",      name: "Tyndrum ROC Post",        group: "27", number: "9",  lat: 56.435, lon: -4.705, status: "Publicly listed ROC post" },
   // Group 28 — Dundee (Caledonian)
   { id: "p-forfar",       name: "Forfar ROC Post",         group: "28", number: "29", lat: 56.644, lon: -2.889, status: "Publicly listed ROC post" },
   { id: "p-arbroath",     name: "Arbroath ROC Post",       group: "28", number: "16", lat: 56.559, lon: -2.587, status: "Publicly listed ROC post" },
   { id: "p-perth",        name: "Perth ROC Post",          group: "28", number: "41", lat: 56.396, lon: -3.435, status: "Publicly listed ROC post" },
+  { id: "p-kirkcaldy",    name: "Kirkcaldy ROC Post",      group: "28", number: "22", lat: 56.112, lon: -3.157, status: "Publicly listed ROC post" },
+  { id: "p-blairgowrie",  name: "Blairgowrie ROC Post",    group: "28", number: "35", lat: 56.591, lon: -3.336, status: "Publicly listed ROC post" },
+  { id: "p-montrose",     name: "Montrose ROC Post",       group: "28", number: "11", lat: 56.707, lon: -2.468, status: "Publicly listed ROC post" },
   // Group 29 — Aberdeen (Caledonian)
   { id: "p-kintore",      name: "Kintore ROC Post",        group: "29", number: "6",  lat: 57.237, lon: -2.346, status: "Publicly listed ROC post" },
   { id: "p-elgin",        name: "Elgin ROC Post",          group: "29", number: "22", lat: 57.648, lon: -3.314, status: "Publicly listed ROC post" },
   { id: "p-inverurie",    name: "Inverurie ROC Post",      group: "29", number: "14", lat: 57.285, lon: -2.378, status: "Publicly listed ROC post" },
+  { id: "p-peterhead",    name: "Peterhead ROC Post",      group: "29", number: "9",  lat: 57.511, lon: -1.778, status: "Publicly listed ROC post" },
+  { id: "p-banchory",     name: "Banchory ROC Post",       group: "29", number: "18", lat: 57.053, lon: -2.500, status: "Publicly listed ROC post" },
+  { id: "p-banff",        name: "Banff ROC Post",          group: "29", number: "31", lat: 57.666, lon: -2.525, status: "Publicly listed ROC post" },
   // Group 30 — Inverness (Caledonian)
   { id: "p-cannich",      name: "Cannich ROC Post",        group: "30", number: "14", lat: 57.349, lon: -4.762, status: "Publicly listed ROC post" },
   { id: "p-dingwall",     name: "Dingwall ROC Post",       group: "30", number: "26", lat: 57.598, lon: -4.424, status: "Publicly listed ROC post" },
   { id: "p-beauly",       name: "Beauly ROC Post",         group: "30", number: "8",  lat: 57.477, lon: -4.464, status: "Publicly listed ROC post" },
+  { id: "p-forres",       name: "Forres ROC Post",         group: "30", number: "19", lat: 57.609, lon: -3.620, status: "Publicly listed ROC post" },
+  { id: "p-aviemore",     name: "Aviemore ROC Post",       group: "30", number: "33", lat: 57.200, lon: -3.823, status: "Publicly listed ROC post" },
+  { id: "p-newtonmore",   name: "Newtonmore ROC Post",     group: "30", number: "41", lat: 57.063, lon: -4.118, status: "Publicly listed ROC post" },
   // Group 31 — Belfast (Northern Ireland)
   { id: "p-hillsborough", name: "Hillsborough ROC Post",   group: "31", number: "51", lat: 54.463, lon: -6.083, status: "Publicly listed ROC post" },
   { id: "p-antrim",       name: "Antrim ROC Post",         group: "31", number: "22", lat: 54.720, lon: -6.210, status: "Publicly listed ROC post" },
-  { id: "p-londonderry",  name: "Londonderry ROC Post",    group: "31", number: "37", lat: 54.997, lon: -7.310, status: "Publicly listed ROC post" }
+  { id: "p-londonderry",  name: "Londonderry ROC Post",    group: "31", number: "37", lat: 54.997, lon: -7.310, status: "Publicly listed ROC post" },
+  { id: "p-armagh",       name: "Armagh ROC Post",         group: "31", number: "15", lat: 54.352, lon: -6.656, status: "Publicly listed ROC post" },
+  { id: "p-enniskillen",  name: "Enniskillen ROC Post",    group: "31", number: "28", lat: 54.344, lon: -7.634, status: "Publicly listed ROC post" },
+  { id: "p-ballymena",    name: "Ballymena ROC Post",      group: "31", number: "9",  lat: 54.861, lon: -6.275, status: "Publicly listed ROC post" },
+
+  // ── Master posts for expanded clusters ───────────────────────────────────
+  // Coordinates are approximate town-centre positions (±2 km).
+  // Satellite members are generated automatically via clusterAnchor + memberOffset.
+
+  // Group 1 — Kent
+  { id: "p-ramsgate",          name: "Ramsgate ROC Post",          group: "1",  lat: 51.336, lon:  1.416, status: "Publicly listed ROC post" },
+  { id: "p-maidstone",         name: "Maidstone ROC Post",         group: "1",  lat: 51.272, lon:  0.530, status: "Publicly listed ROC post" },
+  { id: "p-gravesend",         name: "Gravesend ROC Post",         group: "1",  lat: 51.442, lon:  0.371, status: "Publicly listed ROC post" },
+  { id: "p-tunbridge-wells",   name: "Tunbridge Wells ROC Post",   group: "1",  lat: 51.132, lon:  0.263, status: "Publicly listed ROC post" },
+  { id: "p-herne-bay",         name: "Herne Bay ROC Post",         group: "1",  lat: 51.372, lon:  1.113, status: "Publicly listed ROC post" },
+  // Group 2 — Sussex
+  { id: "p-worthing",          name: "Worthing ROC Post",          group: "2",  lat: 50.818, lon: -0.372, status: "Publicly listed ROC post" },
+  { id: "p-brighton",          name: "Brighton ROC Post",          group: "2",  lat: 50.827, lon: -0.137, status: "Publicly listed ROC post" },
+  { id: "p-hastings",          name: "Hastings ROC Post",          group: "2",  lat: 50.862, lon:  0.574, status: "Publicly listed ROC post" },
+  { id: "p-eastbourne",        name: "Eastbourne ROC Post",        group: "2",  lat: 50.768, lon:  0.282, status: "Publicly listed ROC post" },
+  // Group 3 — Oxfordshire / S.Bucks
+  { id: "p-banbury",           name: "Banbury ROC Post",           group: "3",  lat: 52.062, lon: -1.337, status: "Publicly listed ROC post" },
+  { id: "p-henley",            name: "Henley-on-Thames ROC Post",  group: "3",  lat: 51.536, lon: -0.898, status: "Publicly listed ROC post" },
+  { id: "p-abingdon",          name: "Abingdon ROC Post",          group: "3",  lat: 51.671, lon: -1.283, status: "Publicly listed ROC post" },
+  { id: "p-buckingham",        name: "Buckingham ROC Post",        group: "3",  lat: 52.000, lon: -0.988, status: "Publicly listed ROC post" },
+  // Group 4 — Essex / Suffolk
+  { id: "p-chelmsford",        name: "Chelmsford ROC Post",        group: "4",  lat: 51.736, lon:  0.468, status: "Publicly listed ROC post" },
+  { id: "p-colchester",        name: "Colchester ROC Post",        group: "4",  lat: 51.895, lon:  0.891, status: "Publicly listed ROC post" },
+  { id: "p-lowestoft",         name: "Lowestoft ROC Post",         group: "4",  lat: 52.479, lon:  1.750, status: "Publicly listed ROC post" },
+  { id: "p-woodbridge",        name: "Woodbridge ROC Post",        group: "4",  lat: 52.094, lon:  1.322, status: "Publicly listed ROC post" },
+  // Group 5 — Hertfordshire / N.London
+  { id: "p-enfield",           name: "Enfield ROC Post",           group: "5",  lat: 51.652, lon: -0.080, status: "Publicly listed ROC post" },
+  { id: "p-bishops-stortford", name: "Bishop's Stortford ROC Post",group: "5",  lat: 51.872, lon:  0.161, status: "Publicly listed ROC post" },
+  { id: "p-stevenage",         name: "Stevenage ROC Post",         group: "5",  lat: 51.900, lon: -0.207, status: "Publicly listed ROC post" },
+  { id: "p-berkhamsted",       name: "Berkhamsted ROC Post",       group: "5",  lat: 51.762, lon: -0.560, status: "Publicly listed ROC post" },
+  // Group 6 — Norfolk
+  { id: "p-kings-lynn",        name: "King's Lynn ROC Post",       group: "6",  lat: 52.752, lon:  0.399, status: "Publicly listed ROC post" },
+  { id: "p-thetford",          name: "Thetford ROC Post",          group: "6",  lat: 52.419, lon:  0.743, status: "Publicly listed ROC post" },
+  { id: "p-great-yarmouth",    name: "Great Yarmouth ROC Post",    group: "6",  lat: 52.607, lon:  1.729, status: "Publicly listed ROC post" },
+  { id: "p-wells-next-sea",    name: "Wells-next-the-Sea ROC Post",group: "6",  lat: 52.957, lon:  0.849, status: "Publicly listed ROC post" },
+  // Group 7 — Bedfordshire / Northants / Cambs
+  { id: "p-cambridge",         name: "Cambridge ROC Post",         group: "7",  lat: 52.205, lon:  0.121, status: "Publicly listed ROC post" },
+  { id: "p-kettering",         name: "Kettering ROC Post",         group: "7",  lat: 52.397, lon: -0.724, status: "Publicly listed ROC post" },
+  { id: "p-bedford",           name: "Bedford ROC Post",           group: "7",  lat: 52.136, lon: -0.468, status: "Publicly listed ROC post" },
+  { id: "p-ely",               name: "Ely ROC Post",               group: "7",  lat: 52.399, lon:  0.262, status: "Publicly listed ROC post" },
+  // Group 8 — Warwickshire / W.Midlands
+  { id: "p-warwick",           name: "Warwick ROC Post",           group: "8",  lat: 52.281, lon: -1.584, status: "Publicly listed ROC post" },
+  { id: "p-tamworth",          name: "Tamworth ROC Post",          group: "8",  lat: 52.634, lon: -1.694, status: "Publicly listed ROC post" },
+  { id: "p-redditch",          name: "Redditch ROC Post",          group: "8",  lat: 52.303, lon: -1.944, status: "Publicly listed ROC post" },
+  // Group 9 — Dorset / Somerset
+  { id: "p-taunton",           name: "Taunton ROC Post",           group: "9",  lat: 51.015, lon: -3.103, status: "Publicly listed ROC post" },
+  { id: "p-glastonbury",       name: "Glastonbury ROC Post",       group: "9",  lat: 51.148, lon: -2.716, status: "Publicly listed ROC post" },
+  { id: "p-yeovil",            name: "Yeovil ROC Post",            group: "9",  lat: 50.942, lon: -2.633, status: "Publicly listed ROC post" },
+  // p-blandford already in monitoringPosts above as "Blandford Forum ROC Post"
+  // Group 10 — Devon
+  { id: "p-tiverton",          name: "Tiverton ROC Post",          group: "10", lat: 50.902, lon: -3.488, status: "Publicly listed ROC post" },
+  { id: "p-exeter",            name: "Exeter ROC Post",            group: "10", lat: 50.726, lon: -3.534, status: "Publicly listed ROC post" },
+  { id: "p-brixham",           name: "Brixham ROC Post",           group: "10", lat: 50.393, lon: -3.513, status: "Publicly listed ROC post" },
+  // Group 11 — Cornwall
+  { id: "p-truro",             name: "Truro ROC Post",             group: "11", lat: 50.263, lon: -5.051, status: "Publicly listed ROC post" },
+  { id: "p-lostwithiel",       name: "Lostwithiel ROC Post",       group: "11", lat: 50.402, lon: -4.665, status: "Publicly listed ROC post" },
+  // p-liskeard already in monitoringPosts; used as c11-lostwithiel member
+  { id: "p-bude",              name: "Bude ROC Post",              group: "11", lat: 50.827, lon: -4.543, status: "Publicly listed ROC post" },
+  // Group 12 — Bristol / Gloucestershire / Wiltshire
+  { id: "p-cheltenham",        name: "Cheltenham ROC Post",        group: "12", lat: 51.899, lon: -2.071, status: "Publicly listed ROC post" },
+  { id: "p-tetbury",           name: "Tetbury ROC Post",           group: "12", lat: 51.643, lon: -2.156, status: "Publicly listed ROC post" },
+  { id: "p-shepton-mallet",    name: "Shepton Mallet ROC Post",    group: "12", lat: 51.192, lon: -2.545, status: "Publicly listed ROC post" },
+  { id: "p-trowbridge",        name: "Trowbridge ROC Post",        group: "12", lat: 51.320, lon: -2.208, status: "Publicly listed ROC post" },
+  // Group 13 — South Wales
+  { id: "p-merthyr-tydfil",    name: "Merthyr Tydfil ROC Post",    group: "13", lat: 51.748, lon: -3.379, status: "Publicly listed ROC post" },
+  { id: "p-neath",             name: "Neath ROC Post",             group: "13", lat: 51.660, lon: -3.806, status: "Publicly listed ROC post" },
+  { id: "p-abergavenny",       name: "Abergavenny ROC Post",       group: "13", lat: 51.822, lon: -3.015, status: "Publicly listed ROC post" },
+  { id: "p-rhayader",          name: "Rhayader ROC Post",          group: "13", lat: 52.300, lon: -3.505, status: "Publicly listed ROC post" },
+  // Group 14 — Hampshire
+  { id: "p-southampton",       name: "Southampton ROC Post",       group: "14", lat: 50.909, lon: -1.404, status: "Publicly listed ROC post" },
+  { id: "p-fareham",           name: "Fareham ROC Post",           group: "14", lat: 50.854, lon: -1.177, status: "Publicly listed ROC post" },
+  { id: "p-ringwood",          name: "Ringwood ROC Post",          group: "14", lat: 50.842, lon: -1.792, status: "Publicly listed ROC post" },
+  { id: "p-portsmouth",        name: "Portsmouth ROC Post",        group: "14", lat: 50.800, lon: -1.091, status: "Publicly listed ROC post" },
+  // Group 15 — Lincolnshire
+  { id: "p-horncastle",        name: "Horncastle ROC Post",        group: "15", lat: 53.204, lon: -0.112, status: "Publicly listed ROC post" },
+  { id: "p-boston-lincs",      name: "Boston ROC Post",            group: "15", lat: 52.977, lon: -0.022, status: "Publicly listed ROC post" },
+  { id: "p-gainsborough",      name: "Gainsborough ROC Post",      group: "15", lat: 53.401, lon: -0.773, status: "Publicly listed ROC post" },
+  // Group 16 — Shropshire / Staffordshire / Herefordshire
+  { id: "p-wolverhampton",     name: "Wolverhampton ROC Post",     group: "16", lat: 52.588, lon: -2.128, status: "Publicly listed ROC post" },
+  { id: "p-oswestry",          name: "Oswestry ROC Post",          group: "16", lat: 52.861, lon: -3.055, status: "Publicly listed ROC post" },
+  { id: "p-telford",           name: "Telford ROC Post",           group: "16", lat: 52.678, lon: -2.445, status: "Publicly listed ROC post" },
+  { id: "p-kidderminster",     name: "Kidderminster ROC Post",     group: "16", lat: 52.387, lon: -2.248, status: "Publicly listed ROC post" },
+  // Group 17 — North Wales
+  { id: "p-rhyl",              name: "Rhyl ROC Post",              group: "17", lat: 53.319, lon: -3.490, status: "Publicly listed ROC post" },
+  { id: "p-llangefni",         name: "Llangefni ROC Post",         group: "17", lat: 53.257, lon: -4.310, status: "Publicly listed ROC post" },
+  { id: "p-pwllheli",          name: "Pwllheli ROC Post",          group: "17", lat: 52.889, lon: -4.418, status: "Publicly listed ROC post" },
+  { id: "p-barmouth",          name: "Barmouth ROC Post",          group: "17", lat: 52.724, lon: -4.048, status: "Publicly listed ROC post" },
+  // Group 18 — W. & S. Yorkshire
+  { id: "p-bradford",          name: "Bradford ROC Post",          group: "18", lat: 53.797, lon: -1.756, status: "Publicly listed ROC post" },
+  { id: "p-huddersfield",      name: "Huddersfield ROC Post",      group: "18", lat: 53.648, lon: -1.784, status: "Publicly listed ROC post" },
+  { id: "p-barnsley",          name: "Barnsley ROC Post",          group: "18", lat: 53.554, lon: -1.488, status: "Publicly listed ROC post" },
+  { id: "p-sheffield",         name: "Sheffield ROC Post",         group: "18", lat: 53.381, lon: -1.471, status: "Publicly listed ROC post" },
+  { id: "p-harrogate",         name: "Harrogate ROC Post",         group: "18", lat: 53.992, lon: -1.542, status: "Publicly listed ROC post" },
+  // Group 21 — Lancashire
+  { id: "p-southport",         name: "Southport ROC Post",         group: "21", lat: 53.645, lon: -3.008, status: "Publicly listed ROC post" },
+  { id: "p-blackpool",         name: "Blackpool ROC Post",         group: "21", lat: 53.817, lon: -3.036, status: "Publicly listed ROC post" },
+  { id: "p-colne",             name: "Colne ROC Post",             group: "21", lat: 53.856, lon: -2.175, status: "Publicly listed ROC post" },
+  { id: "p-clitheroe",         name: "Clitheroe ROC Post",         group: "21", lat: 53.871, lon: -2.395, status: "Publicly listed ROC post" },
+  // Group 22 — Cumbria
+  { id: "p-carlisle",          name: "Carlisle ROC Post",          group: "22", lat: 54.891, lon: -2.930, status: "Publicly listed ROC post" },
+  { id: "p-ulverston",         name: "Ulverston ROC Post",         group: "22", lat: 54.196, lon: -3.096, status: "Publicly listed ROC post" },
+  { id: "p-ambleside",         name: "Ambleside ROC Post",         group: "22", lat: 54.431, lon: -2.964, status: "Publicly listed ROC post" },
+  // Group 23 — Co.Durham / Tyne & Wear / Teesside
+  { id: "p-morpeth",           name: "Morpeth ROC Post",           group: "23", lat: 55.169, lon: -1.690, status: "Publicly listed ROC post" },
+  { id: "p-gateshead",         name: "Gateshead ROC Post",         group: "23", lat: 54.963, lon: -1.603, status: "Publicly listed ROC post" },
+  { id: "p-middlesbrough",     name: "Middlesbrough ROC Post",     group: "23", lat: 54.577, lon: -1.235, status: "Publicly listed ROC post" },
+  // Group 24 — Lothian / Scottish Borders
+  { id: "p-edinburgh-city",    name: "Edinburgh ROC Post",         group: "24", lat: 55.953, lon: -3.189, status: "Publicly listed ROC post" },
+  { id: "p-linlithgow",        name: "Linlithgow ROC Post",        group: "24", lat: 55.977, lon: -3.596, status: "Publicly listed ROC post" },
+  { id: "p-berwick",           name: "Berwick-upon-Tweed ROC Post",group: "24", lat: 55.773, lon: -2.007, status: "Publicly listed ROC post" },
+  // Group 25 — Ayrshire / Galloway
+  { id: "p-largs",             name: "Largs ROC Post",             group: "25", lat: 55.796, lon: -4.869, status: "Publicly listed ROC post" },
+  { id: "p-beith",             name: "Beith ROC Post",             group: "25", lat: 55.634, lon: -4.633, status: "Publicly listed ROC post" },
+  { id: "p-sanquhar",          name: "Sanquhar ROC Post",          group: "25", lat: 55.371, lon: -3.926, status: "Publicly listed ROC post" },
+  // Group 27 — Argyll & Bute / Islands
+  { id: "p-port-ellen",        name: "Port Ellen ROC Post",        group: "27", lat: 55.629, lon: -6.195, status: "Publicly listed ROC post" },
+  { id: "p-tobermory",         name: "Tobermory ROC Post",         group: "27", lat: 56.623, lon: -6.065, status: "Publicly listed ROC post" },
+  { id: "p-brodick",           name: "Brodick ROC Post",           group: "27", lat: 55.576, lon: -5.149, status: "Publicly listed ROC post" },
+  // Group 28 — Tayside / Fife
+  { id: "p-dundee",            name: "Dundee ROC Post",            group: "28", lat: 56.462, lon: -2.971, status: "Publicly listed ROC post" },
+  { id: "p-kinross",           name: "Kinross ROC Post",           group: "28", lat: 56.208, lon: -3.428, status: "Publicly listed ROC post" },
+  { id: "p-pitlochry",         name: "Pitlochry ROC Post",         group: "28", lat: 56.704, lon: -3.734, status: "Publicly listed ROC post" },
+  // Group 29 — Aberdeenshire / Moray
+  { id: "p-aberdeen-city",     name: "Aberdeen ROC Post",          group: "29", lat: 57.149, lon: -2.094, status: "Publicly listed ROC post" },
+  { id: "p-turriff",           name: "Turriff ROC Post",           group: "29", lat: 57.537, lon: -2.659, status: "Publicly listed ROC post" },
+  // Group 30 — Highland
+  { id: "p-wick",              name: "Wick ROC Post",              group: "30", lat: 58.438, lon: -3.095, status: "Publicly listed ROC post" },
+  { id: "p-kyle",              name: "Kyle of Lochalsh ROC Post",  group: "30", lat: 57.277, lon: -5.713, status: "Publicly listed ROC post" },
+  { id: "p-ullapool",          name: "Ullapool ROC Post",          group: "30", lat: 57.888, lon: -5.156, status: "Publicly listed ROC post" },
+  // Group 31 — Northern Ireland
+  { id: "p-belfast",           name: "Belfast ROC Post",           group: "31", lat: 54.597, lon: -5.930, status: "Publicly listed ROC post" },
+  { id: "p-bangor-ni",         name: "Bangor ROC Post",            group: "31", lat: 54.654, lon: -5.670, status: "Publicly listed ROC post" },
+  { id: "p-coleraine",         name: "Coleraine ROC Post",         group: "31", lat: 55.133, lon: -6.659, status: "Publicly listed ROC post" }
 ];
 
 const postNameOverrides = {
-  "p-alford-lincs": "Alford ROC Post",
-  "p-bishops-castle": "Bishop's Castle ROC Post",
-  "p-bishops-waltham": "Bishop's Waltham ROC Post",
-  "p-bridge-of-orchy": "Bridge of Orchy ROC Post",
-  "p-newtown-wales": "Newtown ROC Post",
-  "p-overton-hants": "Overton ROC Post",
-  "p-ross-on-wye": "Ross-on-Wye ROC Post"
+  // Existing overrides
+  "p-alford-lincs":       "Alford ROC Post",
+  "p-bishops-castle":     "Bishop's Castle ROC Post",
+  "p-bishops-waltham":    "Bishop's Waltham ROC Post",
+  "p-bridge-of-orchy":    "Bridge of Orchy ROC Post",
+  "p-newtown-wales":      "Newtown ROC Post",
+  "p-overton-hants":      "Overton ROC Post",
+  "p-ross-on-wye":        "Ross-on-Wye ROC Post",
+  // New overrides for expanded clusters
+  "p-aberdeen-city":      "Aberdeen ROC Post",
+  "p-bangor-ni":          "Bangor ROC Post",
+  "p-barrow":             "Barrow-in-Furness ROC Post",
+  "p-berwick":            "Berwick-upon-Tweed ROC Post",
+  "p-bishops-stortford":  "Bishop's Stortford ROC Post",
+  "p-bo-ness":            "Bo'ness ROC Post",
+  "p-boston-lincs":       "Boston ROC Post",
+  "p-bridgend-islay":     "Bridgend ROC Post",
+  "p-burnham-crouch":     "Burnham-on-Crouch ROC Post",
+  "p-burnham-sea":        "Burnham-on-Sea ROC Post",
+  "p-chandlers-ford":     "Chandler's Ford ROC Post",
+  "p-dundee":             "Dundee ROC Post",
+  "p-edinburgh-city":     "Edinburgh ROC Post",
+  "p-gillingham-dorset":  "Gillingham ROC Post",
+  "p-henley":             "Henley-on-Thames ROC Post",
+  "p-henley-in-arden":    "Henley-in-Arden ROC Post",
+  "p-kings-lynn":         "King's Lynn ROC Post",
+  "p-kyle":               "Kyle of Lochalsh ROC Post",
+  "p-lytham-st-annes":    "Lytham St Annes ROC Post",
+  "p-midsomer-norton":    "Midsomer Norton ROC Post",
+  "p-much-wenlock":       "Much Wenlock ROC Post",
+  "p-newport-sa":         "Newport ROC Post",
+  "p-portmadoc":          "Porthmadog ROC Post",
+  "p-royston-yorks":      "Royston ROC Post",
+  "p-sturminster-newton": "Sturminster Newton ROC Post",
+  "p-wells-next-sea":     "Wells-next-the-Sea ROC Post",
+  "p-westhill":           "Westhill ROC Post",
+  "p-woodhall-spa":       "Woodhall Spa ROC Post"
 };
 
 const generatedPostSource = "SubBrit and Ringbell cluster data";
