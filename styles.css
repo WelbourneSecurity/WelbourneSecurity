@@ -418,21 +418,48 @@ a {
   overflow: hidden;
 }
 
+/* Loading skeleton — shown while roc-data.json is in flight */
+.roc-map-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background: rgba(2, 4, 5, 0.78);
+  z-index: 10;
+  transition: opacity 280ms ease;
+}
+.roc-map-loading.is-done {
+  opacity: 0;
+  pointer-events: none;
+}
+.roc-map-loading p {
+  margin: 0;
+  font-size: 0.8rem;
+  font-family: "Space Grotesk", sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(110, 242, 199, 0.7);
+}
+.roc-map-loading-spinner {
+  display: block;
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid rgba(110, 242, 199, 0.18);
+  border-top-color: rgba(110, 242, 199, 0.85);
+  border-radius: 50%;
+  animation: roc-spin 700ms linear infinite;
+}
+@keyframes roc-spin { to { transform: rotate(360deg); } }
+
 .roc-map {
   display: block;
   width: 100%;
   height: 100%;
   min-height: 40rem;
   transition: filter 160ms ease;
-  touch-action: none;
-}
-
-.roc-map.is-draggable {
-  cursor: grab;
-}
-
-.roc-map.is-panning {
-  cursor: grabbing;
 }
 
 .roc-map-grid {
@@ -446,6 +473,13 @@ a {
   opacity: 0.78;
   pointer-events: none;
   filter: drop-shadow(0 0 16px rgba(110, 242, 199, 0.14));
+}
+
+.roc-map-error {
+  fill: rgba(242, 247, 251, 0.78);
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  font-size: 24px;
+  font-weight: 500;
 }
 
 .roc-link {
@@ -463,8 +497,15 @@ a {
   stroke-dasharray: none;
 }
 
-/* ROC Sector overlays — one tinted convex hull per sector. Sit underneath
-   posts, cluster lines and reporting links so they read as backgrounds. */
+/* Layer-toggle CSS classes — flipped by JS without a full DOM re-render */
+.roc-map.hide-controls .roc-point-control { display: none; }
+.roc-map.hide-controls .roc-link-layer    { display: none; }
+.roc-map.hide-posts    .roc-point-post    { display: none; }
+.roc-map.hide-posts    .roc-cluster-layer { display: none; }
+
+/* ROC Sector overlays — one tinted region per sector following county /
+   council-area borders. Sit underneath posts, cluster lines and reporting
+   links so they read as backgrounds. */
 .roc-sector-region {
   pointer-events: none;
   fill-opacity: 0.09;
@@ -619,6 +660,48 @@ a {
   display: grid;
   grid-template-columns: 1fr;
   gap: 0.55rem;
+}
+
+/* Activity-period filter chips */
+.roc-period-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+.roc-period-label {
+  width: 100%;
+  font-size: 0.7rem;
+  font-family: "Space Grotesk", sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(242, 247, 251, 0.45);
+  margin: 0;
+}
+.roc-period-chip {
+  padding: 0.3rem 0.65rem;
+  border: 1px solid rgba(242, 247, 251, 0.12);
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(242, 247, 251, 0.65);
+  font: inherit;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 120ms ease, background 120ms ease, color 120ms ease;
+}
+.roc-period-chip.is-active {
+  border-color: rgba(110, 242, 199, 0.36);
+  background: rgba(110, 242, 199, 0.1);
+  color: var(--text);
+}
+.roc-period-chip:hover,
+.roc-period-chip:focus-visible {
+  border-color: rgba(110, 242, 199, 0.32);
+  outline: none;
 }
 
 .roc-toggle {

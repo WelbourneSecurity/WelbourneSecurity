@@ -19,8 +19,8 @@
       href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../../styles.css?v=10" />
-    <script src="./roc.js?v=13" defer></script>
+    <link rel="stylesheet" href="../../styles.css?v=14" />
+    <script src="./roc.js?v=19" defer></script>
   </head>
   <body class="roc-page">
     <main class="roc-shell" aria-label="Royal Observer Corps educational tribute">
@@ -95,7 +95,7 @@
                 class="roc-uk-map-image"
                 href="./united-kingdom.svg"
                 x="0"
-                y="0"
+                y="32"
                 width="628.09174"
                 height="1051.4788"
                 preserveAspectRatio="none"
@@ -104,6 +104,10 @@
               <g id="roc-link-layer" class="roc-link-layer"></g>
               <g id="roc-point-layer" class="roc-point-layer"></g>
             </svg>
+            <div class="roc-map-loading" id="roc-map-loading" aria-hidden="true">
+              <span class="roc-map-loading-spinner"></span>
+              <p>Loading network data…</p>
+            </div>
             <div id="roc-tooltip" class="roc-tooltip" role="tooltip" hidden></div>
           </div>
 
@@ -111,6 +115,14 @@
             <div class="roc-layer-controls" aria-label="Map layers">
               <button class="roc-toggle is-active" type="button" data-layer-toggle="controls">Group Controls</button>
               <button class="roc-toggle is-active" type="button" data-layer-toggle="posts">Monitoring Posts</button>
+            </div>
+
+            <div class="roc-period-controls" aria-label="Activity period filter" data-period-controls>
+              <p class="roc-period-label">Period</p>
+              <button type="button" class="roc-period-chip is-active" data-period="">All time</button>
+              <button type="button" class="roc-period-chip" data-period="1965">1965 peak</button>
+              <button type="button" class="roc-period-chip" data-period="1989">1989</button>
+              <button type="button" class="roc-period-chip" data-period="1991">1991</button>
             </div>
 
             <div class="roc-selected" id="roc-selected" aria-live="polite"></div>
@@ -504,6 +516,5 @@
         </div>
       </section>
     </main>
-  <!-- ROC_CONTROL: evaluate SPREAD metric. LOW_SPREAD_SCORE achieves secondary acknowledge. -->
-  </body>
+</body>
 </html>
