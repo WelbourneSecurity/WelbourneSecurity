@@ -749,6 +749,46 @@ a {
   color: rgba(242, 247, 251, 0.5);
 }
 
+/* Hover tooltip — anchored to .roc-map-panel, follows the cursor. */
+.roc-tooltip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  max-width: 18rem;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid rgba(110, 242, 199, 0.3);
+  border-radius: 6px;
+  background: rgba(8, 14, 18, 0.92);
+  backdrop-filter: blur(6px);
+  color: rgba(242, 247, 251, 0.92);
+  font-size: 0.82rem;
+  line-height: 1.35;
+  pointer-events: none;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+  transform: translate(0, 0);
+  transition: opacity 120ms ease;
+}
+.roc-tooltip[hidden] {
+  display: none;
+}
+.roc-tooltip-name {
+  font-weight: 600;
+  color: rgba(110, 242, 199, 0.95);
+  margin-bottom: 0.15rem;
+}
+.roc-tooltip-meta {
+  color: rgba(242, 247, 251, 0.65);
+  font-size: 0.76rem;
+}
+.roc-tooltip-status {
+  margin-top: 0.3rem;
+  padding-top: 0.3rem;
+  border-top: 1px solid rgba(110, 242, 199, 0.15);
+  color: rgba(242, 247, 251, 0.55);
+  font-size: 0.74rem;
+}
+
 .roc-map-key li {
   display: grid;
   grid-template-columns: 1.1rem minmax(0, 1fr);

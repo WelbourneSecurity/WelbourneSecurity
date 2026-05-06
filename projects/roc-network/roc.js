@@ -1106,6 +1106,14 @@ const project = ({ lat, lon }) => ({
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
+// Touch-first devices need bigger hit targets; coarse-pointer matches phones,
+// tablets and stylus-only setups. Re-evaluated on resize so an unplugged mouse
+// (or rotation that triggers different media queries) is picked up.
+let isTouch = window.matchMedia?.("(hover: none), (pointer: coarse)").matches ?? false;
+window.matchMedia?.("(hover: none), (pointer: coarse)").addEventListener?.("change", (e) => {
+  isTouch = e.matches;
+});
+
 const createSvgElement = (tag, attributes = {}) => {
   const element = document.createElementNS("http://www.w3.org/2000/svg", tag);
   Object.entries(attributes).forEach(([key, value]) => {
@@ -1125,42 +1133,41 @@ svg?.insertBefore(clusterLayer, pointLayer);
 const fixLayer = createSvgElement("g", { "aria-hidden": "true", class: "roc-fix-layer" });
 svg?.insertBefore(fixLayer, pointLayer);
 
-// Andrew's monotone-chain convex hull. Returns the hull in CCW order.
-// Input is an array of {x, y}; output is the same shape, length ≥ 3
-// (or fewer when the input is degenerate).
-const convexHull = (points) => {
-  if (points.length < 3) return points.slice();
-  const pts = points.slice().sort((a, b) => a.x - b.x || a.y - b.y);
-  const cross = (o, a, b) => (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x);
-  const lower = [];
-  for (const p of pts) {
-    while (lower.length >= 2 && cross(lower[lower.length - 2], lower[lower.length - 1], p) <= 0) lower.pop();
-    lower.push(p);
+// Sector overlays are pre-baked from real county / council-area boundaries
+// (see tmp/build_sector_paths.py). Loaded once at module init; classes are
+// toggled live to indicate the active sector.
+const loadSectorOverlay = async () => {
+  try {
+    const res = await fetch("./uk-sectors.svg", { cache: "force-cache" });
+    if (!res.ok) throw new Error(`fetch failed: ${res.status}`);
+    const text = await res.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(text, "image/svg+xml");
+    const overlay = doc.getElementById("roc-sector-overlay");
+    if (!overlay) throw new Error("missing #roc-sector-overlay group");
+    // Move every <path> child into our existing sectorLayer so existing CSS
+    // sector-colour classes pick them up immediately.
+    Array.from(overlay.children).forEach((child) => {
+      sectorLayer.appendChild(document.importNode(child, true));
+    });
+    setSectorActive(activeSectorForView());
+  } catch (err) {
+    console.warn("[ROC] sector overlay load failed:", err);
   }
-  const upper = [];
-  for (let i = pts.length - 1; i >= 0; i--) {
-    const p = pts[i];
-    while (upper.length >= 2 && cross(upper[upper.length - 2], upper[upper.length - 1], p) <= 0) upper.pop();
-    upper.push(p);
-  }
-  upper.pop();
-  lower.pop();
-  return lower.concat(upper);
 };
 
-// Pre-compute sector hulls in projected SVG space (cheap; ≤7 sectors,
-// ≤300 points). Recomputed only if posts list changes (it doesn't at runtime).
-const sectorHulls = sectors.map((sector) => {
-  const groupNumsInSector = groupControls
-    .filter((g) => g.sector === sector.id)
-    .map((g) => g.group);
-  const sites = [
-    ...groupControls.filter((g) => g.sector === sector.id),
-    ...monitoringPosts.filter((p) => groupNumsInSector.includes(p.group))
-  ];
-  const projected = sites.map(project);
-  return { id: sector.id, name: sector.name, hull: convexHull(projected) };
-}).filter((s) => s.hull.length >= 3);
+const setSectorActive = (sectorId) => {
+  Array.from(sectorLayer.children).forEach((el) => {
+    if (!(el instanceof Element)) return;
+    el.classList.remove("is-active", "is-dim");
+    if (!sectorId) return;
+    if (el.getAttribute("id") === sectorId || el.classList.contains(`roc-sector-${sectorId}`)) {
+      el.classList.add("is-active");
+    } else {
+      el.classList.add("is-dim");
+    }
+  });
+};
 
 const toRadians = (value) => (value * Math.PI) / 180;
 
@@ -1395,22 +1402,10 @@ const activeSectorForView = () => {
   return null;
 };
 
+// Sector polygons are loaded once via loadSectorOverlay(); render() only needs
+// to update which one is active.
 const renderSectors = () => {
-  clearChildren(sectorLayer);
-  const active = activeSectorForView();
-  sectorHulls.forEach(({ id, name, hull }) => {
-    const points = hull.map((p) => `${p.x.toFixed(2)},${p.y.toFixed(2)}`).join(" ");
-    const cls = ["roc-sector-region", `roc-sector-${id}`];
-    if (active === id) cls.push("is-active");
-    else if (active) cls.push("is-dim");
-    sectorLayer.append(createSvgElement("polygon", {
-      points,
-      class: cls.join(" "),
-      "data-sector": id,
-      "vector-effect": "non-scaling-stroke",
-      "aria-label": name
-    }));
-  });
+  setSectorActive(activeSectorForView());
 };
 
 const renderClusters = () => {
@@ -1493,13 +1488,19 @@ const renderPoints = () => {
 
     const baseR  = isCtrl ? R.control : isMaster ? R.master : R.post;
     const radius = baseR.toFixed(2);
-    const hitPad = parseFloat(radius) + 4;
+
+    // Centred square hit target. Was previously asymmetric (extended ~3× to
+    // the right to cover the label) which made dead-on dot clicks register
+    // as clicks on the right-hand neighbour. The label is no longer part of
+    // the hit area; clicking the dot itself is now precise.
+    // Touch devices get a larger pad so finger taps reliably hit the dot.
+    const minHitPx = isTouch ? 28 : 14;
+    const hitSize = Math.max(parseFloat(radius) * 2 + 8, minHitPx * unitsPerPx);
 
     button.append(createSvgElement("rect", {
       class: "roc-point-hit",
-      x: -hitPad, y: -hitPad,
-      width: hitPad * 2 + parseFloat(radius) * 3,
-      height: hitPad * 2
+      x: -hitSize / 2, y: -hitSize / 2,
+      width: hitSize, height: hitSize
     }));
     button.append(createSvgElement("circle", { r: radius }));
 
@@ -1590,10 +1591,57 @@ const renderSelected = () => {
   selectedPanel.replaceChildren(kicker, heading, dl, source);
 };
 
+// ── Smooth viewBox transitions ────────────────────────────────────────────────
+// SVG viewBox isn't a CSS-animatable attribute, so we tween it manually.
+let _vbAnimHandle = 0;
+let _vbCurrent = null;
+const _vbEase = (t) => 1 - Math.pow(1 - t, 3);  // cubic-out
+
+const tweenViewBox = (to, ms = 350) => {
+  if (!(svg instanceof SVGSVGElement)) return;
+  const apply = (v) => svg.setAttribute(
+    "viewBox",
+    `${v.x.toFixed(2)} ${v.y.toFixed(2)} ${v.width.toFixed(2)} ${v.height.toFixed(2)}`
+  );
+  // First paint: snap with no animation.
+  if (!_vbCurrent) {
+    _vbCurrent = { ...to };
+    apply(to);
+    return;
+  }
+  // Honour reduced-motion users.
+  const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+  if (prefersReduced) {
+    _vbCurrent = { ...to };
+    apply(to);
+    return;
+  }
+  cancelAnimationFrame(_vbAnimHandle);
+  const from = { ..._vbCurrent };
+  const t0 = performance.now();
+  const step = (now) => {
+    const t = Math.min(1, (now - t0) / ms);
+    const k = _vbEase(t);
+    const v = {
+      x: from.x + (to.x - from.x) * k,
+      y: from.y + (to.y - from.y) * k,
+      width: from.width + (to.width - from.width) * k,
+      height: from.height + (to.height - from.height) * k
+    };
+    apply(v);
+    if (t < 1) {
+      _vbAnimHandle = requestAnimationFrame(step);
+    } else {
+      _vbCurrent = { ...to };
+    }
+  };
+  _vbAnimHandle = requestAnimationFrame(step);
+};
+
 const renderMapView = () => {
   if (!(svg instanceof SVGSVGElement)) return;
   const view = computeViewBox(state.viewId);
-  svg.setAttribute("viewBox", `${view.x.toFixed(2)} ${view.y.toFixed(2)} ${view.width.toFixed(2)} ${view.height.toFixed(2)}`);
+  tweenViewBox(view);
   svg.dataset.viewScale = state.viewId === "all" ? "all" : state.viewId.startsWith("sector:") ? "sector" : "group";
 };
 
@@ -1897,6 +1945,76 @@ svg?.addEventListener("keydown", (event) => {
   selectSite(target.getAttribute("data-site-id") || "");
 });
 
+// ── Hover tooltip + bring-to-front for occluded points ────────────────────────
+const tooltipEl = document.getElementById("roc-tooltip");
+const mapWrapper = svg?.closest(".roc-map-wrapper") || svg?.parentElement;
+
+const lookupSite = (id) => allSites.find((s) => s.id === id);
+
+const setTooltipContent = (site) => {
+  if (!(tooltipEl instanceof HTMLElement)) return;
+  clearChildren(tooltipEl);
+  const role = site.type === "control"
+    ? "Group Control"
+    : site.isMaster ? "Cluster master post" : "Monitoring post";
+  const groupLabel = site.type === "control"
+    ? `Group ${site.group}`
+    : `Group ${site.group}${site.number ? ` · Post ${site.number}` : ""}`;
+  const mk = (cls, text) => {
+    const div = document.createElement("div");
+    div.className = cls;
+    div.textContent = text;
+    return div;
+  };
+  tooltipEl.append(mk("roc-tooltip-name", site.name));
+  tooltipEl.append(mk("roc-tooltip-meta", role));
+  tooltipEl.append(mk("roc-tooltip-meta", groupLabel));
+  if (site.status) tooltipEl.append(mk("roc-tooltip-status", site.status));
+};
+
+const showTooltip = (target, clientX, clientY) => {
+  if (!(tooltipEl instanceof HTMLElement) || !(mapWrapper instanceof HTMLElement)) return;
+  const id = target.getAttribute("data-site-id");
+  const site = id ? lookupSite(id) : null;
+  if (!site) return;
+  setTooltipContent(site);
+  tooltipEl.hidden = false;
+  const wrapRect = mapWrapper.getBoundingClientRect();
+  const tipRect = tooltipEl.getBoundingClientRect();
+  let x = clientX - wrapRect.left + 14;
+  let y = clientY - wrapRect.top + 14;
+  x = clamp(x, 6, Math.max(6, wrapRect.width - tipRect.width - 6));
+  y = clamp(y, 6, Math.max(6, wrapRect.height - tipRect.height - 6));
+  tooltipEl.style.transform = `translate(${x}px, ${y}px)`;
+};
+
+const hideTooltip = () => {
+  if (tooltipEl instanceof HTMLElement) tooltipEl.hidden = true;
+};
+
+svg?.addEventListener("pointermove", (event) => {
+  const target = event.target instanceof Element ? event.target.closest("[data-site-id]") : null;
+  if (target instanceof Element) {
+    showTooltip(target, event.clientX, event.clientY);
+    // Bring-to-front: move the hovered point to the end of pointLayer so its
+    // hit target sits on top of any siblings that overlap. Cheap (single
+    // appendChild) and fires only when the hovered target changes.
+    if (target.parentElement === pointLayer && target.nextElementSibling) {
+      pointLayer.append(target);
+    }
+  } else {
+    hideTooltip();
+  }
+});
+svg?.addEventListener("pointerleave", hideTooltip);
+svg?.addEventListener("focusin", (event) => {
+  const target = event.target instanceof Element ? event.target.closest("[data-site-id]") : null;
+  if (!(target instanceof Element)) return;
+  const rect = target.getBoundingClientRect();
+  showTooltip(target, rect.left + rect.width / 2, rect.top);
+});
+svg?.addEventListener("focusout", hideTooltip);
+
 // ── Init ──────────────────────────────────────────────────────────────────────
 
 buildSectorChips();
@@ -1905,6 +2023,10 @@ const initialCtrl = groupControls.find((g) => g.group === "20");
 if (initialCtrl) renderGroupChips(initialCtrl.sector);
 updateNavActiveStates();
 render();
+
+// Sector overlay is fetched async; once it lands, refresh active state to
+// reflect the current view. Failures are non-fatal — the map still works.
+loadSectorOverlay();
 
 reportRows.forEach((row) => {
   const input = row.querySelector("[data-report-bearing]");
