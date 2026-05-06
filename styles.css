@@ -463,6 +463,43 @@ a {
   stroke-dasharray: none;
 }
 
+/* ROC Sector overlays — one tinted convex hull per sector. Sit underneath
+   posts, cluster lines and reporting links so they read as backgrounds. */
+.roc-sector-region {
+  pointer-events: none;
+  fill-opacity: 0.09;
+  stroke-opacity: 0.4;
+  stroke-width: 0.8;
+  transition: fill-opacity 200ms ease, stroke-opacity 200ms ease;
+}
+.roc-sector-region.is-active { fill-opacity: 0.2; stroke-opacity: 0.7; }
+.roc-sector-region.is-dim    { fill-opacity: 0.03; stroke-opacity: 0.18; }
+
+.roc-sector-metropolitan { fill: #6ec0f2; stroke: #6ec0f2; }
+.roc-sector-southern     { fill: #f26e8a; stroke: #f26e8a; }
+.roc-sector-midland      { fill: #d4a76a; stroke: #d4a76a; }
+.roc-sector-eastern      { fill: #6ef2aa; stroke: #6ef2aa; }
+.roc-sector-western      { fill: #b08bd4; stroke: #b08bd4; }
+.roc-sector-caledonian   { fill: #5fc4d6; stroke: #5fc4d6; }
+.roc-sector-ni           { fill: #d47ba6; stroke: #d47ba6; }
+
+.roc-key-swatch {
+  display: inline-block;
+  width: 0.85em;
+  height: 0.85em;
+  margin-right: 0.5em;
+  border-radius: 2px;
+  vertical-align: -2px;
+  opacity: 0.55;
+}
+.roc-key-swatch.is-metropolitan { background: #6ec0f2; }
+.roc-key-swatch.is-southern     { background: #f26e8a; }
+.roc-key-swatch.is-midland      { background: #d4a76a; }
+.roc-key-swatch.is-eastern      { background: #6ef2aa; }
+.roc-key-swatch.is-western      { background: #b08bd4; }
+.roc-key-swatch.is-caledonian   { background: #5fc4d6; }
+.roc-key-swatch.is-ni           { background: #d47ba6; }
+
 .roc-point {
   cursor: pointer;
   outline: none;
@@ -702,6 +739,14 @@ a {
   margin: 0.75rem 0 0;
   padding: 0;
   list-style: none;
+}
+
+.roc-key-subhead {
+  margin: 1rem 0 0;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(242, 247, 251, 0.5);
 }
 
 .roc-map-key li {

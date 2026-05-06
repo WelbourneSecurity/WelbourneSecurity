@@ -1090,9 +1090,18 @@ const allSites = [
   ...monitoringPosts.map((site) => ({ ...site, type: "post", isMaster: masterPostIds.has(site.id) }))
 ];
 
+// MapSVG's united-kingdom.svg is drawn in Mercator. X scales linearly in
+// longitude; Y must use the Mercator stretch so points at high latitudes
+// (Scotland) and low latitudes (south coast) line up with the SVG paths.
+// Equirectangular Y was wrong everywhere except the middle of the lat range.
+const mercatorY = (latDeg) =>
+  Math.log(Math.tan(Math.PI / 4 + (latDeg * Math.PI / 180) / 2));
+const _yMercTop = mercatorY(mapBounds.north);
+const _yMercBot = mercatorY(mapBounds.south);
+
 const project = ({ lat, lon }) => ({
   x: ((lon - mapBounds.west) / (mapBounds.east - mapBounds.west)) * mapBounds.width + mapOverlayOffset.x,
-  y: ((mapBounds.north - lat) / (mapBounds.north - mapBounds.south)) * mapBounds.height + mapOverlayOffset.y
+  y: ((_yMercTop - mercatorY(lat)) / (_yMercTop - _yMercBot)) * mapBounds.height + mapOverlayOffset.y
 });
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
@@ -1105,11 +1114,53 @@ const createSvgElement = (tag, attributes = {}) => {
   return element;
 };
 
+// Sector tints sit at the bottom of the overlay stack so they read as
+// background regions, not foreground annotations.
+const sectorLayer = createSvgElement("g", { "aria-hidden": "true", class: "roc-sector-layer" });
+svg?.insertBefore(sectorLayer, pointLayer);
+
 const clusterLayer = createSvgElement("g", { "aria-hidden": "true", class: "roc-cluster-layer" });
 svg?.insertBefore(clusterLayer, pointLayer);
 
 const fixLayer = createSvgElement("g", { "aria-hidden": "true", class: "roc-fix-layer" });
 svg?.insertBefore(fixLayer, pointLayer);
+
+// Andrew's monotone-chain convex hull. Returns the hull in CCW order.
+// Input is an array of {x, y}; output is the same shape, length ≥ 3
+// (or fewer when the input is degenerate).
+const convexHull = (points) => {
+  if (points.length < 3) return points.slice();
+  const pts = points.slice().sort((a, b) => a.x - b.x || a.y - b.y);
+  const cross = (o, a, b) => (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x);
+  const lower = [];
+  for (const p of pts) {
+    while (lower.length >= 2 && cross(lower[lower.length - 2], lower[lower.length - 1], p) <= 0) lower.pop();
+    lower.push(p);
+  }
+  const upper = [];
+  for (let i = pts.length - 1; i >= 0; i--) {
+    const p = pts[i];
+    while (upper.length >= 2 && cross(upper[upper.length - 2], upper[upper.length - 1], p) <= 0) upper.pop();
+    upper.push(p);
+  }
+  upper.pop();
+  lower.pop();
+  return lower.concat(upper);
+};
+
+// Pre-compute sector hulls in projected SVG space (cheap; ≤7 sectors,
+// ≤300 points). Recomputed only if posts list changes (it doesn't at runtime).
+const sectorHulls = sectors.map((sector) => {
+  const groupNumsInSector = groupControls
+    .filter((g) => g.sector === sector.id)
+    .map((g) => g.group);
+  const sites = [
+    ...groupControls.filter((g) => g.sector === sector.id),
+    ...monitoringPosts.filter((p) => groupNumsInSector.includes(p.group))
+  ];
+  const projected = sites.map(project);
+  return { id: sector.id, name: sector.name, hull: convexHull(projected) };
+}).filter((s) => s.hull.length >= 3);
 
 const toRadians = (value) => (value * Math.PI) / 180;
 
@@ -1333,6 +1384,35 @@ const renderLinks = () => {
     });
 };
 
+// Determine which sector should appear "active" (highlighted) for the
+// current view. Returns the sector id or null.
+const activeSectorForView = () => {
+  if (state.viewId.startsWith("sector:")) return state.viewId.slice(7);
+  if (state.viewId.startsWith("group:")) {
+    const ctrl = groupControls.find((g) => g.group === state.viewId.slice(6));
+    return ctrl?.sector ?? null;
+  }
+  return null;
+};
+
+const renderSectors = () => {
+  clearChildren(sectorLayer);
+  const active = activeSectorForView();
+  sectorHulls.forEach(({ id, name, hull }) => {
+    const points = hull.map((p) => `${p.x.toFixed(2)},${p.y.toFixed(2)}`).join(" ");
+    const cls = ["roc-sector-region", `roc-sector-${id}`];
+    if (active === id) cls.push("is-active");
+    else if (active) cls.push("is-dim");
+    sectorLayer.append(createSvgElement("polygon", {
+      points,
+      class: cls.join(" "),
+      "data-sector": id,
+      "vector-effect": "non-scaling-stroke",
+      "aria-label": name
+    }));
+  });
+};
+
 const renderClusters = () => {
   clearChildren(clusterLayer);
   if (!state.posts) return;
@@ -1519,6 +1599,7 @@ const renderMapView = () => {
 
 const render = () => {
   renderMapView();
+  renderSectors();
   renderLinks();
   renderClusters();
   renderPoints();
